@@ -9,7 +9,11 @@
         android:id="@+id/homeFragment"
         android:name="com.ort.tourismapp.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_activitiesListFragment"
+            app:destination="@id/activitiesListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mapFragment"
         android:name="com.ort.tourismapp.fragments.MapFragment"
@@ -19,10 +23,47 @@
         android:id="@+id/profileFragment"
         android:name="com.ort.tourismapp.fragments.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_personalDataFragment"
+            app:destination="@id/personalDataFragment" />
+    </fragment>
     <fragment
         android:id="@+id/bookingsFragment"
         android:name="com.ort.tourismapp.fragments.BookingsFragment"
         android:label="fragment_bookings"
         tools:layout="@layout/fragment_bookings" />
+    <fragment
+        android:id="@+id/personalDataFragment"
+        android:name="com.ort.tourismapp.fragments.PersonalDataFragment"
+        android:label="fragment_personal_data"
+        tools:layout="@layout/fragment_personal_data" />
+    <fragment
+        android:id="@+id/activitiesListFragment"
+        android:name="com.ort.tourismapp.fragments.ActivitiesListFragment"
+        android:label="fragment_activities_list"
+        tools:layout="@layout/fragment_activities_list" >
+        <action
+            android:id="@+id/action_activitiesListFragment_to_activityDetailFragment"
+            app:destination="@id/activityDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/activityDetailFragment"
+        android:name="com.ort.tourismapp.fragments.ActivityDetailFragment"
+        android:label="fragment_activity_detail"
+        tools:layout="@layout/fragment_activity_detail" />
+    <fragment
+        android:id="@+id/guideListFragment"
+        android:name="com.ort.tourismapp.fragments.GuideListFragment"
+        android:label="fragment_guide_list"
+        tools:layout="@layout/fragment_guide_list" >
+        <action
+            android:id="@+id/action_guideListFragment_to_guideDetailFragment"
+            app:destination="@id/guideDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/guideDetailFragment"
+        android:name="com.ort.tourismapp.fragments.GuideDetailFragment"
+        android:label="fragment_guide_detail"
+        tools:layout="@layout/fragment_guide_detail" />
 </navigation>

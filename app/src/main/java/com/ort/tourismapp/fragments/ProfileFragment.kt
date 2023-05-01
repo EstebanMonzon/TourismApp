@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import com.ort.tourismapp.R
 
 class ProfileFragment : Fragment() {
@@ -15,12 +18,34 @@ class ProfileFragment : Fragment() {
     }
 
     private lateinit var viewModel: ProfileViewModel
+    lateinit var v : View
+
+    var textLabel : String = "Mi perfil"
+    var textPersonalData : String = "Datos personales"
+
+    lateinit var labelProfile : TextView
+    lateinit var buttonPersonalData : Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_profile, container, false)
+        v = inflater.inflate(R.layout.fragment_profile, container, false)
+
+        labelProfile = v.findViewById(R.id.txtProfile)
+        labelProfile.text = textLabel
+
+        buttonPersonalData = v.findViewById(R.id.btnPersonalData)
+        buttonPersonalData.text = textPersonalData
+        return v
+    }
+
+    override fun onStart() {
+        super.onStart()
+        buttonPersonalData.setOnClickListener(){
+            val action = ProfileFragmentDirections.actionProfileFragmentToPersonalDataFragment()
+            findNavController().navigate(action)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

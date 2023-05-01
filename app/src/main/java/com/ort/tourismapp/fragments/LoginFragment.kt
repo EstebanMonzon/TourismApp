@@ -20,7 +20,7 @@ class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     lateinit var v : View
 
-    var textoLabel : String = "Conozcamos la ciudad!"
+    var textLabel : String = "Conozcamos la ciudad!"
     var textEmail : String = "Email"
     var textPass : String = "Contraseña"
     var textLogin: String = "Ingresar"
@@ -52,7 +52,7 @@ class LoginFragment : Fragment() {
         labelAccount = v.findViewById(R.id.txtAccount)
         buttonRegister = v.findViewById(R.id.btnRegister)
 
-        labelLogin.text = textoLabel
+        labelLogin.text = textLabel
         labelEmail.text = textEmail
         labelPass.text = textPass
         buttonLogin.text = textLogin

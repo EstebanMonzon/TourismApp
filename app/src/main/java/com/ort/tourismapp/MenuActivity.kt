@@ -17,5 +17,8 @@ class MenuActivity : AppCompatActivity() {
         navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         bottomNavView = findViewById(R.id.bottom_bar)
         NavigationUI.setupWithNavController(bottomNavView, navHostFragment.navController)
+
+        //Esto oculta la barra de soporte superior
+        supportActionBar?.hide()
     }
 }
