@@ -1,0 +1,55 @@
+package com.ort.tourismapp.adapters
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
+import com.ort.tourismapp.R
+import com.ort.tourismapp.entities.Guide
+
+class GuideAdapter(
+    var guideList : MutableList<Guide>,
+    var onClick : (Int) -> Unit
+    ) : RecyclerView.Adapter<GuideAdapter.GuideHolder>() {
+
+    class GuideHolder (v : View) : RecyclerView.ViewHolder(v){
+        private var v = v
+        init {
+            this.v = v
+        }
+        fun setName(name : String){
+            val txtName : TextView = v.findViewById(R.id.txtName)
+            txtName.text = name
+        }
+        fun setBio(bio : String){
+            val txtBiography : TextView = v.findViewById(R.id.txtBiography)
+            txtBiography.text = bio
+        }
+        fun getCard() : CardView {
+            return v.findViewById(R.id.guideCard)
+        }
+        fun getBtn() : Button {
+            return v.findViewById(R.id.btnGuide)
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuideHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_guide, parent, false)
+        return GuideHolder(view)
+    }
+
+    override fun getItemCount(): Int {
+        return guideList.size
+    }
+
+    override fun onBindViewHolder(holder: GuideHolder, position: Int) {
+        holder.setName(guideList[position].name)
+        holder.setBio(guideList[position].biography)
+        holder.getBtn().setOnClickListener{
+            onClick(position)
+        }
+    }
+}

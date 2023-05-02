@@ -51,7 +51,14 @@
         android:id="@+id/activityDetailFragment"
         android:name="com.ort.tourismapp.fragments.ActivityDetailFragment"
         android:label="fragment_activity_detail"
-        tools:layout="@layout/fragment_activity_detail" />
+        tools:layout="@layout/fragment_activity_detail" >
+        <action
+            android:id="@+id/action_activityDetailFragment_to_guideListFragment"
+            app:destination="@id/guideListFragment" />
+        <argument
+            android:name="activity"
+            app:argType="com.ort.tourismapp.entities.Activity" />
+    </fragment>
     <fragment
         android:id="@+id/guideListFragment"
         android:name="com.ort.tourismapp.fragments.GuideListFragment"
@@ -65,5 +72,9 @@
         android:id="@+id/guideDetailFragment"
         android:name="com.ort.tourismapp.fragments.GuideDetailFragment"
         android:label="fragment_guide_detail"
-        tools:layout="@layout/fragment_guide_detail" />
+        tools:layout="@layout/fragment_guide_detail" >
+        <argument
+            android:name="guide"
+            app:argType="com.ort.tourismapp.entities.Guide" />
+    </fragment>
 </navigation>

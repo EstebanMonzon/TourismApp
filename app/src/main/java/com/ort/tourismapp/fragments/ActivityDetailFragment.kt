@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import com.ort.tourismapp.R
 
 class ActivityDetailFragment : Fragment() {
@@ -17,12 +20,34 @@ class ActivityDetailFragment : Fragment() {
     private lateinit var viewModel: ActivityDetailViewModel
     lateinit var v : View
 
+    lateinit var textTitle : TextView
+    lateinit var textDesc : TextView
+    lateinit var btnActivityContact : Button
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_activity_detail, container, false)
+        textTitle = v.findViewById(R.id.txtActivityTitle)
+        textDesc = v.findViewById(R.id.txtActivityDesc)
+        btnActivityContact = v.findViewById(R.id.btnActivityContact)
+
         return v
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val activity = ActivityDetailFragmentArgs.fromBundle(requireArguments()).activity
+        val title = activity.title
+        val description = activity.description
+        textTitle.text = title
+        textDesc.text = description
+
+        btnActivityContact.setOnClickListener(){
+            val action = ActivityDetailFragmentDirections.actionActivityDetailFragmentToGuideListFragment()
+            findNavController().navigate(action)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
