@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "944531488548",
+    "firebase_url": "https://tourismapp-95653-default-rtdb.firebaseio.com",
+    "project_id": "tourismapp-95653",
+    "storage_bucket": "tourismapp-95653.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:944531488548:android:71676bb2c3555c3cc9fdb1",
+        "android_client_info": {
+          "package_name": "com.ort.tourismapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "944531488548-kuqov333qn2vqfk53ftd2jln5vr56c1h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBb1uV7OqUr8M81edNomiKlh4y_PMKDpjA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "944531488548-kuqov333qn2vqfk53ftd2jln5vr56c1h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
