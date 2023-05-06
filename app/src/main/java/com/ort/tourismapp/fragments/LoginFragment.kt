@@ -78,6 +78,11 @@ class LoginFragment : Fragment() {
         buttonLogin.setOnClickListener{
             loguearse(userEmailText.text.toString(), userPassText.text.toString())
         }
+
+        buttonRegister.setOnClickListener{
+            val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
+            findNavController().navigate(action)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
