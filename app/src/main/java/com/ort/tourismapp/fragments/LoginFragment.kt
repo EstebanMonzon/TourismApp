@@ -9,6 +9,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 
 class LoginFragment : Fragment() {
@@ -16,6 +21,9 @@ class LoginFragment : Fragment() {
     companion object {
         fun newInstance() = LoginFragment()
     }
+
+    private lateinit var firebaseAuth : FirebaseAuth
+    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
     private lateinit var viewModel: LoginViewModel
     lateinit var v : View
@@ -43,6 +51,8 @@ class LoginFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_login, container, false)
 
+        firebaseAuth = Firebase.auth
+
         labelLogin = v.findViewById(R.id.txtLogin)
         labelEmail = v.findViewById(R.id.txtUser)
         userEmailText = v.findViewById(R.id.userEmail)
@@ -64,6 +74,10 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
+
+        buttonLogin.setOnClickListener{
+            loguearse(userEmailText.text.toString(), userPassText.text.toString())
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -72,4 +86,20 @@ class LoginFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+    private fun loguearse(mail: String, contra: String)
+    {
+        firebaseAuth.signInWithEmailAndPassword(mail, contra).addOnCompleteListener()
+        {
+            task ->
+            if (task.isSuccessful)
+            {
+                val action = LoginFragmentDirections.actionLoginFragmentToMenuActivity()
+                findNavController().navigate(action)
+            }
+            else
+            {
+                Snackbar.make(v, "Error: el mail o la contraseña son incorrectos", Snackbar.LENGTH_SHORT).show()
+            }
+        }
+    }
 }
