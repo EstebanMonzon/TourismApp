@@ -25,10 +25,22 @@
         <action
             android:id="@+id/action_registerFragment_to_menuActivity"
             app:destination="@id/menuActivity" />
+        <action
+            android:id="@+id/action_registerFragment_to_registeredOkFragment2"
+            app:destination="@id/registeredOkFragment" />
     </fragment>
     <activity
         android:id="@+id/menuActivity"
         android:name="com.ort.tourismapp.MenuActivity"
         android:label="activity_menu"
         tools:layout="@layout/activity_menu" />
+    <fragment
+        android:id="@+id/registeredOkFragment"
+        android:name="com.ort.tourismapp.fragments.RegisteredOkFragment"
+        android:label="fragment_registered_ok"
+        tools:layout="@layout/fragment_registered_ok" >
+        <action
+            android:id="@+id/action_registeredOkFragment_to_loginFragment2"
+            app:destination="@id/loginFragment" />
+    </fragment>
 </navigation>

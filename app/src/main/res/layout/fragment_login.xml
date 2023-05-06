@@ -30,7 +30,7 @@
         android:backgroundTint="#EE8146"
         android:ems="10"
         android:inputType="textPassword"
-        android:textColor="#EE8146"
+        android:textColor="#000000"
         app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
