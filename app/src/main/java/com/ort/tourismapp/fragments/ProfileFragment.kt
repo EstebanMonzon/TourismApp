@@ -35,7 +35,7 @@ class ProfileFragment : Fragment() {
         labelProfile = v.findViewById(R.id.txtProfile)
         labelProfile.text = textLabel
 
-        buttonPersonalData = v.findViewById(R.id.btnPersonalData)
+        buttonPersonalData = v.findViewById(R.id.btnEditarDatos)
         buttonPersonalData.text = textPersonalData
         return v
     }

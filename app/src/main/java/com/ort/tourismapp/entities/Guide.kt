@@ -15,5 +15,6 @@ class Guide(
     var country: String,
     var biography: String,
     var guidePhoto : String,
+    var rate : String,
 ) : Parcelable {
 }

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_activitiesListFragment"
             app:destination="@id/activitiesListFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapFragment"

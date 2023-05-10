@@ -173,13 +173,14 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="#FFFFFF"
+        android:drawableLeft="@android:drawable/ic_menu_search"
         android:ems="10"
         android:hint="Buscar"
         android:imeOptions="actionSearch"
         android:inputType="textPersonName"
-        android:drawableLeft="@android:drawable/ic_menu_search"
         app:layout_constraintBottom_toTopOf="@+id/guideline28"
         app:layout_constraintEnd_toStartOf="@+id/guideline33"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline34"
         app:layout_constraintTop_toTopOf="@+id/guideline41" />
 </androidx.constraintlayout.widget.ConstraintLayout>
