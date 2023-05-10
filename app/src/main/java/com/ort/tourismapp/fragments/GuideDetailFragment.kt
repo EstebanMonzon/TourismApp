@@ -19,7 +19,7 @@ class GuideDetailFragment : Fragment() {
     lateinit var v : View
 
     lateinit var textName : TextView
-    lateinit var textBio : TextView
+    lateinit var textRate : TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +27,7 @@ class GuideDetailFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_guide_detail, container, false)
         textName = v.findViewById(R.id.txtGuideName)
-        textBio = v.findViewById(R.id.txtGuideBio)
+        textRate = v.findViewById(R.id.txtRate)
 
         return v
     }
@@ -36,9 +36,9 @@ class GuideDetailFragment : Fragment() {
         super.onStart()
         val guide = GuideDetailFragmentArgs.fromBundle(requireArguments()).guide
         val name = guide.name
-        val bio = guide.biography
+        val rate = guide.rate
         textName.text = name
-        textBio.text = bio
+        textRate.text = rate
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

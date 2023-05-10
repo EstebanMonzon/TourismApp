@@ -24,10 +24,21 @@ class GuideAdapter(
             val txtName : TextView = v.findViewById(R.id.txtName)
             txtName.text = name
         }
-        fun setBio(bio : String){
+
+        fun setCity(city : String){
+            val txtCity : TextView = v.findViewById(R.id.txtCity)
+            txtCity.text = city
+        }
+
+        fun setRate(rate : String){
+            val txtRate : TextView = v.findViewById(R.id.textRate)
+            txtRate.text = rate
+        }
+
+        /*fun setBio(bio : String){
             val txtBiography : TextView = v.findViewById(R.id.txtBiography)
             txtBiography.text = bio
-        }
+        }*/
         fun getCard() : CardView {
             return v.findViewById(R.id.guideCard)
         }
@@ -47,7 +58,8 @@ class GuideAdapter(
 
     override fun onBindViewHolder(holder: GuideHolder, position: Int) {
         holder.setName(guideList[position].name)
-        holder.setBio(guideList[position].biography)
+        holder.setCity(guideList[position].city)
+        holder.setRate(guideList[position].rate)
         holder.getBtn().setOnClickListener{
             onClick(position)
         }

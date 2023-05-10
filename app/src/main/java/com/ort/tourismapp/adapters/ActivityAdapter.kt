@@ -24,15 +24,23 @@ class ActivityAdapter(
             val txtTitle : TextView = v.findViewById(R.id.txtTitle)
             txtTitle.text = title
         }
-        fun setDesc(desc : String){
-            val txtDesc : TextView = v.findViewById(R.id.txtDescription)
-            txtDesc.text = desc
+        fun setCity(desc : String){
+            val txtCity : TextView = v.findViewById(R.id.txtCity)
+            txtCity.text = desc
+        }
+        fun setRate(rate : String){
+            val txtRate : TextView = v.findViewById(R.id.txtRate)
+            txtRate.text = rate
         }
         fun getCard() : CardView {
             return v.findViewById(R.id.activityCard)
         }
         fun getBtn() : Button {
             return v.findViewById(R.id.btnActivity)
+        }
+
+        fun getBtnFavorito() :Button {
+            return v.findViewById(R.id.btnFavorito)
         }
     }
 
@@ -47,9 +55,14 @@ class ActivityAdapter(
 
     override fun onBindViewHolder(holder: ActivityHolder, position: Int) {
         holder.setTitle(activityList[position].title)
-        holder.setDesc(activityList[position].description)
+        holder.setCity(activityList[position].city)
+        holder.setRate(activityList[position].rate)
         holder.getBtn().setOnClickListener{
             onClick(position)
         }
+        //TODO BOTON AGREGAR A FAVORITOS hacer que boton agregue actividad a lista de actividades favoritas y se vuelva naranja
+        /*holder.getBtnFavorito().setOnClickListener{
+            onClick(position)
+        }*/
     }
 }
