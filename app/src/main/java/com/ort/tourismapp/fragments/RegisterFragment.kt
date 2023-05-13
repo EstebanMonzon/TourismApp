@@ -1,5 +1,6 @@
 package com.ort.tourismapp.fragments
 
+import android.content.ContentValues.TAG
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -14,16 +15,19 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.entities.User
+
 
 class RegisterFragment : Fragment() {
 
     companion object {
         fun newInstance() = RegisterFragment()
     }
+
+    val database = Firebase.database
 
     private lateinit var firebaseAuth : FirebaseAuth
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -35,7 +39,8 @@ class RegisterFragment : Fragment() {
     lateinit var userPassText : EditText
     lateinit var userPassConfirmText : EditText
     lateinit var buttonRegister : Button
-    lateinit var userNameText : EditText
+    lateinit var userNombreText : EditText
+    lateinit var userApellidoText : EditText
     lateinit var userImgText : EditText
 
     override fun onCreateView(
@@ -48,18 +53,19 @@ class RegisterFragment : Fragment() {
         userPassText = v.findViewById(R.id.userPassRegister)
         userPassConfirmText = v.findViewById(R.id.userPassConfirmRegister)
         buttonRegister = v.findViewById(R.id.btnRegisterEnter)
-        userNameText= v.findViewById(R.id.userPersonName)
+        userNombreText= v.findViewById(R.id.userPersonName)
+        userApellidoText= v.findViewById(R.id.userPersonApellido)
         //userImgText= v.findViewById(R.id.userProfilePhoto)
         return v
     }
 
     override fun onStart() {
         super.onStart()
+
         buttonRegister.setOnClickListener{
             if(userPassText.text.toString().equals(userPassConfirmText.text.toString()))
             {
-                var user = User("1", userNameText.text.toString(),userEmailText.text.toString(),userPassText.text.toString(),userImgText.text.toString())
-                createAccount(user)
+                crearCuenta(userEmailText.text.toString(), userPassText.text.toString(), userNombreText.text.toString(), userApellidoText.text.toString())
             }
             else
             {
@@ -73,29 +79,45 @@ class RegisterFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         // TODO: Use the ViewModel
     }
+
     //TODO chequear que guarde realmente en usuario y la contraseña (junto con los otros datos)
     //ver documentacion https://firebase.google.com/docs/auth/android/start?hl=es&authuser=0#kotlin+ktx_3
     //TODO investigar que es TAG y como se usa
-    private fun createAccount(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(TAG, "createUserWithEmail:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    // If sign in fails, display a message to the user.
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                    updateUI(null)
+
+
+    private fun crearCuenta(mail: String, contra: String, nombre: String, apellido: String)
+    {
+        firebaseAuth.createUserWithEmailAndPassword(mail, contra).addOnCompleteListener()
+        {
+                task ->
+            if(task.isSuccessful)
+            {
+                val action = RegisterFragmentDirections.actionRegisterFragmentToRegisteredOkFragment2()
+                val user = Firebase.auth.currentUser
+
+                user?.let {
+                    val usuarioID = it.uid
+
+                    crearCuentaEnBD(mail, contra, nombre, apellido, usuarioID)
                 }
+
+                findNavController().navigate(action)
             }
-        // [END create_user_with_email]
+        }
     }
 
+    private fun crearCuentaEnBD(mail: String, contra: String, nombre: String, apellido: String, uid: String)
+    {
+        val usuario = hashMapOf(
+            "uid" to uid,
+            "name" to nombre,
+            "lastname" to apellido,
+            "email" to mail,
+            "password" to contra
+        )
+
+        Log.d(TAG, "Intentando crear un usuario en la BD")
+
+        database.getReference("usuarios").child(uid).setValue(usuario)
+    }
 }
