@@ -74,12 +74,11 @@ class LoginFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-
-        buttonLogin.setOnClickListener{
-            loguearse(userEmailText.text.toString(), userPassText.text.toString())
+        buttonLogin.setOnClickListener {
+            login(userEmailText.text.toString(), userPassText.text.toString())
         }
 
-        buttonRegister.setOnClickListener{
+        buttonRegister.setOnClickListener {
             val action = LoginFragmentDirections.actionLoginFragmentToRegisterFragment()
             findNavController().navigate(action)
         }
@@ -91,18 +90,13 @@ class LoginFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    private fun loguearse(mail: String, contra: String)
-    {
-        firebaseAuth.signInWithEmailAndPassword(mail, contra).addOnCompleteListener()
-        {
-            task ->
-            if (task.isSuccessful)
-            {
+    //TODO chequear que realmente loggee, ver documentacion de google!!
+    private fun login(mail: String, contra: String) {
+        firebaseAuth.signInWithEmailAndPassword(mail, contra).addOnCompleteListener() { task ->
+            if (task.isSuccessful) {
                 val action = LoginFragmentDirections.actionLoginFragmentToMenuActivity()
                 findNavController().navigate(action)
-            }
-            else
-            {
+            } else {
                 Snackbar.make(v, "Error: el mail o la contraseña son incorrectos", Snackbar.LENGTH_SHORT).show()
             }
         }

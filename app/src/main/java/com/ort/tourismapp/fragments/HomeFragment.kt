@@ -21,7 +21,6 @@ import com.ort.tourismapp.R
 import com.ort.tourismapp.entities.User
 
 class HomeFragment : Fragment() {
-
     companion object {
         fun newInstance() = HomeFragment()
     }
@@ -29,10 +28,11 @@ class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
     lateinit var v : View
 
-    private lateinit var firebaseAuth : FirebaseAuth
+    lateinit var currentUserId : String
+
     lateinit var txtSearch : EditText
     lateinit var txtNombre : TextView
-    lateinit var currentUserId : String
+
 
     val user = Firebase.auth.currentUser
     val userId = user?.uid
@@ -68,8 +68,9 @@ class HomeFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+    //TODO chequear esto si es como esta en el repo del profesor
     fun getUserData(){
-        val database = FirebaseDatabase.getInstance().getReference("Users")
+        val database = FirebaseDatabase.getInstance().getReference("users")
 
         if (userId != null) {
             database.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
@@ -83,6 +84,15 @@ class HomeFragment : Fragment() {
             })
         }
     }
+    //TODO mostrar dos actividades
+    //TODO mostrar dos guias
+    // para traer solo dos cards por actividad o guia
+    //se puede usar esto citiesRefs.orderBy("rate").limit(2)
+
+    //TODO conectar todo con Firestore (base de datos de firebase)
+    //TODO HACER METODO DE SALIR DE USUARIO (Ver documentacion de google)
+    //TODO usar Storage y Guide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
+    //usar glide para subir/bajar imagenes
 }
 
 

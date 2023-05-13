@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- TODO me falta trabajar en esto, falta sumar las listas al fragment-->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -186,4 +188,17 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline33"
         app:layout_constraintStart_toStartOf="@+id/guideline34"
         app:layout_constraintTop_toTopOf="@+id/guideline41" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recActivity_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/guideline30"
+        app:layout_constraintTop_toTopOf="@+id/guideline28" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recGuide_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/guideline30" />
 </androidx.constraintlayout.widget.ConstraintLayout>

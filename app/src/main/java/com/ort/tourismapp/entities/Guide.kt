@@ -4,17 +4,29 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class Guide(
-    var id: Int,
-    var name: String,
-    var lastName: String,
-    var email: String,
-    var cellphone: String,
-    var city: String,
-    var province: String,
-    var country: String,
-    var biography: String,
-    var guidePhoto : String,
-    var rate : String,
-) : Parcelable {
+data class Guide(
+    var uid: String = "",
+    var name: String = "",
+    var lastname: String = "",
+    var email: String = "",
+    var city: String = "",
+    var province: String = "",
+    var country: String = "",
+    var guidePhoto : String = "",
+    var rate : String = "",
+    var activitiesOwnedList: MutableList<Activity?> = mutableListOf()
+    ) : Parcelable {
+        constructor() : this("","","","","","","","","", mutableListOf())
+        init {
+            this.uid = uid!!
+            this.name = name!!
+            this.lastname = lastname!!
+            this.email = email!!
+            this.city = city!!
+            this.province = country!!
+            this.country = country !!
+            this.guidePhoto = guidePhoto!!
+            this.rate = rate !!
+            //this.activitiesOwnedList = activitiesOwnedList !!
+        }
 }

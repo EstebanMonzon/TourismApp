@@ -34,7 +34,6 @@ class ActivityDetailFragment : Fragment() {
         textCity = v.findViewById(R.id.txtCity)
         textDesc = v.findViewById(R.id.txtActivityDesc)
         btnActivityContact = v.findViewById(R.id.btnActivityContact)
-
         return v
     }
 

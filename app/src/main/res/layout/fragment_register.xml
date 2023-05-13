@@ -1,185 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:orientation="vertical"
     tools:context=".fragments.RegisterFragment">
-
-    <EditText
-        android:id="@+id/userPassConfirmRegister"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:backgroundTint="#EE8146"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.71000004" />
-
-    <TextView
-        android:id="@+id/txtPassConfirmRegister"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Confirmar contraseña"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/userPassConfirmRegister"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98" />
-
-    <EditText
-        android:id="@+id/userEmailRegister"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:backgroundTint="#EE8146"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35000002" />
-
-    <EditText
-        android:id="@+id/userPassRegister"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:backgroundTint="#EE8146"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52" />
 
     <TextView
         android:id="@+id/txtRegister"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Registrate!"
-        android:textColor="#000000"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.434"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.04" />
+        android:layout_marginBottom="10dp"
+        android:text="Registrate"
+        android:textAlignment="center"
+        android:textSize="34sp" />
 
     <TextView
-        android:id="@+id/txtEmailRegister"
-        android:layout_width="0dp"
+        android:id="@+id/txtSubtitulo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Email"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/userEmailRegister"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98" />
+        android:text="Es facil y rápido"
+        android:textAlignment="center"
+        android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/txtPassRegister"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginEnd="50dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="Contraseña"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/userPassRegister"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.98" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="10dp">
 
-    <Button
-        android:id="@+id/btnRegisterEnter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#EE8146"
-        android:text="REGISTRARSE"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp">
 
-    <EditText
-        android:id="@+id/userPersonName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.248"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.205" />
+            <!-- Nombre -->
+            <TextView
+                android:id="@+id/txtNombreRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:textColor="@color/gris_secundario" />
 
-    <TextView
-        android:id="@+id/txtNombreRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nombre"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.153" />
+            <EditText
+                android:id="@+id/userPersonName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/black" />
+            <!-- Apellido -->
+            <TextView
+                android:id="@+id/txtApellidoRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Apellido"
+                android:textColor="@color/gris_secundario" />
 
-    <EditText
-        android:id="@+id/userProfilePhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.248"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.868" />
+            <EditText
+                android:id="@+id/userPersonApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/black" />
+            <!-- Email -->
+            <TextView
+                android:id="@+id/txtEmailRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Email"
+                android:textColor="@color/gris_secundario" />
 
-    <TextView
-        android:id="@+id/txtUserImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Imagen url"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.141"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.792" />
+            <EditText
+                android:id="@+id/userEmailRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black" />
+            <!-- Contraseña -->
+            <TextView
+                android:id="@+id/txtPassRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Contraseña"
+                android:textColor="@color/gris_secundario" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <EditText
+                android:id="@+id/userPassRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:textColor="@color/black"/>
+            <!-- Confirmar contraseña -->
+            <TextView
+                android:id="@+id/txtPassConfirmRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Confirmar contraseña"
+                android:textColor="@color/gris_secundario" />
+
+            <EditText
+                android:id="@+id/userPassConfirmRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:textColor="@color/black"/>
+
+            <Button
+                android:id="@+id/btnRegisterEnter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#EE8146"
+                android:text="Registrarse" />
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
