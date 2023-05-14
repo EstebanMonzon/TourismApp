@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.ort.tourismapp.R
 
 class ActivityDetailFragment : Fragment() {
@@ -47,10 +47,8 @@ class ActivityDetailFragment : Fragment() {
         textCity.text = city
         textDesc.text = description
 
-        //TODO deberia saltar un pop-up con la frase "Enviamos tu notificación al guia para que te contacte"
         btnActivityContact.setOnClickListener(){
-            val action = ActivityDetailFragmentDirections.actionActivityDetailFragmentToGuideListFragment()
-            findNavController().navigate(action)
+            Snackbar.make(v, "Enviamos tu notificación al guia para que te contacte", Snackbar.LENGTH_SHORT).show()
         }
     }
 

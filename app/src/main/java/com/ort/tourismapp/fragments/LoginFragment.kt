@@ -28,14 +28,6 @@ class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     lateinit var v : View
 
-    var textLabel : String = "Conozcamos la ciudad!"
-    var textEmail : String = "Email"
-    var textPass : String = "Contraseña"
-    var textLogin: String = "Ingresar"
-    var textAccount : String = "No tenes cuenta?"
-    var textRegister : String = "Crear cuenta"
-
-
     lateinit var labelLogin : TextView
     lateinit var labelEmail : TextView
     lateinit var userEmailText : EditText
@@ -61,17 +53,8 @@ class LoginFragment : Fragment() {
         buttonLogin = v.findViewById(R.id.btnLogin)
         labelAccount = v.findViewById(R.id.txtAccount)
         buttonRegister = v.findViewById(R.id.btnRegister)
-
-        labelLogin.text = textLabel
-        labelEmail.text = textEmail
-        labelPass.text = textPass
-        buttonLogin.text = textLogin
-        labelAccount.text = textAccount
-        buttonRegister.text = textRegister
-
         return v
     }
-
     override fun onStart() {
         super.onStart()
         buttonLogin.setOnClickListener {
@@ -83,14 +66,12 @@ class LoginFragment : Fragment() {
             findNavController().navigate(action)
         }
     }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
-    //TODO chequear que realmente loggee, ver documentacion de google!!
+    //SOLO RECIBE DATOS SI SE LOS TIPEA!, no recibe datos si se elige de datos pre-guardados del teclado
     private fun login(mail: String, contra: String) {
         firebaseAuth.signInWithEmailAndPassword(mail, contra).addOnCompleteListener() { task ->
             if (task.isSuccessful) {

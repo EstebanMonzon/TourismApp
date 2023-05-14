@@ -27,13 +27,13 @@ class GuideListFragment : Fragment() {
     }
 
     private lateinit var viewModel: GuideListViewModel
-    lateinit var v : View
+    lateinit var v: View
 
-    lateinit var recyclerGuide : RecyclerView
-    lateinit var adapterGuide : GuideAdapter
+    lateinit var recyclerGuide: RecyclerView
+    lateinit var adapterGuide: GuideAdapter
 
     val db = Firebase.firestore
-    var guidesList : MutableList<Guide> = arrayListOf()
+    var guidesList: MutableList<Guide> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

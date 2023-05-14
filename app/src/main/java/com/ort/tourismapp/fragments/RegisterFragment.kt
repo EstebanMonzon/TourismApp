@@ -22,7 +22,7 @@ import com.ort.tourismapp.entities.User
 
 
 class RegisterFragment : Fragment() {
-
+    //TODO no anda registrar nuevo usuario
     companion object {
         fun newInstance() = RegisterFragment()
     }
@@ -42,7 +42,6 @@ class RegisterFragment : Fragment() {
     lateinit var userNombreText : EditText
     lateinit var userApellidoText : EditText
     lateinit var userImgText : EditText
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,19 +57,13 @@ class RegisterFragment : Fragment() {
         //userImgText= v.findViewById(R.id.userProfilePhoto)
         return v
     }
-
     override fun onStart() {
         super.onStart()
 
         buttonRegister.setOnClickListener{
-            if(userPassText.text.toString().equals(userPassConfirmText.text.toString()))
-            {
+            if(checkAllFields()){
                 crearCuenta(userEmailText.text.toString(), userPassText.text.toString(), userNombreText.text.toString(), userApellidoText.text.toString())
-            }
-            else
-            {
-                Snackbar.make(v, "Error: Las contraseñas no coinciden", Snackbar.LENGTH_SHORT).show()
-                userPassText.requestFocus()
+            //TODO agregar una imagen pre-seteada a userImgText= v.findViewById(R.id.userProfilePhoto), usar glide
             }
         }
     }
@@ -81,24 +74,15 @@ class RegisterFragment : Fragment() {
     }
 
     //TODO chequear que guarde realmente en usuario y la contraseña (junto con los otros datos)
-    //ver documentacion https://firebase.google.com/docs/auth/android/start?hl=es&authuser=0#kotlin+ktx_3
-    //TODO investigar que es TAG y como se usa
-
-
-    private fun crearCuenta(mail: String, contra: String, nombre: String, apellido: String)
-    {
-        firebaseAuth.createUserWithEmailAndPassword(mail, contra).addOnCompleteListener()
-        {
-                task ->
-            if(task.isSuccessful)
-            {
+    private fun crearCuenta(mail: String, contraseña: String, nombre: String, apellido: String) {
+        firebaseAuth.createUserWithEmailAndPassword(mail, contraseña).addOnCompleteListener() { task ->
+            if(task.isSuccessful) {
                 val action = RegisterFragmentDirections.actionRegisterFragmentToRegisteredOkFragment2()
                 val user = Firebase.auth.currentUser
 
                 user?.let {
                     val usuarioID = it.uid
-
-                    crearCuentaEnBD(mail, contra, nombre, apellido, usuarioID)
+                    crearCuentaEnBD(mail, contraseña, nombre, apellido, usuarioID)
                 }
 
                 findNavController().navigate(action)
@@ -106,18 +90,43 @@ class RegisterFragment : Fragment() {
         }
     }
 
-    private fun crearCuentaEnBD(mail: String, contra: String, nombre: String, apellido: String, uid: String)
-    {
+    private fun crearCuentaEnBD(mail: String, contraseña: String, nombre: String, apellido: String, uid: String) {
         val usuario = hashMapOf(
             "uid" to uid,
             "name" to nombre,
             "lastname" to apellido,
             "email" to mail,
-            "password" to contra
+            "password" to contraseña
         )
-
         Log.d(TAG, "Intentando crear un usuario en la BD")
-
         database.getReference("usuarios").child(uid).setValue(usuario)
+    }
+
+    private fun checkAllFields(): Boolean {
+        if (userNombreText!!.length() == 0) {
+            Snackbar.make(v, "El nombre no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        if (userApellidoText!!.length() == 0) {
+            Snackbar.make(v, "El apellido no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        if (userEmailText!!.length() == 0) {
+            Snackbar.make(v, "El email no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        if (userPassText!!.length() == 0) {
+            Snackbar.make(v, "El password no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        if(userPassConfirmText!!.length() == 0) {
+            Snackbar.make(v, "El password no debe estar vacio", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        if(!userPassText.text.toString().equals(userPassConfirmText.text.toString())) {
+            Snackbar.make(v, "Error: Las contraseñas no coinciden", Snackbar.LENGTH_SHORT).show()
+            return false
+        }
+        return true //retorna true si se cumplen todos los requisitos
     }
 }
