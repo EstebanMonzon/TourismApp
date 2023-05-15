@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
+import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +25,7 @@ import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.adapters.GuideAdapter
+import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.User
 
 class HomeFragment : Fragment() {
@@ -39,9 +42,9 @@ class HomeFragment : Fragment() {
 
     lateinit var recyclerGuide: RecyclerView
     lateinit var adapterGuide: GuideAdapter
-    lateinit var txtSearch: EditText
+    lateinit var searchView: SearchView
     lateinit var txtBienvenidaNombre: TextView
-    lateinit var txtNombre: String
+    var txtNombre: String = ""
 
     lateinit var btnVerEnMapa_home: Button
     lateinit var btnActividadesVerTodo: Button
@@ -55,7 +58,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_home, container, false)
-        txtSearch = v.findViewById(R.id.searchView_home)
+        searchView = v.findViewById(R.id.searchView_home)
         txtBienvenidaNombre = v.findViewById(R.id.txt_Bienvenida)
         txtBienvenidaNombre.setText("Bienvenido\n$txtNombre")
         recyclerActivity = v.findViewById(R.id.recActivity)
@@ -69,31 +72,39 @@ class HomeFragment : Fragment() {
         recyclerActivity.layoutManager = LinearLayoutManager(context)
         recyclerGuide.layoutManager = LinearLayoutManager(context)
         //TODO generar funcion que busque por palabra clave en lista de actividades y guia
-        txtSearch.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val searchTerm = txtSearch.text.toString()
-                val action = HomeFragmentDirections.actionHomeFragmentToActivitiesListFragment()
-                findNavController().navigate(action)
-                true
-            } else {
-                false
-            }
-        }
+
+
         //TODO
         /*btnVerEnMapa_home.setOnClickListener(){
             val action = HomeFragmentDirections
             findNavController().navigate(action)
         }*/
-
-        btnActividadesVerTodo.setOnClickListener(){
+        //TODO necesita ser inicializado porque tira error
+        /*btnActividadesVerTodo.setOnClickListener(){
             val action = HomeFragmentDirections.actionHomeFragmentToActivitiesListFragment()
             findNavController().navigate(action)
         }
-        //TODO
-        /*btnGuidesVerTodo.setOnClickListener(){
-            val action = HomeFragmentDirections.
+
+        btnGuidesVerTodo.setOnClickListener(){
+            val action = HomeFragmentDirections.actionHomeFragmentToGuideListFragment()
             findNavController().navigate(action)
         }*/
+
+        //TODO cards redirect to activity or guide
+        /*adapterActivity = ActivityAdapter(activitiesList){ position ->
+            val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(
+                activitiesList[position]
+            )
+            findNavController().navigate(action)
+        }
+        recyclerActivity.adapter = adapterActivity
+
+        adapterGuide = GuideAdapter(guidesList){ position ->
+            val action = GuideListFragmentDirections.actionGuideListFragmentToGuideDetailFragment(
+                guidesList[position])
+            findNavController().navigate(action)
+        }
+        recyclerGuide.adapter = adapterGuide*/
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -104,7 +115,7 @@ class HomeFragment : Fragment() {
 
     //TODO chequear esto si es como esta en el repo del profesor
     private fun getUserData(){
-        val database = FirebaseDatabase.getInstance().getReference("usuarios")
+        val database = FirebaseDatabase.getInstance().getReference("users")
 
         if (userId != null) {
             database.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
@@ -123,22 +134,10 @@ class HomeFragment : Fragment() {
     /*
     * //TODO traer actividades desde base de datos
         //TODO mostrar dos actividades, usar esto citiesRefs.orderBy("rate").limit(2)
-        /*adapterActivity = ActivityAdapter(activitiesList){ position ->
-            val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(
-                activitiesList[position]
-            )
-            findNavController().navigate(action)
-        }*/
-        recyclerActivity.adapter = adapterActivity
         //TODO traer guias desde base de datos
         //TODO mostrar dos guias
-        /*adapterGuide = GuideAdapter(guidesList){ position ->
-            val action = GuideListFragmentDirections.actionGuideListFragmentToGuideDetailFragment(
-                guidesList[position])
-            findNavController().navigate(action)
-        }*/
-        recyclerGuide.adapter = adapterGuide
-    * */
+     */
+
 }
 
 

@@ -1,20 +1,22 @@
 package com.ort.tourismapp.fragments
 
-import androidx.lifecycle.ViewModelProvider
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
+
 
 class LoginFragment : Fragment() {
 
@@ -66,19 +68,21 @@ class LoginFragment : Fragment() {
             findNavController().navigate(action)
         }
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         // TODO: Use the ViewModel
     }
     //SOLO RECIBE DATOS SI SE LOS TIPEA!, no recibe datos si se elige de datos pre-guardados del teclado
-    private fun login(mail: String, contra: String) {
-        firebaseAuth.signInWithEmailAndPassword(mail, contra).addOnCompleteListener() { task ->
+    //TODO chequea error: com.google.firebase.FirebaseException: An internal error has occurred. [ unexpected end of stream on
+    private fun login(email: String, password: String) {
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener() { task ->
             if (task.isSuccessful) {
                 val action = LoginFragmentDirections.actionLoginFragmentToMenuActivity()
                 findNavController().navigate(action)
             } else {
-                Snackbar.make(v, "Error: el mail o la contraseña son incorrectos", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(v, "Error: el email o la contraseña son incorrectos", Snackbar.LENGTH_SHORT).show()
             }
         }
     }
