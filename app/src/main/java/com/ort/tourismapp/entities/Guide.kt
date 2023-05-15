@@ -13,10 +13,10 @@ data class Guide(
     var province: String = "",
     var country: String = "",
     var guidePhoto : String = "",
-    var rate : String = "",
+    var rate : Int = 0,
     var activitiesOwnedList: MutableList<Activity?> = mutableListOf()
     ) : Parcelable {
-        constructor() : this("","","","","","","","","", mutableListOf())
+        constructor() : this("","","","","","","","",0, mutableListOf())
         init {
             this.uid = uid!!
             this.name = name!!

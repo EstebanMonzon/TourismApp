@@ -18,11 +18,12 @@ class ActivityDetailFragment : Fragment() {
     }
 
     private lateinit var viewModel: ActivityDetailViewModel
-    lateinit var v : View
+    lateinit var v: View
 
-    lateinit var textTitle : TextView
-    lateinit var textCity : TextView
-    lateinit var textDesc : TextView
+    lateinit var textTitle: TextView
+    lateinit var textCity: TextView
+    lateinit var textDesc: TextView
+    lateinit var textRate: TextView
     lateinit var btnActivityContact : Button
 
     override fun onCreateView(
@@ -33,6 +34,7 @@ class ActivityDetailFragment : Fragment() {
         textTitle = v.findViewById(R.id.txtActivityTitle)
         textCity = v.findViewById(R.id.txtCity)
         textDesc = v.findViewById(R.id.txtActivityDesc)
+        textRate = v.findViewById(R.id.textRate)
         btnActivityContact = v.findViewById(R.id.btnActivityContact)
         return v
     }
@@ -43,9 +45,11 @@ class ActivityDetailFragment : Fragment() {
         val title = activity.title
         val city = activity.city
         val description = activity.description
+        val rate = activity.rate
         textTitle.text = title
         textCity.text = city
         textDesc.text = description
+        textRate.text = rate.toString()
 
         btnActivityContact.setOnClickListener(){
             Snackbar.make(v, "Enviamos tu notificación al guia para que te contacte", Snackbar.LENGTH_SHORT).show()

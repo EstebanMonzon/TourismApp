@@ -24,21 +24,14 @@ class GuideAdapter(
             val txtName : TextView = v.findViewById(R.id.txtName)
             txtName.text = name
         }
-
         fun setCity(city : String){
             val txtCity : TextView = v.findViewById(R.id.txtCity)
             txtCity.text = city
         }
-
-        fun setRate(rate : String){
+        fun setRate(rate : Int){
             val txtRate : TextView = v.findViewById(R.id.textRate)
-            txtRate.text = rate
+            txtRate.text = rate.toString()
         }
-
-        /*fun setBio(bio : String){
-            val txtBiography : TextView = v.findViewById(R.id.txtBiography)
-            txtBiography.text = bio
-        }*/
         fun getCard() : CardView {
             return v.findViewById(R.id.guideCard)
         }

@@ -38,7 +38,7 @@ class GuideDetailFragment : Fragment() {
         val name = guide.name
         val rate = guide.rate
         textName.text = name
-        textRate.text = rate
+        textRate.text = rate.toString()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
