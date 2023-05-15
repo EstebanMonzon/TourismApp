@@ -11,12 +11,15 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
+import com.ort.tourismapp.adapters.GuideAdapter
 import com.ort.tourismapp.entities.Activity
+import com.ort.tourismapp.entities.Guide
 import com.ort.tourismapp.entities.GuideRepository
 
 class ActivitiesListFragment : Fragment() {
@@ -30,8 +33,8 @@ class ActivitiesListFragment : Fragment() {
     lateinit var recyclerActivity : RecyclerView
     lateinit var adapterActivity : ActivityAdapter
 
-    val db = Firebase.firestore
-    var activitiesList : MutableList<Activity> = arrayListOf()
+    val database = Firebase.database.reference
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,40 +47,22 @@ class ActivitiesListFragment : Fragment() {
         super.onStart()
         recyclerActivity.layoutManager = LinearLayoutManager(context)
 
-        var activity = Activity("1", "Usina del Arte", "CABA",
-            "Buenos Aires", "Argentina", null, "Soy la usina del arte :)",
-            "fsdfsdf","7", mutableListOf("buenos aires", "usina", "arte"))
-        var activity2 = Activity("1", "Estadio de Boca Jrs", "CABA",
-            "Buenos Aires", "Argentina", null, "Hola soy la actividad Estadio de Boca Jrs",
-            "fsdfsdf","6,5", mutableListOf("buenos aires", "boca", "estadio"))
-
-        db.collection("activities").add(activity)
-        db.collection("activities").add(activity2)
-
         //trae lista de datos
-        db.collection("activities")
-//             .whereEqualTo("tipo", "PERRO")
-            .limit(20)
-            .orderBy("rate")
-            .get()
-            .addOnSuccessListener { snapshot ->
-                if (snapshot != null) {
-                    for (activity in snapshot) {
-                        activitiesList.add(activity.toObject())
-                    }
+        database.child("actividades").get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                var activitiesList = it.result.value as MutableList<Activity>
+                //puebla las cards
+                adapterActivity = ActivityAdapter(activitiesList){ position ->
+                    val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(
+                        activitiesList[position]
+                    )
+                    findNavController().navigate(action)
                 }
+                recyclerActivity.adapter = adapterActivity
+            } else {
+                Log.d(TAG, it.exception?.message.toString())
             }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents: ", exception)
-            }
-
-        adapterActivity = ActivityAdapter(activitiesList){ position ->
-            val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(
-                activitiesList[position]
-            )
-            findNavController().navigate(action)
         }
-        recyclerActivity.adapter = adapterActivity
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

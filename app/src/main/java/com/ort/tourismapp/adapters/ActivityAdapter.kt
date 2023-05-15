@@ -11,6 +11,7 @@ import com.ort.tourismapp.R
 import com.ort.tourismapp.entities.Activity
 
 class ActivityAdapter(
+    //TODO NO LLEGA LA INFO AL ADAPTER PARA QUE PUEBLE LAS CARDS
     var activityList : MutableList<Activity>,
     var onClick : (Int) -> Unit
     ) : RecyclerView.Adapter<ActivityAdapter.ActivityHolder>() {
@@ -28,9 +29,9 @@ class ActivityAdapter(
             val txtCity : TextView = v.findViewById(R.id.txtCity)
             txtCity.text = desc
         }
-        fun setRate(rate : String){
+        fun setRate(rate : Int){
             val txtRate : TextView = v.findViewById(R.id.txtRate)
-            txtRate.text = rate
+            txtRate.text = rate.toString()
         }
         fun getCard() : CardView {
             return v.findViewById(R.id.activityCard)

@@ -1,20 +1,22 @@
 package com.ort.tourismapp.fragments
 
-import androidx.lifecycle.ViewModelProvider
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
+
 
 class LoginFragment : Fragment() {
 
@@ -27,14 +29,6 @@ class LoginFragment : Fragment() {
 
     private lateinit var viewModel: LoginViewModel
     lateinit var v : View
-
-    var textLabel : String = "Conozcamos la ciudad!"
-    var textEmail : String = "Email"
-    var textPass : String = "Contraseña"
-    var textLogin: String = "Ingresar"
-    var textAccount : String = "No tenes cuenta?"
-    var textRegister : String = "Crear cuenta"
-
 
     lateinit var labelLogin : TextView
     lateinit var labelEmail : TextView
@@ -61,17 +55,8 @@ class LoginFragment : Fragment() {
         buttonLogin = v.findViewById(R.id.btnLogin)
         labelAccount = v.findViewById(R.id.txtAccount)
         buttonRegister = v.findViewById(R.id.btnRegister)
-
-        labelLogin.text = textLabel
-        labelEmail.text = textEmail
-        labelPass.text = textPass
-        buttonLogin.text = textLogin
-        labelAccount.text = textAccount
-        buttonRegister.text = textRegister
-
         return v
     }
-
     override fun onStart() {
         super.onStart()
         buttonLogin.setOnClickListener {
@@ -89,15 +74,15 @@ class LoginFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
-    //TODO chequear que realmente loggee, ver documentacion de google!!
-    private fun login(mail: String, contra: String) {
-        firebaseAuth.signInWithEmailAndPassword(mail, contra).addOnCompleteListener() { task ->
+    //SOLO RECIBE DATOS SI SE LOS TIPEA!, no recibe datos si se elige de datos pre-guardados del teclado
+    //TODO chequea error: com.google.firebase.FirebaseException: An internal error has occurred. [ unexpected end of stream on
+    private fun login(email: String, password: String) {
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener() { task ->
             if (task.isSuccessful) {
                 val action = LoginFragmentDirections.actionLoginFragmentToMenuActivity()
                 findNavController().navigate(action)
             } else {
-                Snackbar.make(v, "Error: el mail o la contraseña son incorrectos", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(v, "Error: el email o la contraseña son incorrectos", Snackbar.LENGTH_SHORT).show()
             }
         }
     }

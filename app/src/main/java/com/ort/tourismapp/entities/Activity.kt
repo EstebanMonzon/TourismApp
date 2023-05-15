@@ -13,10 +13,10 @@ data class Activity (
     var guide: Guide? = null,
     var description: String = "",
     var activityPhoto: String = "",
-    var rate: String = "",
+    var rate: Int = 0 ,
     var tags: MutableList<String> = mutableListOf()
     ) : Parcelable {
-        constructor() : this("","","","","",null,"","","", mutableListOf())
+        constructor() : this("","","","","",null,"","",0, mutableListOf())
         init {
             this.uid = uid!!
             this.title = title!!

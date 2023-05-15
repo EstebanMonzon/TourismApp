@@ -1,6 +1,7 @@
 package com.ort.tourismapp.fragments
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -27,13 +29,12 @@ class GuideListFragment : Fragment() {
     }
 
     private lateinit var viewModel: GuideListViewModel
-    lateinit var v : View
+    lateinit var v: View
 
-    lateinit var recyclerGuide : RecyclerView
-    lateinit var adapterGuide : GuideAdapter
+    lateinit var recyclerGuide: RecyclerView
+    lateinit var adapterGuide: GuideAdapter
 
-    val db = Firebase.firestore
-    var guidesList : MutableList<Guide> = arrayListOf()
+    val database = Firebase.database.reference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,37 +49,21 @@ class GuideListFragment : Fragment() {
         super.onStart()
         recyclerGuide.layoutManager = LinearLayoutManager(context)
 
-        var guide = Guide("1", "Tamara", "Aida", "t@Aida", "CABA", "Buenos Aires",
-            "Argentina", "URL FOTO", "7,5", mutableListOf())
-        var guide2 = Guide("2", "Mariana", "Baena", "m@Baena", "CABA", "Buenos Aires",
-            "Argentina", "URL Foto", "8", mutableListOf())
-
-        db.collection("guides").add(guide)
-        db.collection("guides").add(guide2)
-
         //trae lista de datos
-        db.collection("guides")
-//             .whereEqualTo("tipo", "PERRO")
-            .limit(20)
-            .orderBy("rate")
-            .get()
-            .addOnSuccessListener { snapshot ->
-                if (snapshot != null) {
-                    for (guide in snapshot) {
-                        guidesList.add(guide.toObject())
-                    }
+        database.child("guias").get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                var guidesList = it.result.value as MutableList<Guide>
+                //puebla las cards
+                adapterGuide = GuideAdapter(guidesList){ position ->
+                    val action = GuideListFragmentDirections.actionGuideListFragmentToGuideDetailFragment(
+                        guidesList[position])
+                    findNavController().navigate(action)
                 }
+                recyclerGuide.adapter = adapterGuide
+            } else {
+                Log.d(TAG, it.exception?.message.toString())
             }
-            .addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error getting documents: ", exception)
-            }
-
-        adapterGuide = GuideAdapter(guidesList){ position ->
-            val action = GuideListFragmentDirections.actionGuideListFragmentToGuideDetailFragment(
-                guidesList[position])
-            findNavController().navigate(action)
         }
-        recyclerGuide.adapter = adapterGuide
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
