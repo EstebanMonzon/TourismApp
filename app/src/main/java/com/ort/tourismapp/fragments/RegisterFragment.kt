@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.entities.User
@@ -27,7 +28,7 @@ class RegisterFragment : Fragment() {
         fun newInstance() = RegisterFragment()
     }
 
-    val database = Firebase.database
+    val database = Firebase.firestore
 
     private lateinit var firebaseAuth : FirebaseAuth
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
@@ -98,8 +99,14 @@ class RegisterFragment : Fragment() {
             "email" to mail,
             "password" to contraseña
         )
-        Log.d(TAG, "Intentando crear un usuario en la BD")
-        database.getReference("usuarios").child(uid).setValue(usuario)
+        database.collection("users")
+            .add(usuario)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding document", e)
+            }
     }
 
     private fun checkAllFields(): Boolean {

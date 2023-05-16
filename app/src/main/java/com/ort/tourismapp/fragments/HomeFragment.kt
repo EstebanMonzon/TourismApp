@@ -1,6 +1,7 @@
 package com.ort.tourismapp.fragments
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -21,9 +22,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
@@ -54,8 +57,9 @@ class HomeFragment : Fragment() {
     lateinit var btnGuidesVerTodo: Button
 
     val user = Firebase.auth.currentUser
-    val database = Firebase.database.reference
+    val database = Firebase.firestore
     val userId = user?.uid
+    var activityList : MutableList<Activity> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -73,6 +77,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onStart() {
+
         super.onStart()
         getUserData()
         txtBienvenidaNombre.text = "Bienvenido\n$txtNombre"
@@ -109,19 +114,44 @@ class HomeFragment : Fragment() {
         // TODO: Use the ViewModel
     }
     private fun getUserData(){
-        val database = FirebaseDatabase.getInstance().getReference("users")
-
-        if (userId != null) {
-            database.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val user = snapshot.getValue(User::class.java)
-                    txtNombre = user?.name.toString()
-                }
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
-        }
+        database.collection("users").whereEqualTo("uid", userId)
     }
+
+    private fun getActivityList(){
+        /*database.child("actividades").get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                var activitiesList = it.result.value as MutableList<Activity>
+                //puebla las cards
+                adapterActivity = ActivityAdapter(activitiesList){ position ->
+                    val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(
+                        activitiesList[position]
+                    )
+                    findNavController().navigate(action)
+                }
+                recyclerActivity.adapter = adapterActivity
+            } else {
+                Log.d(ContentValues.TAG, it.exception?.message.toString())
+            }
+        }*/
+    }
+
+    private fun getGuideList(){
+        /*database.child("guias").get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                var guidesList = it.result.value as MutableList<Guide>
+                //puebla las cards
+                adapterGuide = GuideAdapter(guidesList){ position ->
+                    val action = GuideListFragmentDirections.actionGuideListFragmentToGuideDetailFragment(
+                        guidesList[position])
+                    findNavController().navigate(action)
+                }
+                recyclerGuide.adapter = adapterGuide
+            } else {
+                Log.d(ContentValues.TAG, it.exception?.message.toString())
+            }
+        }*/
+    }
+
     private fun addActivitiesyGuides() {
 
         var guide = Guide("1", "Eloy", "Saavedra", "ea@g.com", "CABA", "Buenos Aires",
@@ -147,41 +177,6 @@ class HomeFragment : Fragment() {
         database.getReference("actividades").child(activity2.uid).setValue(activity2)
         database.getReference("actividades").child(activity3.uid).setValue(activity3)
         database.getReference("actividades").child(activity4.uid).setValue(activity4)*/
-    }
-
-    private fun getActivityList(){
-        database.child("actividades").get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                var activitiesList = it.result.value as MutableList<Activity>
-                //puebla las cards
-                adapterActivity = ActivityAdapter(activitiesList){ position ->
-                    val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(
-                        activitiesList[position]
-                    )
-                    findNavController().navigate(action)
-                }
-                recyclerActivity.adapter = adapterActivity
-            } else {
-                Log.d(ContentValues.TAG, it.exception?.message.toString())
-            }
-        }
-    }
-
-    private fun getGuideList(){
-        database.child("guias").get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                var guidesList = it.result.value as MutableList<Guide>
-                //puebla las cards
-                adapterGuide = GuideAdapter(guidesList){ position ->
-                    val action = GuideListFragmentDirections.actionGuideListFragmentToGuideDetailFragment(
-                        guidesList[position])
-                    findNavController().navigate(action)
-                }
-                recyclerGuide.adapter = adapterGuide
-            } else {
-                Log.d(ContentValues.TAG, it.exception?.message.toString())
-            }
-        }
     }
 
 
