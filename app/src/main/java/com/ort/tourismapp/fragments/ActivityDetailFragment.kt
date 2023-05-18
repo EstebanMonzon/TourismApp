@@ -38,7 +38,6 @@ class ActivityDetailFragment : Fragment() {
         btnActivityContact = v.findViewById(R.id.btnActivityContact)
         return v
     }
-
     override fun onStart() {
         super.onStart()
         val activity = ActivityDetailFragmentArgs.fromBundle(requireArguments()).activity
@@ -55,7 +54,6 @@ class ActivityDetailFragment : Fragment() {
             Snackbar.make(v, "Enviamos tu notificación al guia para que te contacte", Snackbar.LENGTH_SHORT).show()
         }
     }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ActivityDetailViewModel::class.java)

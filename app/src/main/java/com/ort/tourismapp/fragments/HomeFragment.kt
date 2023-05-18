@@ -1,7 +1,5 @@
 package com.ort.tourismapp.fragments
 
-
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,9 +13,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
@@ -48,20 +46,18 @@ class HomeFragment : Fragment() {
     lateinit var adapterGuide: GuideAdapter
     lateinit var searchView: SearchView
     lateinit var txtBienvenidaNombre: TextView
-    var txtNombre: String = ""
 
     lateinit var btnVerEnMapa_home: Button
     lateinit var btnActividadesVerTodo: Button
     lateinit var btnGuidesVerTodo: Button
 
     val user = Firebase.auth.currentUser
-    val userId = user?.uid
+    val userId = user!!.uid
     var activityList : MutableList<Activity> = mutableListOf()
     var guideList : MutableList<Guide> = mutableListOf()
     lateinit var userInfo: User
     val database = FirebaseSingleton.getInstance().getDatabase() //traigo  la instancia de la db aca porque todavia
                                                                  //no termine de armar lo del userRepository
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,24 +70,28 @@ class HomeFragment : Fragment() {
         btnActividadesVerTodo = v.findViewById(R.id.btnActividadesVerTodo)
         btnGuidesVerTodo = v.findViewById(R.id.btnGuidesVerTodo)
         btnVerEnMapa_home = v.findViewById(R.id.btnVerEnMapa_home)
+        activityRepository = ActivityRepository()
+        guideRepository = GuideRepository()
+        activityList = activityRepository.getHomeActivityList()
+        guideList = guideRepository.getHomeGuideList()
         return v
     }
-
     override fun onStart() {
-
         super.onStart()
-        getUserData()
+
         //TODO FALTA TRABAJAR EN LA CLASE USERREPOSITORY
-        //userInfo = userRepository.getUserData(userId)
-        txtBienvenidaNombre.text = "Bienvenido\n$txtNombre" //aca deberia traer el nombre pero todavia no lo termine
+        txtBienvenidaNombre.text = "Bienvenido\n${getUserName()}" //aca deberia traer el nombre pero todavia no lo termine
 
         recyclerActivity.layoutManager = LinearLayoutManager(context)
         recyclerGuide.layoutManager = LinearLayoutManager(context)
+        //no esta cargando las listas, devuelve size=0
+        //solo carga lista de actividades cuando hago click en SearchView
+        //carga guias en GuideListFragment pero solo cuando le hago click a SearchView
+        //chequear que esta pasando en searchView y recyclerView
 
-        activityList = activityRepository.getHomeActivityList()
-        guideList = guideRepository.getHomeGuideList()
 
-        //TODO generar funcion que busque por palabra clave en lista de actividades y guia
+        //TODO generar funcion que busque por palabra clave en lista de actividades
+
         adapterActivity = ActivityAdapter(activityList){ position ->
             val action = HomeFragmentDirections.actionHomeFragmentToActivityDetailFragment(
                 activityList[position]
@@ -121,28 +121,26 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionHomeFragmentToGuideListFragment()
             findNavController().navigate(action)
         }
-
-        //TODO cards redirect to activity or guide
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
     }
-    private fun getUserData(){
-        database.collection("users").whereEqualTo("uid", userId)
+    private fun getUserName() : String {
+        return database.collection("usuarios").document(userId)
+            .get()
+            .addOnSuccessListener { document ->
+                document.getString("name")
+            }.toString() // esta devolviendo un string raro
     }
 
+    //TODO cards redirect to activity or guide
     //TODO chequear que datos guardar del guia en una actividad, solo uid tal vez?
     //TODO HACER METODO DE SALIR DE USUARIO (Ver documentacion de google)
-    //TODO usar Storage y Guide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
-    //TODO hacer que botones conecten con lista de actividades y lista de guias
-    /*
-    * //TODO traer actividades desde base de datos
-        //TODO mostrar dos actividades, usar esto citiesRefs.orderBy("rate").limit(2)
-        //TODO traer guias desde base de datos
-        //TODO mostrar dos guias
-     */
+    //TODO usar Storage y Glide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
+    //TODO mostrar dos guias
+
 
 }
 
