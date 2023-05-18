@@ -28,12 +28,12 @@
             app:cardCornerRadius="15dp">
 
             <SearchView
-                android:id="@+id/searchView_activity"
+                android:id="@+id/searchView_guide"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:background="@color/white"
                 android:iconifiedByDefault="false"
-                android:queryHint="Buscar" />
+                android:queryHint="Buscar guia" />
         </androidx.cardview.widget.CardView>
 
         <Button

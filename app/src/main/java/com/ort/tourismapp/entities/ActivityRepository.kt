@@ -1,6 +1,5 @@
 package com.ort.tourismapp.entities
 
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.ort.tourismapp.database.FirebaseSingleton
 
@@ -39,7 +38,5 @@ class ActivityRepository() {
 
         database.collection("actividades").document().set(activity)
     }
-
-
 
 }

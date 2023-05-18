@@ -14,7 +14,6 @@ class ActivityAdapter(
     var activityList : MutableList<Activity>,
     var onClick : (Int) -> Unit
     ) : RecyclerView.Adapter<ActivityAdapter.ActivityHolder>() {
-
     class ActivityHolder (v : View) : RecyclerView.ViewHolder(v){
         private var v = v
         init {
@@ -43,16 +42,13 @@ class ActivityAdapter(
             return v.findViewById(R.id.btnFavorito)
         }
     }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivityHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_activity, parent, false)
         return ActivityHolder(view)
     }
-
     override fun getItemCount(): Int {
         return activityList.size
     }
-
     override fun onBindViewHolder(holder: ActivityHolder, position: Int) {
         holder.setTitle(activityList[position].title)
         holder.setCity(activityList[position].city)
