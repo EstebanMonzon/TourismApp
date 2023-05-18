@@ -2,19 +2,18 @@ package com.ort.tourismapp.fragments
 
 import android.content.ContentValues.TAG
 import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
-import com.ort.tourismapp.entities.User
 
 class PersonalDataFragment : Fragment() {
     companion object {

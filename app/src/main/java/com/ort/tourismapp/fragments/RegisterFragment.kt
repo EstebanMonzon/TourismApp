@@ -1,25 +1,22 @@
 package com.ort.tourismapp.fragments
 
 import android.content.ContentValues.TAG
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
-import com.ort.tourismapp.entities.User
 
 
 class RegisterFragment : Fragment() {
@@ -80,12 +77,10 @@ class RegisterFragment : Fragment() {
             if(task.isSuccessful) {
                 val action = RegisterFragmentDirections.actionRegisterFragmentToRegisteredOkFragment2()
                 val user = Firebase.auth.currentUser
-
                 user?.let {
                     val usuarioID = it.uid
                     crearCuentaEnBD(mail, contraseña, nombre, apellido, usuarioID)
                 }
-
                 findNavController().navigate(action)
             }
         }
@@ -99,7 +94,7 @@ class RegisterFragment : Fragment() {
             "email" to mail,
             "password" to contraseña
         )
-        database.collection("users")
+        database.collection("usuarios")
             .add(usuario)
             .addOnSuccessListener { documentReference ->
                 Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")

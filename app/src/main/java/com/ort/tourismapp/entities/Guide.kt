@@ -18,15 +18,15 @@ data class Guide(
     ) : Parcelable {
         constructor() : this("","","","","","","","",0, mutableListOf())
         init {
-            this.uid = uid!!
-            this.name = name!!
-            this.lastname = lastname!!
-            this.email = email!!
-            this.city = city!!
-            this.province = country!!
-            this.country = country !!
-            this.guidePhoto = guidePhoto!!
-            this.rate = rate !!
+            this.uid = uid
+            this.name = name
+            this.lastname = lastname
+            this.email = email
+            this.city = city
+            this.province = country
+            this.country = country
+            this.guidePhoto = guidePhoto
+            this.rate = rate
             //this.activitiesOwnedList = activitiesOwnedList !!
         }
 }

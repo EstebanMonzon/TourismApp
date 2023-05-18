@@ -1,7 +1,7 @@
 package com.ort.tourismapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.ort.tourismapp.databinding.ActivityMainBinding
 
