@@ -11,7 +11,6 @@ import com.ort.tourismapp.R
 import com.ort.tourismapp.entities.Activity
 
 class ActivityAdapter(
-    //TODO NO LLEGA LA INFO AL ADAPTER PARA QUE PUEBLE LAS CARDS
     var activityList : MutableList<Activity>,
     var onClick : (Int) -> Unit
     ) : RecyclerView.Adapter<ActivityAdapter.ActivityHolder>() {

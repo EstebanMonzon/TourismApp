@@ -1,35 +1,45 @@
 package com.ort.tourismapp.entities
 
-import android.util.Log
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
-
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
+import com.ort.tourismapp.database.FirebaseSingleton
 
 class ActivityRepository() {
-    val database = Firebase.database.reference
-    lateinit var activity: Activity
-    var activities : MutableList<Activity> = mutableListOf()
-
-    fun getActivityList(){
-        val rootRef = FirebaseDatabase.getInstance().reference
-        val studentsListRef = rootRef.child("actividades")
-        val query: Query = studentsListRef.orderByChild("rate")
-        val eventListener: ValueEventListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (ds in dataSnapshot.children) {
-                    activity = ds.getValue(Activity::class.java)!!
-                    activities.add(activity)
+    val database = FirebaseSingleton.getInstance().getDatabase()
+    private var activityList : MutableList<Activity> = mutableListOf()
+    fun getHomeActivityList(): MutableList<Activity> {
+        database.collection("actividades")
+            .orderBy("rate", Query.Direction.DESCENDING)
+            .limit(2)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    activityList.add(document.toObject(Activity::class.java))
                 }
             }
-            override fun onCancelled(databaseError: DatabaseError) {}
-        }
-        query.addListenerForSingleValueEvent(eventListener)
+        return activityList
     }
+
+    fun getAllActivities(): MutableList<Activity> {
+        database.collection("actividades")
+            .orderBy("rate", Query.Direction.DESCENDING)
+            .limit(2)
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    activityList.add(document.toObject(Activity::class.java))
+                }
+            }
+        return activityList
+    }
+
+    fun addActivity(guide:Guide) {
+        var activity = Activity("Caminito", "CABA", "Buenos Aires", "Argentina", guide ,
+            "Hola soy la actividad Caminito", "URL Foto", 8)
+
+        database.collection("actividades").document().set(activity)
+    }
+
 
 
 }

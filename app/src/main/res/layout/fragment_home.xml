@@ -109,7 +109,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recActivity"
+        android:id="@+id/recActivity_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -140,7 +140,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recGuide"
+        android:id="@+id/recGuide_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp" />
