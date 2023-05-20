@@ -94,10 +94,10 @@ class RegisterFragment : Fragment() {
             "email" to mail,
             "password" to contraseña
         )
-        database.collection("usuarios")
-            .add(usuario)
+        database.collection("usuarios").document(uid!!).set(usuario)
+
             .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+                Log.d(TAG, "DocumentSnapshot added with ID: ${uid}")
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Error adding document", e)
