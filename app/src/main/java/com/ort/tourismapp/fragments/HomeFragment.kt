@@ -27,6 +27,10 @@ import com.ort.tourismapp.entities.Guide
 import com.ort.tourismapp.entities.GuideRepository
 import com.ort.tourismapp.entities.User
 import com.ort.tourismapp.entities.UserRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     companion object {
@@ -51,6 +55,7 @@ class HomeFragment : Fragment() {
     lateinit var btnActividadesVerTodo: Button
     lateinit var btnGuidesVerTodo: Button
 
+    val scope = CoroutineScope(Dispatchers.Default)
     val user = Firebase.auth.currentUser
     val userId = user!!.uid
     var activityList : MutableList<Activity> = mutableListOf()
@@ -72,8 +77,19 @@ class HomeFragment : Fragment() {
         btnVerEnMapa_home = v.findViewById(R.id.btnVerEnMapa_home)
         activityRepository = ActivityRepository()
         guideRepository = GuideRepository()
-        activityList = activityRepository.getHomeActivityList()
+
+        scope.launch { activityList = async { activityRepository.getHomeActivityList() }.await()
+            Log.d("ActivityList en Scope", activityList.get(0).title)
+
+         }
+          Log.d("ActivityList fuera Scope", activityList.size.toString())
+
+          /*Hasta aca trae bien la lista de actividades, ese Log "ActivityList en Scope" trae "caminito",
+          Como no se puede sacar la info de activityList fuera del scope no se bien como usarlo.
+          El log "ActivityList fuera Scope" muestra 0*/
+
         guideList = guideRepository.getHomeGuideList()
+
         return v
     }
     override fun onStart() {

@@ -2,20 +2,19 @@ package com.ort.tourismapp.entities
 
 import com.google.firebase.firestore.Query
 import com.ort.tourismapp.database.FirebaseSingleton
+import kotlinx.coroutines.tasks.await
 
 class ActivityRepository() {
     val database = FirebaseSingleton.getInstance().getDatabase()
     private var activityList : MutableList<Activity> = mutableListOf()
-    fun getHomeActivityList(): MutableList<Activity> {
-        database.collection("actividades")
+
+    /*Intente usar corutinas solo en este metodo*/
+    suspend fun getHomeActivityList(): MutableList<Activity> {
+        activityList = database.collection("actividades")
             .orderBy("rate", Query.Direction.DESCENDING)
             .limit(2)
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    activityList.add(document.toObject(Activity::class.java))
-                }
-            }
+            .get().await().toObjects(Activity::class.java)
+
         return activityList
     }
 
