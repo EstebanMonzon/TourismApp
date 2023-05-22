@@ -13,9 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
@@ -27,6 +25,9 @@ import com.ort.tourismapp.entities.Guide
 import com.ort.tourismapp.entities.GuideRepository
 import com.ort.tourismapp.entities.User
 import com.ort.tourismapp.entities.UserRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     companion object {
@@ -46,8 +47,6 @@ class HomeFragment : Fragment() {
     lateinit var adapterGuide: GuideAdapter
     lateinit var searchView: SearchView
     lateinit var txtBienvenidaNombre: TextView
-
-    lateinit var btnVerEnMapa_home: Button
     lateinit var btnActividadesVerTodo: Button
     lateinit var btnGuidesVerTodo: Button
 
@@ -69,48 +68,41 @@ class HomeFragment : Fragment() {
         recyclerGuide = v.findViewById(R.id.recGuide_home)
         btnActividadesVerTodo = v.findViewById(R.id.btnActividadesVerTodo)
         btnGuidesVerTodo = v.findViewById(R.id.btnGuidesVerTodo)
-        btnVerEnMapa_home = v.findViewById(R.id.btnVerEnMapa_home)
         activityRepository = ActivityRepository()
         guideRepository = GuideRepository()
-        activityList = activityRepository.getHomeActivityList()
-        guideList = guideRepository.getHomeGuideList()
+
         return v
     }
     override fun onStart() {
         super.onStart()
+        val scope = CoroutineScope(Dispatchers.Main)
+        scope.launch {
+            activityList = activityRepository.getHomeActivityList()
+            guideList = guideRepository.getHomeGuideList()
 
-        //TODO FALTA TRABAJAR EN LA CLASE USERREPOSITORY
-        txtBienvenidaNombre.text = "Bienvenido\n${getUserName()}" //aca deberia traer el nombre pero todavia no lo termine
+            recyclerActivity.layoutManager = LinearLayoutManager(context)
+            recyclerGuide.layoutManager = LinearLayoutManager(context)
 
-        recyclerActivity.layoutManager = LinearLayoutManager(context)
-        recyclerGuide.layoutManager = LinearLayoutManager(context)
-        //no esta cargando las listas, devuelve size=0
-        //solo carga lista de actividades cuando hago click en SearchView
-        //carga guias en GuideListFragment pero solo cuando le hago click a SearchView
-        //chequear que esta pasando en searchView y recyclerView
+            adapterActivity = ActivityAdapter(activityList){ position ->
+                val action = HomeFragmentDirections.actionHomeFragmentToActivityDetailFragment(
+                    activityList[position]
+                )
+                findNavController().navigate(action)
+            }
+            recyclerActivity.adapter = adapterActivity
 
+            adapterGuide = GuideAdapter(guideList){ position ->
+                val action = HomeFragmentDirections.actionHomeFragmentToGuideDetailFragment(
+                    guideList[position])
+                findNavController().navigate(action)
+            }
+            recyclerGuide.adapter = adapterGuide
+        }
+
+        txtBienvenidaNombre.text = "Bienvenido\n${user?.displayName}" //aca deberia traer el nombre pero todavia no lo termine
 
         //TODO generar funcion que busque por palabra clave en lista de actividades
-
-        adapterActivity = ActivityAdapter(activityList){ position ->
-            val action = HomeFragmentDirections.actionHomeFragmentToActivityDetailFragment(
-                activityList[position]
-            )
-            findNavController().navigate(action)
-        }
-        recyclerActivity.adapter = adapterActivity
-
-        adapterGuide = GuideAdapter(guideList){ position ->
-            val action = HomeFragmentDirections.actionHomeFragmentToGuideDetailFragment(
-                guideList[position])
-            findNavController().navigate(action)
-        }
-        recyclerGuide.adapter = adapterGuide
-
-        /*btnVerEnMapa_home.setOnClickListener(){ //TODO
-            val action = HomeFragmentDirections
-            findNavController().navigate(action)
-        }*/
+        //terminar de llamar cuando db termino de cargar
 
         btnActividadesVerTodo.setOnClickListener(){
             val action = HomeFragmentDirections.actionHomeFragmentToActivitiesListFragment()
@@ -127,21 +119,19 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
     }
-    private fun getUserName() : String {
-        return database.collection("usuarios").document(userId)
-            .get()
-            .addOnSuccessListener { document ->
-                document.getString("name")
-            }.toString() // esta devolviendo un string raro
+    private fun getUserName(): String {
+        var username: String = ""
+        database.collection("usuarios").document(userId).get().addOnSuccessListener(){
+            doc ->
+        }
+        return username
     }
-
-    //TODO cards redirect to activity or guide
     //TODO chequear que datos guardar del guia en una actividad, solo uid tal vez?
+    //TODO uid sea igual para usuario y el auth - Lucio
     //TODO HACER METODO DE SALIR DE USUARIO (Ver documentacion de google)
     //TODO usar Storage y Glide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
-    //TODO mostrar dos guias
-
-
+    //TODO boton contactar guia lleve a otra pantalla que muestre datos para contactar
+    //TODO hacer logica del searchBar
 }
 
 

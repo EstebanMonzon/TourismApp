@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_margin="20dp"
     android:orientation="vertical"
-    tools:context=".fragments.FavoritesFragment">
+    tools:context=".fragments.FavouritesListFragment">
 
     <TextView
         android:id="@+id/textListaFavoritos"

@@ -1,6 +1,7 @@
 package com.ort.tourismapp.fragments
 
 import android.content.ContentValues.TAG
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,10 +15,10 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
-
 
 class RegisterFragment : Fragment() {
     //TODO no anda registrar nuevo usuario
@@ -28,7 +29,6 @@ class RegisterFragment : Fragment() {
     val database = Firebase.firestore
 
     private lateinit var firebaseAuth : FirebaseAuth
-    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
     private lateinit var viewModel: RegisterViewModel
     lateinit var v : View
@@ -40,6 +40,7 @@ class RegisterFragment : Fragment() {
     lateinit var userNombreText : EditText
     lateinit var userApellidoText : EditText
     lateinit var userImgText : EditText
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,13 +71,22 @@ class RegisterFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
-    //TODO chequear que guarde realmente en usuario y la contraseña (junto con los otros datos)
     private fun crearCuenta(mail: String, contraseña: String, nombre: String, apellido: String) {
         firebaseAuth.createUserWithEmailAndPassword(mail, contraseña).addOnCompleteListener() { task ->
             if(task.isSuccessful) {
                 val action = RegisterFragmentDirections.actionRegisterFragmentToRegisteredOkFragment2()
                 val user = Firebase.auth.currentUser
+                //VOLAR ESTO, tiene que llamar desde db
+                val profileUpdates = userProfileChangeRequest {
+                    displayName = nombre
+                    //photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
+                }
+                user?.updateProfile(profileUpdates)?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "User profile updated.")
+                    }
+                }
+
                 user?.let {
                     val usuarioID = it.uid
                     crearCuentaEnBD(mail, contraseña, nombre, apellido, usuarioID)
@@ -85,8 +95,8 @@ class RegisterFragment : Fragment() {
             }
         }
     }
-
     private fun crearCuentaEnBD(mail: String, contraseña: String, nombre: String, apellido: String, uid: String) {
+        //TODO cambiarlo a un objeto en vez de hashmap
         val usuario = hashMapOf(
             "uid" to uid,
             "name" to nombre,
@@ -103,7 +113,6 @@ class RegisterFragment : Fragment() {
                 Log.w(TAG, "Error adding document", e)
             }
     }
-
     private fun checkAllFields(): Boolean {
         if (userNombreText!!.length() == 0) {
             Snackbar.make(v, "El nombre no debe estar vacio", Snackbar.LENGTH_SHORT).show()
