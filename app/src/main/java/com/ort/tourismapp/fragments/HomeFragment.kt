@@ -1,6 +1,5 @@
 package com.ort.tourismapp.fragments
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -117,11 +116,11 @@ class HomeFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    //TODO chequear que datos guardar del guia en una actividad, solo uid tal vez?
     //TODO HACER METODO DE SALIR DE USUARIO (Ver documentacion de google)
     //TODO usar Storage y Glide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
-    //TODO boton contactar guia lleve a otra pantalla que muestre datos para contactar
     //TODO hacer logica del searchBar
+    //TODO Conectar mapa para que muestre actividades en un mapa, falta logica y modificacion de entidades
+    //TODO Hacer logica de "update personal data" -  Mariana
 }
 
 

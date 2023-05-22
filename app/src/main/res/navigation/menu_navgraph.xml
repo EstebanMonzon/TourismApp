@@ -74,6 +74,9 @@
         <argument
             android:name="activity"
             app:argType="com.ort.tourismapp.entities.Activity" />
+        <action
+            android:id="@+id/action_activityDetailFragment_to_guideContactInfoFragment"
+            app:destination="@id/guideContactInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/guideListFragment"
@@ -95,5 +98,14 @@
         <action
             android:id="@+id/action_guideDetailFragment_to_activityDetailFragment"
             app:destination="@id/activityDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/guideContactInfoFragment"
+        android:name="com.ort.tourismapp.fragments.GuideContactInfoFragment"
+        android:label="fragment_guide_contact_info"
+        tools:layout="@layout/fragment_guide_contact_info" >
+        <argument
+            android:name="guide"
+            app:argType="com.ort.tourismapp.entities.Guide" />
     </fragment>
 </navigation>

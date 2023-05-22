@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout11"
+    android:id="@+id/frameLayout20"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.GuideDetailFragment">
+    android:layout_margin="20dp"
+    android:orientation="vertical"
+    tools:context=".fragments.GuideContactInfoFragment">
+
+    <TextView
+        android:id="@+id/textMensaje"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Info de Contacto"
+        android:textAlignment="center"
+        android:textSize="34sp"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/GuideCard"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,28 +41,26 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/txtGuideName"
+                    android:id="@+id/txtGuideName_contacto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Guia"
-                    android:textColor="@color/black"
                     android:textSize="24sp" />
 
                 <TextView
-                    android:id="@+id/txtRate"
+                    android:id="@+id/txtRate_contacto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/baseline_star_rate_24"
                     android:hyphenationFrequency="none"
                     android:text="7,5"
                     android:textAlignment="center"
-                    android:textColor="@color/black"
                     android:textSize="20sp" />
             </LinearLayout>
 
             <TextView
-                android:id="@+id/txtUbicacionGuia"
+                android:id="@+id/txtUbicacionGuia_contacto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -74,16 +77,36 @@
                 android:background="#009688"
                 app:srcCompat="@drawable/ic_launcher_background"
                 tools:ignore="VectorDrawableCompat" />
-
-            <!-- TODO conectar con fragment y ViewModel el guia con su lista de actividades -->
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recActivity"
+            <!-- Email -->
+            <TextView
+                android:id="@+id/textoEmailTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:text="Email" />
+
+            <TextView
+                android:id="@+id/txtEmailGuia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="EmailInfo" />
+            <!-- Telefono -->
+            <TextView
+                android:id="@+id/textoTelefonoTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Telefono" />
+
+            <TextView
+                android:id="@+id/txtTelefonoGuia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TelefonoInfo" />
 
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+
+
