@@ -65,19 +65,6 @@
                 android:iconifiedByDefault="false"
                 android:queryHint="Buscar actividad" />
         </androidx.cardview.widget.CardView>
-
-        <Button
-            android:id="@+id/btnVerEnMapa_home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|right"
-            android:background="@color/sin_color"
-            android:drawableLeft="@drawable/mapa_ver_en_mapa_24"
-            android:text="Ver en\nmapa"
-            android:textAllCaps="false"
-            android:textColor="#191C30"
-            android:textSize="10sp"
-            app:iconPadding="0dp" />
     </LinearLayout>
 
     <!-- top actividades -->

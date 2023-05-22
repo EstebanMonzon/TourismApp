@@ -1,33 +1,40 @@
 package com.ort.tourismapp.entities
 
+import android.util.Log
 import com.google.firebase.firestore.Query
 import com.ort.tourismapp.database.FirebaseSingleton
+import kotlinx.coroutines.tasks.await
 
 class GuideRepository () {
     val database = FirebaseSingleton.getInstance().getDatabase()
     private var guideList : MutableList<Guide> = mutableListOf()
-    fun getHomeGuideList(): MutableList<Guide>{
-        database.collection("guias")
-            .orderBy("rate", Query.Direction.DESCENDING)
-            .limit(2)
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    guideList.add(document.toObject(Guide::class.java))
-                }
+    suspend fun getHomeGuideList(): MutableList<Guide>{
+        try{
+            val data = database.collection("guias")
+                .orderBy("rate", Query.Direction.DESCENDING)
+                .limit(2)
+                .get().await()
+            for (document in data) {
+                guideList.add(document.toObject(Guide::class.java))
             }
+        } catch (e: Exception){
+            Log.d("Guias no cargados: ", guideList.size.toString())
+        }
         return guideList
     }
-    fun getAllGuides(): MutableList<Guide>{
-        database.collection("guias")
-            .orderBy("rate", Query.Direction.DESCENDING)
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    guideList.add(document.toObject(Guide::class.java))
-                }
+    suspend fun getAllGuides(): MutableList<Guide>{
+        try{
+            val data = database.collection("guias")
+                .orderBy("rate", Query.Direction.DESCENDING)
+                .get().await()
+            for (document in data) {
+                guideList.add(document.toObject(Guide::class.java))
             }
+        } catch (e: Exception){
+            Log.d("Guias no cargados: ", guideList.size.toString())
+        }
         return guideList
+
     }
     fun addGuide(){
         var guide = Guide("", "Maria", "Freire", "mf@g.com", "CABA", "Buenos Aires",

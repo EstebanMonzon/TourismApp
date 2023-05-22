@@ -14,6 +14,9 @@ import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.GuideAdapter
 import com.ort.tourismapp.entities.Guide
 import com.ort.tourismapp.entities.GuideRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GuideListFragment : Fragment() {
 
@@ -43,14 +46,17 @@ class GuideListFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        guideList = guideRepository.getAllGuides()
-        recyclerGuide.layoutManager = LinearLayoutManager(context)
-        adapterGuide = GuideAdapter(guideList){ position ->
-            val action = GuideListFragmentDirections.actionGuideListFragmentToGuideDetailFragment(
-                guideList[position])
-            findNavController().navigate(action)
+        val scope = CoroutineScope(Dispatchers.Main)
+        scope.launch {
+            guideList = guideRepository.getAllGuides()
+            recyclerGuide.layoutManager = LinearLayoutManager(context)
+            adapterGuide = GuideAdapter(guideList){ position ->
+                val action = GuideListFragmentDirections.actionGuideListFragmentToGuideDetailFragment(
+                    guideList[position])
+                findNavController().navigate(action)
+            }
+            recyclerGuide.adapter = adapterGuide
         }
-        recyclerGuide.adapter = adapterGuide
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

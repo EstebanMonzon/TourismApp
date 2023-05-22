@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -12,53 +11,54 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
-import com.ort.tourismapp.database.FirebaseSingleton
 import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.ActivityRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class ActivitiesListFragment : Fragment() {
+class FavouritesListFragment : Fragment() {
+
     companion object {
-        fun newInstance() = ActivitiesListFragment()
+        fun newInstance() = FavouritesListFragment()
     }
 
-    private lateinit var viewModel: ActivitiesListViewModel
+    private lateinit var viewModel: FavouritesListViewModel
     lateinit var v : View
 
     lateinit var recyclerActivity: RecyclerView
-    lateinit var searchView: SearchView
     lateinit var adapterActivity: ActivityAdapter
     lateinit var activityRepository: ActivityRepository
-    var activityList: MutableList<Activity>  = mutableListOf()
+    var favouritesList: MutableList<Activity>  = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_activities_list, container, false)
-        recyclerActivity = v.findViewById(R.id.recActivity)
-        activityRepository = ActivityRepository()
-        return v
+        return inflater.inflate(R.layout.fragment_favourites_list, container, false)
     }
     override fun onStart() {
         super.onStart()
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
-            activityList = activityRepository.getAllActivities()
+            favouritesList = activityRepository.getAllActivities()
             recyclerActivity.layoutManager = LinearLayoutManager(context)
-            adapterActivity = ActivityAdapter(activityList){ position ->
-                val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(activityList[position])
+            adapterActivity = ActivityAdapter(favouritesList){ position ->
+                val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(favouritesList[position])
                 findNavController().navigate(action)
             }
             recyclerActivity.adapter = adapterActivity
         }
-        searchView = v.findViewById(R.id.searchView_activity)
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ActivitiesListViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         // TODO: Use the ViewModel
+    }
+
+    private fun addActivity(activity : Activity){
+
+
     }
 }
