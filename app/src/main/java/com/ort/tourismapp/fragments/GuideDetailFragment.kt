@@ -16,10 +16,11 @@ class GuideDetailFragment : Fragment() {
     }
 
     private lateinit var viewModel: GuideDetailViewModel
-    lateinit var v : View
+    lateinit var v: View
 
-    lateinit var textName : TextView
-    lateinit var textRate : TextView
+    lateinit var textName: TextView
+    lateinit var textRate: TextView
+    lateinit var textUbicacionGuia: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,17 +29,16 @@ class GuideDetailFragment : Fragment() {
         v = inflater.inflate(R.layout.fragment_guide_detail, container, false)
         textName = v.findViewById(R.id.txtGuideName)
         textRate = v.findViewById(R.id.txtRate)
-
+        textUbicacionGuia = v.findViewById(R.id.txtUbicacionGuia)
         return v
     }
 
     override fun onStart() {
         super.onStart()
         val guide = GuideDetailFragmentArgs.fromBundle(requireArguments()).guide
-        val name = guide.name
-        val rate = guide.rate
-        textName.text = name
-        textRate.text = rate.toString()
+        textName.text = "${guide.name} ${guide.lastname}"
+        textRate.text = guide.rate.toString()
+        textUbicacionGuia.text = "${guide.city}, ${guide.province}, ${guide.country}"
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -37,11 +37,11 @@ class ActivityRepository() {
         return activityList
     }
 
-    fun addActivity(guide:Guide) {
-        var activity = Activity("Caminito", "CABA", "Buenos Aires", "Argentina", guide ,
+    /*fun addActivity(guide:Guide) {
+        var activity = Activity("Caminito", "CABA", "Buenos Aires", "Argentina", "guide" ,
             "Hola soy la actividad Caminito", "URL Foto", 8)
 
         database.collection("actividades").document().set(activity)
-    }
+    }*/
 
 }

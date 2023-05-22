@@ -64,9 +64,4 @@ class FavouritesListFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
-    private fun addActivity(activity : Activity){
-
-
-    }
 }

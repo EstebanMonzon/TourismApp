@@ -74,6 +74,22 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:textColor="@color/black" />
+            <!-- Telefono -->
+            <TextView
+                android:id="@+id/txtTelefonoRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Telefono"
+                android:textColor="@color/gris_secundario" />
+
+            <EditText
+                android:id="@+id/userPersonTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/black" />
             <!-- Email -->
             <TextView
                 android:id="@+id/txtEmailRegister"

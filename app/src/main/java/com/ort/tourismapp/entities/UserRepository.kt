@@ -28,15 +28,14 @@ class UserRepository {
                 favActivityList.add(document.toObject(Activity::class.java))
             }
         } catch (e: Exception){
-            Log.d("Actividades favoritas no cargados: ", favActivityList.size.toString())
+            Log.d("Actividades favoritas no cargadas: ", favActivityList.size.toString())
         }
         return favActivityList
-
     }
 
-    fun crearCuenta(email: String, password: String, nombre: String, apellido: String, uid: String) {
+    fun crearCuenta( uid: String, nombre: String, apellido: String, telefono:String, email: String, password: String, ) {
         database.collection("usuarios").document(uid!!)
-            .set(User(uid, nombre, apellido, email, password, "", mutableListOf())) //TODO falta agregar la foto de perfil aca
+            .set(User(uid, nombre, apellido, telefono, email, password, "", mutableListOf())) //TODO falta agregar la foto de perfil aca
             .addOnSuccessListener { documentReference ->
                 Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${uid}")
             }
