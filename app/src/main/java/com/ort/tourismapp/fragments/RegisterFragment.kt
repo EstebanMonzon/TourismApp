@@ -19,16 +19,17 @@ import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
+import com.ort.tourismapp.entities.User
+import com.ort.tourismapp.entities.UserRepository
 
 class RegisterFragment : Fragment() {
-    //TODO no anda registrar nuevo usuario
+
     companion object {
         fun newInstance() = RegisterFragment()
     }
 
-    val database = Firebase.firestore
-
     private lateinit var firebaseAuth : FirebaseAuth
+    lateinit var userRepository: UserRepository
 
     private lateinit var viewModel: RegisterViewModel
     lateinit var v : View
@@ -56,6 +57,7 @@ class RegisterFragment : Fragment() {
         //userImgText= v.findViewById(R.id.userProfilePhoto)
         return v
     }
+
     override fun onStart() {
         super.onStart()
 
@@ -66,53 +68,26 @@ class RegisterFragment : Fragment() {
             }
         }
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(RegisterViewModel::class.java)
         // TODO: Use the ViewModel
     }
-    private fun crearCuenta(mail: String, contraseña: String, nombre: String, apellido: String) {
-        firebaseAuth.createUserWithEmailAndPassword(mail, contraseña).addOnCompleteListener() { task ->
+
+    private fun crearCuenta(email: String, password: String, nombre: String, apellido: String) {
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener() { task ->
             if(task.isSuccessful) {
                 val action = RegisterFragmentDirections.actionRegisterFragmentToRegisteredOkFragment2()
                 val user = Firebase.auth.currentUser
-                //VOLAR ESTO, tiene que llamar desde db
-                val profileUpdates = userProfileChangeRequest {
-                    displayName = nombre
-                    //photoUri = Uri.parse("https://example.com/jane-q-user/profile.jpg")
-                }
-                user?.updateProfile(profileUpdates)?.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d(TAG, "User profile updated.")
-                    }
-                }
-
                 user?.let {
-                    val usuarioID = it.uid
-                    crearCuentaEnBD(mail, contraseña, nombre, apellido, usuarioID)
+                    userRepository.crearCuenta(email, password, nombre, apellido, it.uid)
                 }
                 findNavController().navigate(action)
             }
         }
     }
-    private fun crearCuentaEnBD(mail: String, contraseña: String, nombre: String, apellido: String, uid: String) {
-        //TODO cambiarlo a un objeto en vez de hashmap
-        val usuario = hashMapOf(
-            "uid" to uid,
-            "name" to nombre,
-            "lastname" to apellido,
-            "email" to mail,
-            "password" to contraseña
-        )
-        database.collection("usuarios").document(uid!!).set(usuario)
 
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${uid}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
-    }
     private fun checkAllFields(): Boolean {
         if (userNombreText!!.length() == 0) {
             Snackbar.make(v, "El nombre no debe estar vacio", Snackbar.LENGTH_SHORT).show()

@@ -55,6 +55,14 @@ class ActivitiesListFragment : Fragment() {
             recyclerActivity.adapter = adapterActivity
         }
         searchView = v.findViewById(R.id.searchView_activity)
+
+        //TODO agregar boton de agregar actividad a favoritos y llamar a userRepository.addFavouriteActivity(uid,activityUid)
+        // y userRepository.deleteFavouriteActivity(uid,activityUid)
+        /*
+        * lo mejor seria hacer esto cuando este la otra app del guia andando
+        * deberia poder agregar y borrar de acuerdo a click y cambio de estado del boton
+        * solo bordes naranjas es que no esta en favoritos, boton completo naranja esta en favoritos
+        */
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

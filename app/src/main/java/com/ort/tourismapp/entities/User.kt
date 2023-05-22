@@ -11,7 +11,7 @@ data class User(
     var email: String = "",
     var password: String = "",
     var profilePhoto: String = "",
-    var activitiesLikedList: MutableList<Activity> = mutableListOf()
+    var activitiesLikedList: MutableList<String> = mutableListOf()
 ) : Parcelable {
     constructor() : this("","","","","","", mutableListOf())
     init {
