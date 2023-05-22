@@ -66,6 +66,7 @@ class HomeFragment : Fragment() {
         btnGuidesVerTodo = v.findViewById(R.id.btnGuidesVerTodo)
         activityRepository = ActivityRepository()
         guideRepository = GuideRepository()
+        userRepository = UserRepository()
         return v
     }
 

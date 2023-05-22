@@ -48,6 +48,7 @@ class RegisterFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_register, container, false)
         firebaseAuth = Firebase.auth
+        userRepository = UserRepository()
         userEmailText = v.findViewById(R.id.userEmailRegister)
         userPassText = v.findViewById(R.id.userPassRegister)
         userPassConfirmText = v.findViewById(R.id.userPassConfirmRegister)
