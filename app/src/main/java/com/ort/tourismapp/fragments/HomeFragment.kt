@@ -1,7 +1,7 @@
 package com.ort.tourismapp.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,18 +18,16 @@ import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.adapters.GuideAdapter
-import com.ort.tourismapp.database.FirebaseSingleton
 import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.ActivityRepository
 import com.ort.tourismapp.entities.Guide
 import com.ort.tourismapp.entities.GuideRepository
-import com.ort.tourismapp.entities.User
 import com.ort.tourismapp.entities.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
 class HomeFragment : Fragment() {
+
     companion object {
         fun newInstance() = HomeFragment()
     }
@@ -50,13 +48,11 @@ class HomeFragment : Fragment() {
     lateinit var btnActividadesVerTodo: Button
     lateinit var btnGuidesVerTodo: Button
 
-    val user = Firebase.auth.currentUser
-    val userId = user!!.uid
+    private val user = Firebase.auth.currentUser
+    private val userId = user!!.uid
     var activityList : MutableList<Activity> = mutableListOf()
     var guideList : MutableList<Guide> = mutableListOf()
-    lateinit var userInfo: User
-    val database = FirebaseSingleton.getInstance().getDatabase() //traigo  la instancia de la db aca porque todavia
-                                                                 //no termine de armar lo del userRepository
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -70,13 +66,16 @@ class HomeFragment : Fragment() {
         btnGuidesVerTodo = v.findViewById(R.id.btnGuidesVerTodo)
         activityRepository = ActivityRepository()
         guideRepository = GuideRepository()
-
+        userRepository = UserRepository()
         return v
     }
+
     override fun onStart() {
         super.onStart()
+
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
+            txtBienvenidaNombre.text = "Bienvenido\n${userRepository.getUserName(userId)}"
             activityList = activityRepository.getHomeActivityList()
             guideList = guideRepository.getHomeGuideList()
 
@@ -99,10 +98,7 @@ class HomeFragment : Fragment() {
             recyclerGuide.adapter = adapterGuide
         }
 
-        txtBienvenidaNombre.text = "Bienvenido\n${user?.displayName}" //aca deberia traer el nombre pero todavia no lo termine
-
         //TODO generar funcion que busque por palabra clave en lista de actividades
-        //terminar de llamar cuando db termino de cargar
 
         btnActividadesVerTodo.setOnClickListener(){
             val action = HomeFragmentDirections.actionHomeFragmentToActivitiesListFragment()
@@ -114,20 +110,14 @@ class HomeFragment : Fragment() {
             findNavController().navigate(action)
         }
     }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
     }
-    private fun getUserName(): String {
-        var username: String = ""
-        database.collection("usuarios").document(userId).get().addOnSuccessListener(){
-            doc ->
-        }
-        return username
-    }
+
     //TODO chequear que datos guardar del guia en una actividad, solo uid tal vez?
-    //TODO uid sea igual para usuario y el auth - Lucio
     //TODO HACER METODO DE SALIR DE USUARIO (Ver documentacion de google)
     //TODO usar Storage y Glide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
     //TODO boton contactar guia lleve a otra pantalla que muestre datos para contactar

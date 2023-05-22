@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.integrity.internal.y
 import com.ort.tourismapp.R
 
 class ActivityDetailFragment : Fragment() {
@@ -49,6 +50,14 @@ class ActivityDetailFragment : Fragment() {
         textCity.text = city
         textDesc.text = description
         textRate.text = rate.toString()
+
+        //TODO agregar boton de agregar actividad a favoritos y llamar a userRepository.addFavouriteActivity(uid,activityUid)
+        // y userRepository.deleteFavouriteActivity(uid,activityUid)
+        /*
+        * lo mejor seria hacer esto cuando este la otra app del guia andando
+        * deberia poder agregar y borrar de acuerdo a click y cambio de estado del boton
+        * solo bordes naranjas es que no esta en favoritos, boton completo naranja esta en favoritos
+        */
 
         btnActivityContact.setOnClickListener(){
             Snackbar.make(v, "Enviamos tu notificación al guia para que te contacte", Snackbar.LENGTH_SHORT).show()
