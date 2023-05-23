@@ -42,6 +42,9 @@
         <action
             android:id="@+id/action_profileFragment_to_personalDataFragment"
             app:destination="@id/personalDataFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_avatarSelectionFragment"
+            app:destination="@id/avatarSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/FavouritesFragment"
@@ -108,4 +111,9 @@
             android:name="guide"
             app:argType="com.ort.tourismapp.entities.Guide" />
     </fragment>
+    <fragment
+        android:id="@+id/avatarSelectionFragment"
+        android:name="com.ort.tourismapp.fragments.AvatarSelectionFragment"
+        android:label="fragment_avatar_selection"
+        tools:layout="@layout/fragment_avatar_selection" />
 </navigation>
