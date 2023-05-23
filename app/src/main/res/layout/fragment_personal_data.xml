@@ -1,20 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout7"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".fragments.PersonalDataFragment" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/frameLayout7"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:layout_margin="20dp"
+android:orientation="vertical"
+tools:context=".fragments.PersonalDataFragment">
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    android:id="@+id/txtRegister"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    android:text="Datos Personales"
+    android:textAlignment="center"
+    android:textSize="34sp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Personal Information"
-        android:textSize="34sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp">
+            <!-- Nombre -->
+            <TextView
+                android:id="@+id/txtNombreRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nombre"
+                android:textColor="@color/gris_secundario" />
+
+            <EditText
+                android:id="@+id/userPersonName_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/black" />
+            <!-- Apellido -->
+            <TextView
+                android:id="@+id/txtApellidoRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Apellido"
+                android:textColor="@color/gris_secundario" />
+
+            <EditText
+                android:id="@+id/userPersonApellido_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/black" />
+            <!-- Telefono -->
+            <TextView
+                android:id="@+id/txtTelefonoRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Telefono"
+                android:textColor="@color/gris_secundario" />
+
+            <EditText
+                android:id="@+id/userPersonTelefono_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/btnGuardarCambios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#EE8146"
+                android:text="Guardar cambios" />
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="10dp">
+            <!-- Contraseña -->
+            <TextView
+                android:id="@+id/txtPassRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Contraseña"
+                android:textColor="@color/gris_secundario" />
+
+            <EditText
+                android:id="@+id/userPassRegister_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:textColor="@color/black" />
+            <!-- Nueva contraseña -->
+            <TextView
+                android:id="@+id/txtPassNewRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Nueva contraseña"
+                android:textColor="@color/gris_secundario" />
+
+            <EditText
+                android:id="@+id/userPassNewRegister_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:textColor="@color/black" />
+            <!-- Confirmar nueva contraseña -->
+            <TextView
+                android:id="@+id/txtPassNewConfirmRegister"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Confirmar nueva contraseña"
+                android:textColor="@color/gris_secundario" />
+
+            <EditText
+                android:id="@+id/userPassNewConfirmRegister_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/naranja"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:textColor="@color/black" />
+
+            <Button
+                android:id="@+id/btnCambiarPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#EE8146"
+                android:text="Cambiar contraseña" />
+
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
