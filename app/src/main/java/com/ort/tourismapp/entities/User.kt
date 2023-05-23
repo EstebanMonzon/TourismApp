@@ -25,6 +25,4 @@ data class User(
         this.profilePhoto = profilePhoto
         //activitiesLikedList va a empezar vacia cuando se registre el usuario
     }
-
-
 }

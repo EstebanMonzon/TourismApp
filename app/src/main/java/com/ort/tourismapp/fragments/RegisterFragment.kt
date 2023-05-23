@@ -61,7 +61,8 @@ class RegisterFragment : Fragment() {
 
         buttonRegister.setOnClickListener{
             if(checkAllFields()){
-                crearCuenta(userNombreText.text.toString(), userApellidoText.text.toString(), userPersonTelefono.text.toString(), userEmailText.text.toString(), userPassText.text.toString(), )
+                crearCuenta(userNombreText.text.toString(), userApellidoText.text.toString(), userPersonTelefono.text.toString(),
+                    userEmailText.text.toString(), userPassText.text.toString())
             //TODO agregar una imagen pre-seteada a userImgText= v.findViewById(R.id.userProfilePhoto), usar glide
             }
         }
@@ -73,7 +74,7 @@ class RegisterFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    private fun crearCuenta(nombre: String, apellido: String, telefono: String, email: String, password: String, ) {
+    private fun crearCuenta(nombre: String, apellido: String, telefono: String, email: String, password: String) {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener() { task ->
             if(task.isSuccessful) {
                 val action = RegisterFragmentDirections.actionRegisterFragmentToRegisteredOkFragment2()

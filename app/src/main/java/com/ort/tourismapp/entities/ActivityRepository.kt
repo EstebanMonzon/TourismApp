@@ -1,17 +1,18 @@
 package com.ort.tourismapp.entities
 
 import android.util.Log
-import androidx.lifecycle.liveData
 import com.google.firebase.firestore.Query
 import com.ort.tourismapp.database.FirebaseSingleton
 import kotlinx.coroutines.tasks.await
 
 class ActivityRepository() {
     val database = FirebaseSingleton.getInstance().getDatabase()
+    private var actividadesCollection = database.collection("actividades")
     private var activityList : MutableList<Activity> = mutableListOf()
+
     suspend fun getHomeActivityList(): MutableList<Activity> {
         try{
-            val data = database.collection("actividades")
+            val data = actividadesCollection
                 .orderBy("rate", Query.Direction.DESCENDING)
                 .limit(2)
                 .get().await()
@@ -23,9 +24,10 @@ class ActivityRepository() {
         }
         return activityList
     }
+
     suspend fun getAllActivities(): MutableList<Activity> {
         try{
-            val data = database.collection("actividades")
+            val data = actividadesCollection
                 .orderBy("rate", Query.Direction.DESCENDING)
                 .get().await()
             for(document in data){
