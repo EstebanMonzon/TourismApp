@@ -12,7 +12,7 @@ import kotlinx.coroutines.tasks.await
 class UserRepository {
     val database = FirebaseSingleton.getInstance().getDatabase()
     private var usersCollection = database.collection("usuarios")
-    private var favActivityList : MutableList<Activity> = mutableListOf()
+    private var favActivityList : MutableList<String> = mutableListOf()
 
     suspend fun getUserName(userId: String): String {
         return usersCollection.document(userId).get().await().get("name").toString()
@@ -24,15 +24,14 @@ class UserRepository {
 
     //TODO hacer que traiga todas las actividades favoritas de un usuario
     //falta la logica para que a partir de activity iud traiga la actividad en si
-    suspend fun getFavouritesActivities(user: User): MutableList<Activity>{
+    suspend fun getFavouritesActivities(userid: String): MutableList<String>{
         try{
-            val data = usersCollection.document(user.uid)
+            val data = database.collection("usuarios")
+                .document(userid)
                 .collection("activitiesLikedList")
                 .orderBy("rate", Query.Direction.DESCENDING)
-                .get().await()
-            for (document in data) {
-                favActivityList.add(document.toObject(Activity::class.java))
-            }
+                .get().await().toObjects(String::class.java)
+
         } catch (e: Exception){
             Log.d("Actividades favoritas no cargadas: ", favActivityList.size.toString())
         }
@@ -73,21 +72,61 @@ class UserRepository {
     }
 
     //TODO chequear si realmente funciona y guarda el uid de la activity en el usuario activo
-    suspend fun addFavouriteActivity(userId: String, activityId: String){
-        val userRef = usersCollection.document(userId)
-        userRef.get().await().let { document ->
-            val activitiesLikedList = document.get("activitiesLikedList") as? MutableList<String> ?: mutableListOf()
+    suspend fun addDeleteFavouriteActivity(userId: String, activityId: String){
+        Log.d("addDeleteFavouriteActivity","entra addDeleteFavouriteActivity")
+        val userRef = database.collection("users").document(userId)
+
+        var activitiesLikedList = getFavouritesActivities(userId)
+        Log.d("addDeleteFavouriteActivity","Ahora hay " + activitiesLikedList.size.toString()+" en favoritas")
+        // Trae tamaño de lista 0, osea trae bien la lista de la ddbb
+
+        val containsLikedActivity : Boolean = activitiesLikedList.contains(activityId)
+        Log.d("addDeleteFavouriteActivity",containsLikedActivity.toString() + " contiene actividad")
+
+        if(!containsLikedActivity){
+
+            Log.d("addDeleteFavouriteActivity","entra add")
             activitiesLikedList.add(activityId)
-            userRef.update("activitiesLikedList", activitiesLikedList).await()
+
+
         }
+        if(containsLikedActivity){
+            Log.d("addDeleteFavouriteActivity","entra delete")
+            activitiesLikedList.remove(activityId)
+        }
+
+        Log.d("addDeleteFavouriteActivity",userRef.id)
+        //Devuelve el userId correcto
+
+
+        userRef.update("activitiesLikedList", activitiesLikedList)
+
+
+        Log.d("addDeleteFavouriteActivity","Ahora hay " + activitiesLikedList.size.toString()+" en favoritas")
+
+
+        //AGREGA Y BORRA LAS FAVORITAS A LA BASE PERO NO SE VEN EN LA BASE, NO ENTIENDO"
+
+
     }
 
-    suspend fun deleteFavouriteActivity(userId: String, activityId: String){
-        val userRef = usersCollection.document(userId)
-        userRef.get().await().let { document ->
-            val activitiesLikedList = document.get("activitiesLikedList") as? MutableList<String> ?: mutableListOf()
-            activitiesLikedList.remove(activityId)
-            userRef.update("activitiesLikedList", activitiesLikedList).await()
-        }
-    }
+//    CODIGO VIEJO
+//    suspend fun addFavouriteActivity(userId: String, activityId: String){
+//        val userRef = database.collection("users").document(userId)
+//        userRef.get().await().let { document ->
+//            val activitiesLikedList = document.get("activitiesLikedList") as? MutableList<String> ?: mutableListOf()
+//            activitiesLikedList.add(activityId)
+//            userRef.update("activitiesLikedList", activitiesLikedList).await()
+//        }
+//    }
+//
+//    suspend fun deleteFavouriteActivity(userId: String, activityId: String){
+//        val userRef = database.collection("users").document(userId)
+//        userRef.get().await().let { document ->
+//            val activitiesLikedList = document.get("activitiesLikedList") as? MutableList<String> ?: mutableListOf()
+//            activitiesLikedList.remove(activityId)
+//            userRef.update("activitiesLikedList", activitiesLikedList).await()
+//        }
+//    }
+
 }
