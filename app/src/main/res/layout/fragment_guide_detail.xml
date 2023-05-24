@@ -75,10 +75,17 @@
                 app:srcCompat="@drawable/ic_launcher_background"
                 tools:ignore="VectorDrawableCompat" />
 
-            <!-- TODO conectar con fragment y ViewModel el guia con su lista de actividades -->
+            <TextView
+                android:id="@+id/txtActividadesTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Actividades"
+                android:textColor="@color/color_font"
+                android:textSize="20sp" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recActivity"
+                android:id="@+id/recActivity_guide"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp" />

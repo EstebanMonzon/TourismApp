@@ -4,11 +4,13 @@ import android.util.Log
 import com.google.firebase.firestore.Query
 import com.ort.tourismapp.database.FirebaseSingleton
 import kotlinx.coroutines.tasks.await
+import java.lang.reflect.Array
 
 class GuideRepository () {
     val database = FirebaseSingleton.getInstance().getDatabase()
     private var guideList : MutableList<Guide> = mutableListOf()
     private var guiasCollection = database.collection("guias")
+    var activityRepository = ActivityRepository()
 
     suspend fun getHomeGuideList(): MutableList<Guide>{
         try{
@@ -54,6 +56,27 @@ class GuideRepository () {
         }
 
         return guide
+    }
+
+    suspend fun getAllActivitiesGuide(guideId: String): MutableList<Activity> {
+        var activitiesGuideList: MutableList<Activity> = mutableListOf()
+
+        try{
+            var listUids: ArrayList<String>
+            val data = guiasCollection
+                .document(guideId).get().await().get("activitiesOwnedList")
+            if (data != null) {
+                listUids = data as ArrayList<String>
+
+                for(uid in listUids){
+                    activitiesGuideList.add(activityRepository.getActivity(uid))
+                }
+            }
+        } catch (e: Exception){
+            Log.d("Actividades de guia no fueron cargadas: ", "error de carga de actividades")
+        }
+
+        return activitiesGuideList
     }
 
     /*fun addGuide(){
