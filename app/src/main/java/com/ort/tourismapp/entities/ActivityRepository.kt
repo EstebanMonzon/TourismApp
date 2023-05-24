@@ -39,6 +39,20 @@ class ActivityRepository() {
         return activityList
     }
 
+    suspend fun getActivity(uid: String): Activity {
+        var activity = Activity()
+        try{
+            val data = actividadesCollection.document(uid)
+                .get().await().toObject(Activity::class.java)!!
+            if (data != null) {
+                activity = data
+            }
+        } catch (e: Exception){
+            Log.d("Actividad no cargada", "actividad no cargada")
+        }
+        return activity
+    }
+
     /*fun addActivity(guide:Guide) {
         var activity = Activity("Caminito", "CABA", "Buenos Aires", "Argentina", "guide" ,
             "Hola soy la actividad Caminito", "URL Foto", 8)

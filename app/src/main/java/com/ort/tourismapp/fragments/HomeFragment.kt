@@ -115,7 +115,7 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
     }
-
+    //TODO porque no se ajusta el scroll al segundo recyclerview?
     //TODO HACER METODO DE SALIR DE USUARIO (Ver documentacion de google)
     //TODO usar Storage y Glide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
     //TODO hacer logica del searchBar

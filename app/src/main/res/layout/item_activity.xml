@@ -91,7 +91,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@null"
-                    android:src="@drawable/like_button_20" />
+                    android:src="@drawable/baseline_heart_filled_20" />
 
             </LinearLayout>
         </LinearLayout>

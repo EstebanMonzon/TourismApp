@@ -18,7 +18,7 @@
             app:destination="@id/profileFragment" />
         <action
             android:id="@+id/action_homeFragment_to_FavouritesFragment"
-            app:destination="@id/FavouritesFragment" />
+            app:destination="@id/favouritesFragment" />
         <action
             android:id="@+id/action_homeFragment_to_guideListFragment"
             app:destination="@id/guideListFragment" />
@@ -47,10 +47,10 @@
             app:destination="@id/avatarSelectionFragment" />
     </fragment>
     <fragment
-        android:id="@+id/FavouritesFragment"
+        android:id="@+id/favouritesFragment"
         android:name="com.ort.tourismapp.fragments.FavouritesListFragment"
-        android:label="fragment_bookings"
-        tools:layout="@layout/fragment_favourites_list" >
+        android:label="fragment_favourites"
+        tools:layout="@layout/fragment_favourites_list">
         <action
             android:id="@+id/action_FavouritesFragment_to_activityDetailFragment"
             app:destination="@id/activityDetailFragment" />
