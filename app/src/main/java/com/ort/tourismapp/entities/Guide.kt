@@ -15,7 +15,7 @@ data class Guide(
     var country: String = "",
     var guidePhoto : String = "",
     var rate : Int = 0,
-    var activitiesOwnedList: MutableList<Activity?> = mutableListOf()
+    var activitiesOwnedList: MutableList<String> = mutableListOf()
     ) : Parcelable {
         constructor() : this("","","", "","","","","","",0, mutableListOf())
         init {
@@ -29,6 +29,6 @@ data class Guide(
             this.country = country
             this.guidePhoto = guidePhoto
             this.rate = rate
-            //activitiesOwnedList inicia vacia
+            this.activitiesOwnedList = activitiesOwnedList
         }
 }
