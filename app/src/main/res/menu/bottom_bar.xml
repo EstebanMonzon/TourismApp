@@ -13,7 +13,7 @@
 
     <item
         android:id="@+id/bookingsFragment"
-        android:icon="@drawable/heart"
+        android:icon="@drawable/baseline_heart_filled_20"
         android:title="" />
 
     <item

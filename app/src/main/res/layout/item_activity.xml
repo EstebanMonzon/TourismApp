@@ -88,17 +88,10 @@
 
                 <ImageButton
                     android:id="@+id/btnFavoritoImg"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@null"
-                    android:src="@drawable/like_button_20" />
-
-                <Button
-                    android:id="@+id/btnFavorito"
-                    android:layout_width="wrap_content"
+                    android:layout_width="9dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    app:srcCompat="@drawable/baseline_heart_not_filled_20" />
 
             </LinearLayout>
         </LinearLayout>

@@ -44,15 +44,15 @@
                     android:textSize="24sp" />
 
                 <ImageButton
-                    android:id="@+id/btnFavoritoFilled_activity_detail"
+                    android:id="@+id/btnFavoritoImgDetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center|left"
-                    android:scaleType="fitStart"
                     android:layout_weight="2"
                     android:background="@color/sin_color"
+                    android:scaleType="fitStart"
 
-                    android:src="@drawable/like_button_20" />
+                    android:src="@drawable/baseline_heart_not_filled_20" />
 
                 <TextView
                     android:id="@+id/textRate"

@@ -39,6 +39,7 @@ class HomeFragment : Fragment() {
     lateinit var activityRepository: ActivityRepository
     lateinit var guideRepository: GuideRepository
     lateinit var userRepository: UserRepository
+    lateinit var userLikedActivities : MutableList<String>
 
     lateinit var recyclerGuide: RecyclerView
     lateinit var adapterGuide: GuideAdapter
@@ -77,6 +78,7 @@ class HomeFragment : Fragment() {
             txtBienvenidaNombre.text = "Bienvenido\n${userRepository.getUserName(userId)}"
             activityList = activityRepository.getHomeActivityList()
             guideList = guideRepository.getHomeGuideList()
+            userLikedActivities = userRepository.getFavouritesActivities(userId)
 
             recyclerActivity.layoutManager = LinearLayoutManager(context)
             recyclerGuide.layoutManager = LinearLayoutManager(context)

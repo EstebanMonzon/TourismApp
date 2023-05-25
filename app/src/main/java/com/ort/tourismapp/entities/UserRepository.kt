@@ -30,11 +30,16 @@ class UserRepository {
                 .document(userid)
                 .collection("activitiesLikedList")
                 .orderBy("rate", Query.Direction.DESCENDING)
-                .get().await().toObjects(String::class.java)
+                .get().await()
+            for(document in data){
+                favActivityList.add(document.toObject(String::class.java))
+            }
+            Log.d("Actividadfav ", favActivityList.size.toString())
 
         } catch (e: Exception){
             Log.d("Actividades favoritas no cargadas: ", favActivityList.size.toString())
         }
+        Log.d("Actividadfav ", favActivityList.size.toString())
         return favActivityList
     }
 
@@ -73,6 +78,7 @@ class UserRepository {
 
     //TODO chequear si realmente funciona y guarda el uid de la activity en el usuario activo
     suspend fun addDeleteFavouriteActivity(userId: String, activityId: String){
+
         Log.d("addDeleteFavouriteActivity","entra addDeleteFavouriteActivity")
         val userRef = database.collection("users").document(userId)
 
@@ -93,6 +99,7 @@ class UserRepository {
         if(containsLikedActivity){
             Log.d("addDeleteFavouriteActivity","entra delete")
             activitiesLikedList.remove(activityId)
+            //liked = false
         }
 
         Log.d("addDeleteFavouriteActivity",userRef.id)
@@ -104,9 +111,10 @@ class UserRepository {
 
         Log.d("addDeleteFavouriteActivity","Ahora hay " + activitiesLikedList.size.toString()+" en favoritas")
 
+        Log.d("addDeleteFavouriteActivity", "la base tiene " + getFavouritesActivities(userId).size.toString() + " actividades")
 
         //AGREGA Y BORRA LAS FAVORITAS A LA BASE PERO NO SE VEN EN LA BASE, NO ENTIENDO"
-
+//return liked
 
     }
 

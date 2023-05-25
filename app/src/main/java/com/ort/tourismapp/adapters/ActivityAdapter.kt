@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 class ActivityAdapter(
     var activityList : MutableList<Activity>,
     var userRepository: UserRepository = UserRepository(),
+
 
     val userId: String = Firebase.auth.currentUser!!.uid,
 
@@ -50,8 +52,21 @@ class ActivityAdapter(
             return v.findViewById(R.id.btnActivity)
         }
 
-        fun getBtnFavorito() :Button {
-            return v.findViewById(R.id.btnFavorito)
+        fun getBtnFavorito(list : MutableList<String>, activity : Activity) :ImageButton {
+            var btnfav : ImageButton = v.findViewById(R.id.btnFavoritoImg)
+
+            if (list.contains(activity.title)){
+                btnfav.setImageResource(R.drawable.baseline_heart_filled_20)
+            }
+            else{
+                btnfav.setImageResource(R.drawable.baseline_heart_not_filled_20)
+            }
+            return btnfav
+
+        }
+        fun setBtnFavorito(liked : Boolean){
+
+
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivityHolder {
@@ -64,6 +79,10 @@ class ActivityAdapter(
     override fun onBindViewHolder(holder: ActivityHolder, position: Int) {
 
         val scope = CoroutineScope(Dispatchers.Main)
+        scope.launch {
+
+            val  userLikedList = userRepository.getFavouritesActivities(userId)
+
 
         holder.setTitle(activityList[position].title)
         holder.setCity(activityList[position].city)
@@ -72,12 +91,17 @@ class ActivityAdapter(
         holder.getBtn().setOnClickListener {
             onClick(position)
         }
-        holder.getBtnFavorito().setOnClickListener {
+
+        holder.getBtnFavorito(userLikedList,activityList[position]).setOnClickListener {
+
+            Log.d("activityBtnFav","entra")
             scope.launch {
-                Log.d("getBtnFavoritos","entra boton")
                 async {
-                    Log.d("async","entra async")
+                    Log.d("activityBtnFav", "entra async")
+
                     userRepository.addDeleteFavouriteActivity(userId, activityList[position].title)
+
+                }
                 }
             }
         }

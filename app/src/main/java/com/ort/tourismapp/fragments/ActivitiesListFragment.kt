@@ -10,11 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.database.FirebaseSingleton
 import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.ActivityRepository
+import com.ort.tourismapp.entities.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +35,9 @@ class ActivitiesListFragment : Fragment() {
     lateinit var adapterActivity: ActivityAdapter
     lateinit var activityRepository: ActivityRepository
     var activityList: MutableList<Activity>  = mutableListOf()
+    lateinit var userRepository: UserRepository
+    lateinit var userLikedActivities : MutableList<String>
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +46,7 @@ class ActivitiesListFragment : Fragment() {
         v = inflater.inflate(R.layout.fragment_activities_list, container, false)
         recyclerActivity = v.findViewById(R.id.recActivity)
         activityRepository = ActivityRepository()
+        userRepository = UserRepository()
         return v
     }
     override fun onStart() {
