@@ -37,7 +37,6 @@ class ActivityAdapter(
         fun getBtn() : Button {
             return v.findViewById(R.id.btnActivity)
         }
-
         fun getBtnFavorito() :Button {
             return v.findViewById(R.id.btnFavorito)
         }

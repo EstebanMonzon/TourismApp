@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:text="Actividades Favoritas"
-        android:textSize="34sp" />
+        android:textSize="24sp" />
 
     <!-- TODO tiene que copiar el formato de item_activity-->
     <androidx.recyclerview.widget.RecyclerView
