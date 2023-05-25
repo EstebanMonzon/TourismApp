@@ -9,7 +9,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
+import com.ort.tourismapp.entities.UserRepository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
 
@@ -19,11 +25,10 @@ class ProfileFragment : Fragment() {
 
     private lateinit var viewModel: ProfileViewModel
     lateinit var v : View
-
-    var textLabel : String = "Mi perfil"
-    var textPersonalData : String = "Datos personales"
-
-    lateinit var labelProfile : TextView
+    lateinit var userRepository: UserRepository
+    private val user = Firebase.auth.currentUser
+    private val userId = user!!.uid
+    lateinit var textName: TextView
     lateinit var buttonPersonalData : Button
 
     override fun onCreateView(
@@ -31,17 +36,20 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_profile, container, false)
-
-        labelProfile = v.findViewById(R.id.txtProfile)
-        labelProfile.text = textLabel
-
+        textName = v.findViewById(R.id.txtName)
         buttonPersonalData = v.findViewById(R.id.btnEditarDatos)
-        buttonPersonalData.text = textPersonalData
+        userRepository = UserRepository()
         return v
     }
 
     override fun onStart() {
         super.onStart()
+
+        val scope = CoroutineScope(Dispatchers.Main)
+        scope.launch {
+            textName.text = "${userRepository.getUserName(userId)}"
+        }
+
         buttonPersonalData.setOnClickListener(){
             val action = ProfileFragmentDirections.actionProfileFragmentToPersonalDataFragment()
             findNavController().navigate(action)

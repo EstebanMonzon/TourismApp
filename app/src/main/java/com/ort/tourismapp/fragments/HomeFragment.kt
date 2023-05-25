@@ -42,6 +42,7 @@ class HomeFragment : Fragment() {
 
     lateinit var recyclerGuide: RecyclerView
     lateinit var adapterGuide: GuideAdapter
+
     lateinit var searchView: SearchView
     lateinit var txtBienvenidaNombre: TextView
     lateinit var btnActividadesVerTodo: Button
@@ -49,8 +50,8 @@ class HomeFragment : Fragment() {
 
     private val user = Firebase.auth.currentUser
     private val userId = user!!.uid
-    var activityList : MutableList<Activity> = mutableListOf()
-    var guideList : MutableList<Guide> = mutableListOf()
+    private lateinit var activityList : MutableList<Activity>
+    private lateinit var guideList : MutableList<Guide>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,6 +67,8 @@ class HomeFragment : Fragment() {
         activityRepository = ActivityRepository()
         guideRepository = GuideRepository()
         userRepository = UserRepository()
+        activityList = mutableListOf()
+        guideList = mutableListOf()
         return v
     }
 
@@ -120,7 +123,6 @@ class HomeFragment : Fragment() {
     //TODO usar Storage y Glide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
     //TODO hacer logica del searchBar
     //TODO Conectar mapa para que muestre actividades en un mapa, falta logica y modificacion de entidades
-    //TODO Hacer logica de "update personal data" -  Mariana
 }
 
 
