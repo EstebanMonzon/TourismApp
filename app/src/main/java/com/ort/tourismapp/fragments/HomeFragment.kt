@@ -47,9 +47,10 @@ class HomeFragment : Fragment() {
     lateinit var txtBienvenidaNombre: TextView
     lateinit var btnActividadesVerTodo: Button
     lateinit var btnGuidesVerTodo: Button
+    lateinit var userId: String
 
-    private val user = Firebase.auth.currentUser
-    private val userId = user!!.uid
+
+
     var activityList : MutableList<Activity> = mutableListOf()
     var guideList : MutableList<Guide> = mutableListOf()
 
@@ -67,6 +68,7 @@ class HomeFragment : Fragment() {
         activityRepository = ActivityRepository()
         guideRepository = GuideRepository()
         userRepository = UserRepository()
+        userId= userRepository.getUserId()
         return v
     }
 
@@ -77,13 +79,14 @@ class HomeFragment : Fragment() {
         scope.launch {
             txtBienvenidaNombre.text = "Bienvenido\n${userRepository.getUserName(userId)}"
             activityList = activityRepository.getHomeActivityList()
+
             guideList = guideRepository.getHomeGuideList()
             userLikedActivities = userRepository.getFavouritesActivities(userId)
 
             recyclerActivity.layoutManager = LinearLayoutManager(context)
             recyclerGuide.layoutManager = LinearLayoutManager(context)
 
-            adapterActivity = ActivityAdapter(activityList){ position ->
+            adapterActivity = ActivityAdapter(activityList,userLikedActivities){ position ->
                 val action = HomeFragmentDirections.actionHomeFragmentToActivityDetailFragment(
                     activityList[position]
                 )

@@ -37,6 +37,7 @@ class ActivitiesListFragment : Fragment() {
     var activityList: MutableList<Activity>  = mutableListOf()
     lateinit var userRepository: UserRepository
     lateinit var userLikedActivities : MutableList<String>
+    val userid = userRepository.getUserId()
 
 
     override fun onCreateView(
@@ -53,9 +54,10 @@ class ActivitiesListFragment : Fragment() {
         super.onStart()
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
+            userLikedActivities = userRepository.getFavouritesActivities(userid)
             activityList = activityRepository.getAllActivities()
             recyclerActivity.layoutManager = LinearLayoutManager(context)
-            adapterActivity = ActivityAdapter(activityList){ position ->
+            adapterActivity = ActivityAdapter(activityList, userLikedActivities){ position ->
                 val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(activityList[position])
                 findNavController().navigate(action)
             }

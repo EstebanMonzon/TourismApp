@@ -13,6 +13,7 @@ import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.ActivityRepository
+import com.ort.tourismapp.entities.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,22 +30,26 @@ class FavouritesListFragment : Fragment() {
     lateinit var recyclerActivity: RecyclerView
     lateinit var adapterActivity: ActivityAdapter
     lateinit var activityRepository: ActivityRepository
-    var favouritesList: MutableList<Activity>  = mutableListOf()
+    var userLikedList: MutableList<String>  = mutableListOf()
+    lateinit var userRepository: UserRepository
+    lateinit var activityList: MutableList<Activity>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        userRepository = UserRepository()
         return inflater.inflate(R.layout.fragment_favourites_list, container, false)
     }
     override fun onStart() {
         super.onStart()
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
-            favouritesList = activityRepository.getAllActivities()
+            activityList = activityRepository.getAllActivities()
+            userLikedList = userRepository.getFavouritesActivities(userRepository.getUserId())
             recyclerActivity.layoutManager = LinearLayoutManager(context)
-            adapterActivity = ActivityAdapter(favouritesList){ position ->
-                val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(favouritesList[position])
+            adapterActivity = ActivityAdapter(activityList, userLikedList){ position ->
+                val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(activityList[position])
                 findNavController().navigate(action)
             }
             recyclerActivity.adapter = adapterActivity

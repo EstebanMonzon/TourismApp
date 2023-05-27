@@ -14,6 +14,9 @@ class UserRepository {
     private var usersCollection = database.collection("usuarios")
     private var favActivityList : MutableList<String> = mutableListOf()
 
+    fun getUserId():String{
+        return Firebase.auth.currentUser!!.uid
+    }
     suspend fun getUserName(userId: String): String {
         return usersCollection.document(userId).get().await().get("name").toString()
     }
@@ -44,7 +47,7 @@ class UserRepository {
     }
 
     fun crearCuenta( uid: String, nombre: String, apellido: String, telefono:String, email: String, password: String, ) {
-        usersCollection.document(uid!!)
+        usersCollection.document(uid)
             .set(User(uid, nombre, apellido, telefono, email, password, "", mutableListOf())) //TODO falta agregar la foto de perfil aca
             .addOnSuccessListener { documentReference ->
                 Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${uid}")
@@ -81,6 +84,7 @@ class UserRepository {
 
         Log.d("addDeleteFavouriteActivity","entra addDeleteFavouriteActivity")
         val userRef = database.collection("users").document(userId)
+        Log.d("userRef", userRef.toString())
 
         var activitiesLikedList = getFavouritesActivities(userId)
         Log.d("addDeleteFavouriteActivity","Ahora hay " + activitiesLikedList.size.toString()+" en favoritas")
@@ -106,7 +110,7 @@ class UserRepository {
         //Devuelve el userId correcto
 
 
-        userRef.update("activitiesLikedList", activitiesLikedList)
+        userRef.set("activitiesLikedList" to activitiesLikedList)
 
 
         Log.d("addDeleteFavouriteActivity","Ahora hay " + activitiesLikedList.size.toString()+" en favoritas")

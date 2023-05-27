@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 
 class ActivityAdapter(
     var activityList : MutableList<Activity>,
+    var likedList : MutableList<String>,
     var userRepository: UserRepository = UserRepository(),
 
 
@@ -64,10 +65,7 @@ class ActivityAdapter(
             return btnfav
 
         }
-        fun setBtnFavorito(liked : Boolean){
 
-
-        }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivityHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_activity, parent, false)
@@ -79,9 +77,9 @@ class ActivityAdapter(
     override fun onBindViewHolder(holder: ActivityHolder, position: Int) {
 
         val scope = CoroutineScope(Dispatchers.Main)
-        scope.launch {
 
-            val  userLikedList = userRepository.getFavouritesActivities(userId)
+
+
 
 
         holder.setTitle(activityList[position].title)
@@ -92,12 +90,14 @@ class ActivityAdapter(
             onClick(position)
         }
 
-        holder.getBtnFavorito(userLikedList,activityList[position]).setOnClickListener {
+        holder.getBtnFavorito(likedList,activityList[position]).setOnClickListener {
 
             Log.d("activityBtnFav","entra")
             scope.launch {
                 async {
                     Log.d("activityBtnFav", "entra async")
+                    Log.d("activityBtnFav", userRepository.getFavouritesActivities(userId).size.toString())
+
 
                     userRepository.addDeleteFavouriteActivity(userId, activityList[position].title)
 
@@ -110,4 +110,3 @@ class ActivityAdapter(
             onClick(position)
         }*/
     }
-}
