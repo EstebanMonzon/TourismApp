@@ -68,6 +68,9 @@
         <action
             android:id="@+id/action_activitiesListFragment_to_activityDetailFragment"
             app:destination="@id/activityDetailFragment" />
+        <action
+            android:id="@+id/action_activitiesListFragment_to_mapFragment"
+            app:destination="@id/mapFragment" />
     </fragment>
     <fragment
         android:id="@+id/activityDetailFragment"

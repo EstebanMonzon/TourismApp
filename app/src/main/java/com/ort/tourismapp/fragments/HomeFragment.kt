@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.ListView
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -17,6 +20,7 @@ import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.adapters.GuideAdapter
+import com.ort.tourismapp.adapters.SearchActivityAdapter
 import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.ActivityRepository
 import com.ort.tourismapp.entities.Guide
@@ -36,6 +40,8 @@ class HomeFragment : Fragment() {
 
     lateinit var recyclerActivity: RecyclerView
     lateinit var adapterActivity: ActivityAdapter
+    lateinit var recyclerActivityResult: RecyclerView
+    lateinit var adapterSearchActivity: SearchActivityAdapter
     lateinit var activityRepository: ActivityRepository
     lateinit var guideRepository: GuideRepository
     lateinit var userRepository: UserRepository
@@ -50,7 +56,7 @@ class HomeFragment : Fragment() {
 
     private val user = Firebase.auth.currentUser
     private val userId = user!!.uid
-    private lateinit var activityList : MutableList<Activity>
+    private lateinit var activityHomeList: MutableList<Activity>
     private lateinit var guideList : MutableList<Guide>
 
     override fun onCreateView(
@@ -61,13 +67,14 @@ class HomeFragment : Fragment() {
         searchView = v.findViewById(R.id.searchView_home)
         txtBienvenidaNombre = v.findViewById(R.id.txt_Bienvenida)
         recyclerActivity = v.findViewById(R.id.recActivity_home)
+        recyclerActivityResult = v.findViewById(R.id.recActivity_searchResult)
         recyclerGuide = v.findViewById(R.id.recGuide_home)
         btnActividadesVerTodo = v.findViewById(R.id.btnActividadesVerTodo)
         btnGuidesVerTodo = v.findViewById(R.id.btnGuidesVerTodo)
         activityRepository = ActivityRepository()
         guideRepository = GuideRepository()
         userRepository = UserRepository()
-        activityList = mutableListOf()
+        activityHomeList = mutableListOf()
         guideList = mutableListOf()
         return v
     }
@@ -78,15 +85,16 @@ class HomeFragment : Fragment() {
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
             txtBienvenidaNombre.text = "Bienvenido\n${userRepository.getUserName(userId)}"
-            activityList = activityRepository.getHomeActivityList()
+            activityHomeList = activityRepository.getHomeActivityList()
             guideList = guideRepository.getHomeGuideList()
 
             recyclerActivity.layoutManager = LinearLayoutManager(context)
+            recyclerActivityResult.layoutManager = LinearLayoutManager(context)
             recyclerGuide.layoutManager = LinearLayoutManager(context)
 
-            adapterActivity = ActivityAdapter(activityList){ position ->
+            adapterActivity = ActivityAdapter(activityHomeList){ position ->
                 val action = HomeFragmentDirections.actionHomeFragmentToActivityDetailFragment(
-                    activityList[position]
+                    activityHomeList[position]
                 )
                 findNavController().navigate(action)
             }
@@ -100,7 +108,7 @@ class HomeFragment : Fragment() {
             recyclerGuide.adapter = adapterGuide
         }
 
-        //TODO generar funcion que busque por palabra clave en lista de actividades
+        searchBarFunction()
 
         btnActividadesVerTodo.setOnClickListener(){
             val action = HomeFragmentDirections.actionHomeFragmentToActivitiesListFragment()
@@ -118,12 +126,63 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
     }
+
+    private fun searchBarFunction() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                search(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                /*if (newText.isEmpty()) {
+                    //hacer que cuando no haya nada se borre lista en el recyclerviewu
+                    adapterSearchActivity.activitySearchList.clear()
+                    adapterSearchActivity.notifyDataSetChanged()
+                    recyclerActivityResult.adapter = null
+                } else {
+                    search(newText)
+                }*/
+                search(newText)
+                return true
+            }
+        })
+    }
+
+    //TODO por alguna razon los adapters estan interconectados T.T
+
+    private fun search(text: String) {
+        val scope = CoroutineScope(Dispatchers.Main)
+        scope.launch {
+            var activityList = activityRepository.getAllActivities()
+            var matchedActivities: MutableList<Activity> = mutableListOf()
+
+            for (activity in activityList){
+                if (activity.title.contains(text, true) ||
+                    activity.tags.toString().contains(text,true)) {
+                    matchedActivities.add(activity)
+                }
+            }
+            activityList.clear()
+
+            adapterSearchActivity = SearchActivityAdapter(matchedActivities){ position ->
+                val action = HomeFragmentDirections.actionHomeFragmentToActivityDetailFragment(
+                    matchedActivities[position]
+                )
+                findNavController().navigate(action)
+            }
+            recyclerActivityResult.adapter = adapterSearchActivity
+            adapterSearchActivity.filter(matchedActivities)
+        }
+
+    }
     //TODO porque no se ajusta el scroll al segundo recyclerview?
     //TODO HACER METODO DE SALIR DE USUARIO (Ver documentacion de google)
     //TODO usar Storage y Glide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
     //TODO hacer logica del searchBar
     //TODO Conectar mapa para que muestre actividades en un mapa, falta logica y modificacion de entidades
 }
+
 
 
 
