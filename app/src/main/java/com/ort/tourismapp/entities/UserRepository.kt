@@ -18,6 +18,10 @@ class UserRepository {
         return usersCollection.document(userId).get().await().get("name").toString()
     }
 
+    suspend fun getUserAvatar(userId: String): String {
+        return usersCollection.document(userId).get().await().get("profilePhoto").toString()
+    }
+
     suspend fun getUserData(userId: String): User {
         return usersCollection.document(userId).get().await().toObject(User::class.java)!!
     }
@@ -41,7 +45,7 @@ class UserRepository {
 
     fun crearCuenta( uid: String, nombre: String, apellido: String, telefono:String, email: String, password: String, ) {
         usersCollection.document(uid!!)
-            .set(User(uid, nombre, apellido, telefono, email, password, "", mutableListOf())) //TODO falta agregar la foto de perfil aca
+            .set(User(uid, nombre, apellido, telefono, email, password, "a1", mutableListOf())) //TODO falta agregar la foto de perfil aca
             .addOnSuccessListener { documentReference ->
                 Log.d(ContentValues.TAG, "DocumentSnapshot added with ID: ${uid}")
             }
@@ -69,6 +73,14 @@ class UserRepository {
                     Log.d(TAG, "User password updated.")
                 }
             }
+            .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
+    }
+
+    fun updateAvatar(avatarId: String, user: User)
+    {
+        usersCollection.document(user.uid)
+            .update(mapOf("profilePhoto" to avatarId))
+            .addOnSuccessListener { Log.d(TAG, "DocumentSnapshot successfully written!") }
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
 
