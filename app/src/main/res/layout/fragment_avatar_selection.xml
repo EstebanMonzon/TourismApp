@@ -36,19 +36,78 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView55"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    tools:src="@tools:sample/avatars" />
-
-                <ImageView
-                    android:id="@+id/imageView44"
+                    android:id="@+id/imga1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
+                    tools:src="@drawable/a1" />
+
+                <ImageView
+                    android:id="@+id/imga2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
+                    tools:src="@drawable/a2" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imga4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
+                    tools:src="@drawable/a4" />
+
+                <ImageView
+                    android:id="@+id/imga3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
+                    tools:src="@drawable/a3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imga6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
+                    tools:src="@tools:sample/avatars" />
+
+                <ImageView
+                    android:id="@+id/imga5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
                     tools:src="@tools:sample/avatars" />
             </LinearLayout>
 
@@ -59,40 +118,23 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView33"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    tools:src="@tools:sample/avatars" />
-
-                <ImageView
-                    android:id="@+id/imageView49"
+                    android:id="@+id/imga8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginBottom="10dp"
-                    tools:src="@tools:sample/avatars" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imageView60"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
                     tools:src="@tools:sample/avatars" />
 
                 <ImageView
-                    android:id="@+id/imageView90"
+                    android:id="@+id/imga7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerInside"
                     tools:src="@tools:sample/avatars" />
             </LinearLayout>
 
