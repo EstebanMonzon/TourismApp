@@ -80,46 +80,20 @@ class UserRepository {
     }
 
     //TODO chequear si realmente funciona y guarda el uid de la activity en el usuario activo
-    suspend fun addDeleteFavouriteActivity(userId: String, activityId: String){
 
-        Log.d("addDeleteFavouriteActivity","entra addDeleteFavouriteActivity")
+    suspend fun addFavActivity(userId: String, activityId: String){
         val userRef = database.collection("users").document(userId)
-        Log.d("userRef", userRef.toString())
-
         var activitiesLikedList = getFavouritesActivities(userId)
+        activitiesLikedList.add(activityId)
         Log.d("addDeleteFavouriteActivity","Ahora hay " + activitiesLikedList.size.toString()+" en favoritas")
-        // Trae tamaño de lista 0, osea trae bien la lista de la ddbb
-
-        val containsLikedActivity : Boolean = activitiesLikedList.contains(activityId)
-        Log.d("addDeleteFavouriteActivity",containsLikedActivity.toString() + " contiene actividad")
-
-        if(!containsLikedActivity){
-
-            Log.d("addDeleteFavouriteActivity","entra add")
-            activitiesLikedList.add(activityId)
-
-
-        }
-        if(containsLikedActivity){
-            Log.d("addDeleteFavouriteActivity","entra delete")
-            activitiesLikedList.remove(activityId)
-            //liked = false
-        }
-
-        Log.d("addDeleteFavouriteActivity",userRef.id)
-        //Devuelve el userId correcto
-
-
         userRef.set("activitiesLikedList" to activitiesLikedList)
-
-
+    }
+    suspend fun deleteFavActivity(userId: String, activityId: String){
+        val userRef = database.collection("users").document(userId)
+        var activitiesLikedList = getFavouritesActivities(userId)
+        activitiesLikedList.remove(activityId)
         Log.d("addDeleteFavouriteActivity","Ahora hay " + activitiesLikedList.size.toString()+" en favoritas")
-
-        Log.d("addDeleteFavouriteActivity", "la base tiene " + getFavouritesActivities(userId).size.toString() + " actividades")
-
-        //AGREGA Y BORRA LAS FAVORITAS A LA BASE PERO NO SE VEN EN LA BASE, NO ENTIENDO"
-//return liked
-
+        userRef.set("activitiesLikedList" to activitiesLikedList)
     }
 
 //    CODIGO VIEJO
@@ -140,5 +114,51 @@ class UserRepository {
 //            userRef.update("activitiesLikedList", activitiesLikedList).await()
 //        }
 //    }
+//suspend fun addDeleteFavouriteActivity(userId: String, activityId: String){
+//
+//    Log.d("addDeleteFavouriteActivity","entra addDeleteFavouriteActivity")
+//    val userRef = database.collection("users").document(userId)
+//    Log.d("userRef", userRef.toString())
+//
+//    var activitiesLikedList = getFavouritesActivities(userId)
+//    Log.d("addDeleteFavouriteActivity","Ahora hay " + activitiesLikedList.size.toString()+" en favoritas")
+//    // Trae tamaño de lista 0, osea trae bien la lista de la ddbb
+//
+//    val containsLikedActivity : Boolean = activitiesLikedList.contains(activityId)
+//    Log.d("addDeleteFavouriteActivity",containsLikedActivity.toString() + " contiene actividad")
+//
+//    if(!containsLikedActivity){
+//
+//        Log.d("addDeleteFavouriteActivity","entra add")
+//        activitiesLikedList.add(activityId)
+//
+//
+//    }
+//    if(containsLikedActivity){
+//        Log.d("addDeleteFavouriteActivity","entra delete")
+//        activitiesLikedList.remove(activityId)
+//        //liked = false
+//    }
+//
+//    Log.d("addDeleteFavouriteActivity",userRef.id)
+//    //Devuelve el userId correcto
+//
+//
+//    userRef.set("activitiesLikedList" to activitiesLikedList)
+//
+//
+//    Log.d("addDeleteFavouriteActivity","Ahora hay " + activitiesLikedList.size.toString()+" en favoritas")
+//
+//    Log.d("addDeleteFavouriteActivity", "la base tiene " + getFavouritesActivities(userId).size.toString() + " actividades")
+//
+//    //AGREGA Y BORRA LAS FAVORITAS A LA BASE PERO NO SE VEN EN LA BASE, NO ENTIENDO"
+////return liked
+//
+//
+//
+//
+//
+//
+//}
 
 }

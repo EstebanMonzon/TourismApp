@@ -1,10 +1,12 @@
 package com.ort.tourismapp.adapters
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -53,16 +55,19 @@ class ActivityAdapter(
             return v.findViewById(R.id.btnActivity)
         }
 
-        fun getBtnFavorito(list : MutableList<String>, activity : Activity) :ImageButton {
-            var btnfav : ImageButton = v.findViewById(R.id.btnFavoritoImg)
+        @SuppressLint("ResourceType")
+        fun getCheckFavorito(list : MutableList<String>, activity : Activity) :CheckBox {
+            var checkfav : CheckBox = v.findViewById(R.id.checkLike)
+
 
             if (list.contains(activity.title)){
-                btnfav.setImageResource(R.drawable.baseline_heart_filled_20)
+
+                checkfav.setChecked(true)
             }
             else{
-                btnfav.setImageResource(R.drawable.baseline_heart_not_filled_20)
-            }
-            return btnfav
+                checkfav.setChecked(false)
+           }
+            return checkfav
 
         }
 
@@ -80,8 +85,6 @@ class ActivityAdapter(
 
 
 
-
-
         holder.setTitle(activityList[position].title)
         holder.setCity(activityList[position].city)
         holder.setRate(activityList[position].rate)
@@ -90,23 +93,21 @@ class ActivityAdapter(
             onClick(position)
         }
 
-        holder.getBtnFavorito(likedList,activityList[position]).setOnClickListener {
 
-            Log.d("activityBtnFav","entra")
-            scope.launch {
-                async {
-                    Log.d("activityBtnFav", "entra async")
-                    Log.d("activityBtnFav", userRepository.getFavouritesActivities(userId).size.toString())
+        holder.getCheckFavorito(likedList, activityList[position])
+            .setOnCheckedChangeListener { _, isChecked ->
+                scope.launch {
+                    if (isChecked) {
+                        userRepository.addFavActivity(userId, activityList[position].title)
+                    } else {
+                        userRepository.deleteFavActivity(userId, activityList[position].title)
+                    }
 
-
-                    userRepository.addDeleteFavouriteActivity(userId, activityList[position].title)
-
-                }
                 }
             }
-        }
         //TODO BOTON AGREGAR A FAVORITOS hacer que boton agregue actividad a lista de actividades favoritas y se vuelva naranja
         /*holder.getBtnFavorito().setOnClickListener{
             onClick(position)
         }*/
+    }
     }

@@ -86,12 +86,13 @@
                     android:textSize="10sp"
                     tools:ignore="MissingConstraints" />
 
-                <ImageButton
-                    android:id="@+id/btnFavoritoImg"
-                    android:layout_width="9dp"
+                <CheckBox
+                    android:id="@+id/checkLike"
+                    android:layout_width="5dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/baseline_heart_not_filled_20" />
+                    android:button="@drawable/selector_like_item"
+                    app:useMaterialThemeColors="false" />
 
             </LinearLayout>
         </LinearLayout>
