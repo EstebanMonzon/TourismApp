@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
@@ -54,6 +56,8 @@ class HomeFragment : Fragment() {
     lateinit var btnActividadesVerTodo: Button
     lateinit var btnGuidesVerTodo: Button
 
+    lateinit var imgAvatar: ImageView
+
     private val user = Firebase.auth.currentUser
     private val userId = user!!.uid
     private lateinit var activityHomeList: MutableList<Activity>
@@ -71,6 +75,7 @@ class HomeFragment : Fragment() {
         recyclerGuide = v.findViewById(R.id.recGuide_home)
         btnActividadesVerTodo = v.findViewById(R.id.btnActividadesVerTodo)
         btnGuidesVerTodo = v.findViewById(R.id.btnGuidesVerTodo)
+        imgAvatar = v.findViewById(R.id.imgAvatarHome)
         activityRepository = ActivityRepository()
         guideRepository = GuideRepository()
         userRepository = UserRepository()
@@ -106,6 +111,12 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(action)
             }
             recyclerGuide.adapter = adapterGuide
+
+            Glide.with(v)
+                .load(getImage("${userRepository.getUserAvatar(userId)}"))
+                .circleCrop()
+                .override(200,200)
+                .into(imgAvatar)
         }
 
         searchBarFunction()
@@ -119,6 +130,10 @@ class HomeFragment : Fragment() {
             val action = HomeFragmentDirections.actionHomeFragmentToGuideListFragment()
             findNavController().navigate(action)
         }
+    }
+
+    fun getImage(imageName: String?): Int {
+        return resources.getIdentifier(imageName, "drawable", getActivity()?.getPackageName() ?: "TourismApp")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

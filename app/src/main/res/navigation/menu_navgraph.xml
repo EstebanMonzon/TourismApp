@@ -122,5 +122,9 @@
         android:id="@+id/avatarSelectionFragment"
         android:name="com.ort.tourismapp.fragments.AvatarSelectionFragment"
         android:label="fragment_avatar_selection"
-        tools:layout="@layout/fragment_avatar_selection" />
+        tools:layout="@layout/fragment_avatar_selection" >
+        <action
+            android:id="@+id/action_avatarSelectionFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 </navigation>

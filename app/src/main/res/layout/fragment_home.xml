@@ -44,7 +44,7 @@
                     tools:ignore="RtlCompat" />
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/imgAvatarHome"
                     android:layout_width="80dp"
                     android:layout_height="80sp"
                     android:layout_marginLeft="15dp"
