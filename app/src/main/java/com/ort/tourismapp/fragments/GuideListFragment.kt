@@ -39,7 +39,7 @@ class GuideListFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_guide_list, container, false)
         recyclerGuide = v.findViewById(R.id.recGuide)
-        searchView = v.findViewById(R.id.searchView_guide)
+        //searchView = v.findViewById(R.id.searchView_guide)
         guideRepository = GuideRepository()
         return v
     }

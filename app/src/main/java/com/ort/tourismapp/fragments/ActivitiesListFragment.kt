@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -32,6 +33,7 @@ class ActivitiesListFragment : Fragment() {
     lateinit var adapterActivity: ActivityAdapter
     lateinit var activityRepository: ActivityRepository
     var activityList: MutableList<Activity>  = mutableListOf()
+    lateinit var btnVerEnMapa: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +41,7 @@ class ActivitiesListFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_activities_list, container, false)
         recyclerActivity = v.findViewById(R.id.recActivity)
+        btnVerEnMapa = v.findViewById(R.id.btnVerEnMapa)
         activityRepository = ActivityRepository()
         return v
     }
@@ -54,7 +57,12 @@ class ActivitiesListFragment : Fragment() {
             }
             recyclerActivity.adapter = adapterActivity
         }
-        searchView = v.findViewById(R.id.searchView_activity)
+        //searchView = v.findViewById(R.id.searchView_activity)
+
+        btnVerEnMapa.setOnClickListener(){
+            val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToMapFragment()
+            findNavController().navigate(action)
+        }
 
         //TODO agregar boton de agregar actividad a favoritos y llamar a userRepository.addFavouriteActivity(uid,activityUid)
         // y userRepository.deleteFavouriteActivity(uid,activityUid)

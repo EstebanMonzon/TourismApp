@@ -33,7 +33,11 @@
         android:id="@+id/mapFragment"
         android:name="com.ort.tourismapp.fragments.MapFragment"
         android:label="fragment_map"
-        tools:layout="@layout/fragment_map" />
+        tools:layout="@layout/fragment_map" >
+        <action
+            android:id="@+id/action_mapFragment_to_activityDetailFragment"
+            app:destination="@id/activityDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.ort.tourismapp.fragments.ProfileFragment"

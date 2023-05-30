@@ -149,8 +149,8 @@ class HomeFragment : Fragment() {
         })
     }
 
-    //TODO por alguna razon los adapters estan interconectados T.T
-
+    //TODO por alguna razon los adapters estan interconectados
+    //TODO no me lleva a la activity seleccionada
     private fun search(text: String) {
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
