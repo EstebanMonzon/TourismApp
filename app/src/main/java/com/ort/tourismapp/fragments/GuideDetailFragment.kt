@@ -55,7 +55,7 @@ class GuideDetailFragment : Fragment() {
         val guide = GuideDetailFragmentArgs.fromBundle(requireArguments()).guide
         textName.text = "${guide.name} ${guide.lastname}"
         textRate.text = guide.rate.toString()
-        textUbicacionGuia.text = "${guide.city}, ${guide.province}, ${guide.country}"
+        textUbicacionGuia.text = "${guide.city}"
 
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
