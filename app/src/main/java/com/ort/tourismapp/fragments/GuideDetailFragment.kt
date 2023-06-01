@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -36,6 +37,7 @@ class GuideDetailFragment : Fragment() {
     lateinit var adapterActivity: ActivityAdapter
     lateinit var guideRepository: GuideRepository
     var activityGuideList: MutableList<Activity>  = mutableListOf()
+    lateinit var imageActivity: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +49,7 @@ class GuideDetailFragment : Fragment() {
         textUbicacionGuia = v.findViewById(R.id.txtUbicacionGuia)
         recyclerActivityGuide = v.findViewById(R.id.recActivity_guide)
         guideRepository = GuideRepository()
+        imageActivity = v.findViewById(R.id.imageView_flag)
         return v
     }
 

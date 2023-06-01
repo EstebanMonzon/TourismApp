@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
@@ -37,6 +38,9 @@ class GuideAdapter(
         }
         fun getBtn() : Button {
             return v.findViewById(R.id.btnGuide)
+        }
+        fun getImage(): ImageView {
+            return v.findViewById(R.id.image_activity)
         }
     }
 
