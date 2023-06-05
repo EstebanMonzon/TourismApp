@@ -4,9 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ort.tourismapp.R
 import com.ort.tourismapp.entities.Activity
 
@@ -37,9 +39,11 @@ class ActivityAdapter(
         fun getBtn() : Button {
             return v.findViewById(R.id.btnActivity)
         }
-
         fun getBtnFavorito() :Button {
             return v.findViewById(R.id.btnFavorito)
+        }
+        fun getImage(): ImageView {
+            return v.findViewById(R.id.image_activity)
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivityHolder {
@@ -56,9 +60,13 @@ class ActivityAdapter(
         holder.getBtn().setOnClickListener{
             onClick(position)
         }
+        Glide.with(holder.getImage())
+            .load(activityList[position].activityPhoto)
+            .centerCrop()
+            .into(holder.getImage())
+    }
         //TODO BOTON AGREGAR A FAVORITOS hacer que boton agregue actividad a lista de actividades favoritas y se vuelva naranja
         /*holder.getBtnFavorito().setOnClickListener{
             onClick(position)
         }*/
-    }
 }

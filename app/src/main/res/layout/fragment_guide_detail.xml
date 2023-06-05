@@ -41,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
                     android:text="Guia"
+                    android:textColor="@color/black"
                     android:textSize="24sp" />
 
                 <TextView
@@ -51,8 +52,17 @@
                     android:hyphenationFrequency="none"
                     android:text="7,5"
                     android:textAlignment="center"
+                    android:textColor="@color/black"
                     android:textSize="20sp" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtUbicacionGuia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Ubicacion"
+                android:textColor="@color/gris_secundario" />
 
             <ImageView
                 android:id="@+id/imageView_flag"
@@ -65,9 +75,17 @@
                 app:srcCompat="@drawable/ic_launcher_background"
                 tools:ignore="VectorDrawableCompat" />
 
-            <!-- TODO conectar con fragment y ViewModel el guia con su lista de actividades -->
+            <TextView
+                android:id="@+id/txtActividadesTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Actividades"
+                android:textColor="@color/color_font"
+                android:textSize="20sp" />
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recActivity"
+                android:id="@+id/recActivity_guide"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp" />

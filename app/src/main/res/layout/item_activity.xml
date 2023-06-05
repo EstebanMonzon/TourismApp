@@ -76,12 +76,12 @@
                 <Button
                     android:id="@+id/btnActivity"
                     android:layout_width="50dp"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
                     android:backgroundTint="#EE8146"
-                    android:text="Ver actividad"
+                    android:text="Ver más"
                     android:textAlignment="center"
                     android:textSize="10sp"
                     tools:ignore="MissingConstraints" />
@@ -91,7 +91,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@null"
-                    android:src="@drawable/like_button_20" />
+                    android:src="@drawable/baseline_heart_filled_20" />
 
             </LinearLayout>
         </LinearLayout>

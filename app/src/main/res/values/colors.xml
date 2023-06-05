@@ -10,7 +10,7 @@
     <color name="naranja">#EE8146</color>
     <color name="background_color">#F2F0ED</color>
     <color name="sin_color">#00000000</color>
-    <color name="color_font">#191C30</color>
+    <color name="color_font">#1E1E1E</color>
     <color name="gris_secundario">#636363</color>
 
 </resources>

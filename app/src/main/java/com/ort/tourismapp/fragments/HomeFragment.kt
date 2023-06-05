@@ -1,11 +1,11 @@
 package com.ort.tourismapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -13,26 +13,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.adapters.GuideAdapter
-import com.ort.tourismapp.database.FirebaseSingleton
 import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.ActivityRepository
 import com.ort.tourismapp.entities.Guide
 import com.ort.tourismapp.entities.GuideRepository
-import com.ort.tourismapp.entities.User
 import com.ort.tourismapp.entities.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-
 class HomeFragment : Fragment() {
+
     companion object {
         fun newInstance() = HomeFragment()
     }
@@ -48,21 +44,19 @@ class HomeFragment : Fragment() {
 
     lateinit var recyclerGuide: RecyclerView
     lateinit var adapterGuide: GuideAdapter
+
     lateinit var searchView: SearchView
     lateinit var txtBienvenidaNombre: TextView
-
-    lateinit var btnVerEnMapa_home: Button
     lateinit var btnActividadesVerTodo: Button
     lateinit var btnGuidesVerTodo: Button
 
-    val scope = CoroutineScope(Dispatchers.Default)
-    val user = Firebase.auth.currentUser
-    val userId = user!!.uid
-    var activityList : MutableList<Activity> = mutableListOf()
-    var guideList : MutableList<Guide> = mutableListOf()
-    lateinit var userInfo: User
-    val database = FirebaseSingleton.getInstance().getDatabase() //traigo  la instancia de la db aca porque todavia
-                                                                 //no termine de armar lo del userRepository
+    lateinit var imgAvatar: ImageView
+
+    private val user = Firebase.auth.currentUser
+    private val userId = user!!.uid
+    private lateinit var activityList : MutableList<Activity>
+    private lateinit var guideList : MutableList<Guide>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,59 +68,50 @@ class HomeFragment : Fragment() {
         recyclerGuide = v.findViewById(R.id.recGuide_home)
         btnActividadesVerTodo = v.findViewById(R.id.btnActividadesVerTodo)
         btnGuidesVerTodo = v.findViewById(R.id.btnGuidesVerTodo)
-        btnVerEnMapa_home = v.findViewById(R.id.btnVerEnMapa_home)
+        imgAvatar = v.findViewById(R.id.imgAvatarHome)
         activityRepository = ActivityRepository()
         guideRepository = GuideRepository()
-
-        scope.launch { activityList = async { activityRepository.getHomeActivityList() }.await()
-            Log.d("ActivityList en Scope", activityList.get(0).title)
-
-         }
-          Log.d("ActivityList fuera Scope", activityList.size.toString())
-
-          /*Hasta aca trae bien la lista de actividades, ese Log "ActivityList en Scope" trae "caminito",
-          Como no se puede sacar la info de activityList fuera del scope no se bien como usarlo.
-          El log "ActivityList fuera Scope" muestra 0*/
-
-        guideList = guideRepository.getHomeGuideList()
-
+        userRepository = UserRepository()
+        activityList = mutableListOf()
+        guideList = mutableListOf()
         return v
     }
+
     override fun onStart() {
         super.onStart()
 
-        //TODO FALTA TRABAJAR EN LA CLASE USERREPOSITORY
-        txtBienvenidaNombre.text = "Bienvenido\n${getUserName()}" //aca deberia traer el nombre pero todavia no lo termine
+        val scope = CoroutineScope(Dispatchers.Main)
+        scope.launch {
+            txtBienvenidaNombre.text = "Bienvenido\n${userRepository.getUserName(userId)}"
+            activityList = activityRepository.getHomeActivityList()
+            guideList = guideRepository.getHomeGuideList()
 
-        recyclerActivity.layoutManager = LinearLayoutManager(context)
-        recyclerGuide.layoutManager = LinearLayoutManager(context)
-        //no esta cargando las listas, devuelve size=0
-        //solo carga lista de actividades cuando hago click en SearchView
-        //carga guias en GuideListFragment pero solo cuando le hago click a SearchView
-        //chequear que esta pasando en searchView y recyclerView
+            recyclerActivity.layoutManager = LinearLayoutManager(context)
+            recyclerGuide.layoutManager = LinearLayoutManager(context)
 
+            adapterActivity = ActivityAdapter(activityList){ position ->
+                val action = HomeFragmentDirections.actionHomeFragmentToActivityDetailFragment(
+                    activityList[position]
+                )
+                findNavController().navigate(action)
+            }
+            recyclerActivity.adapter = adapterActivity
+
+            adapterGuide = GuideAdapter(guideList){ position ->
+                val action = HomeFragmentDirections.actionHomeFragmentToGuideDetailFragment(
+                    guideList[position])
+                findNavController().navigate(action)
+            }
+            recyclerGuide.adapter = adapterGuide
+
+            Glide.with(v)
+                .load(getImage("${userRepository.getUserAvatar(userId)}"))
+                .circleCrop()
+                .override(200,200)
+                .into(imgAvatar)
+        }
 
         //TODO generar funcion que busque por palabra clave en lista de actividades
-
-        adapterActivity = ActivityAdapter(activityList){ position ->
-            val action = HomeFragmentDirections.actionHomeFragmentToActivityDetailFragment(
-                activityList[position]
-            )
-            findNavController().navigate(action)
-        }
-        recyclerActivity.adapter = adapterActivity
-
-        adapterGuide = GuideAdapter(guideList){ position ->
-            val action = HomeFragmentDirections.actionHomeFragmentToGuideDetailFragment(
-                guideList[position])
-            findNavController().navigate(action)
-        }
-        recyclerGuide.adapter = adapterGuide
-
-        /*btnVerEnMapa_home.setOnClickListener(){ //TODO
-            val action = HomeFragmentDirections
-            findNavController().navigate(action)
-        }*/
 
         btnActividadesVerTodo.setOnClickListener(){
             val action = HomeFragmentDirections.actionHomeFragmentToActivitiesListFragment()
@@ -138,26 +123,21 @@ class HomeFragment : Fragment() {
             findNavController().navigate(action)
         }
     }
+
+    fun getImage(imageName: String?): Int {
+        return resources.getIdentifier(imageName, "drawable", getActivity()?.getPackageName() ?: "TourismApp")
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
     }
-    private fun getUserName() : String {
-        return database.collection("usuarios").document(userId)
-            .get()
-            .addOnSuccessListener { document ->
-                document.getString("name")
-            }.toString() // esta devolviendo un string raro
-    }
-
-    //TODO cards redirect to activity or guide
-    //TODO chequear que datos guardar del guia en una actividad, solo uid tal vez?
+    //TODO porque no se ajusta el scroll al segundo recyclerview?
     //TODO HACER METODO DE SALIR DE USUARIO (Ver documentacion de google)
     //TODO usar Storage y Glide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
-    //TODO mostrar dos guias
-
-
+    //TODO hacer logica del searchBar
+    //TODO Conectar mapa para que muestre actividades en un mapa, falta logica y modificacion de entidades
 }
 
 

@@ -17,8 +17,8 @@
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_FavoritesFragment"
-            app:destination="@id/FavoritesFragment" />
+            android:id="@+id/action_homeFragment_to_FavouritesFragment"
+            app:destination="@id/favouritesFragment" />
         <action
             android:id="@+id/action_homeFragment_to_guideListFragment"
             app:destination="@id/guideListFragment" />
@@ -42,14 +42,17 @@
         <action
             android:id="@+id/action_profileFragment_to_personalDataFragment"
             app:destination="@id/personalDataFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_avatarSelectionFragment"
+            app:destination="@id/avatarSelectionFragment" />
     </fragment>
     <fragment
-        android:id="@+id/FavoritesFragment"
-        android:name="com.ort.tourismapp.fragments.FavoritesFragment"
-        android:label="fragment_bookings"
-        tools:layout="@layout/fragment_favorites" >
+        android:id="@+id/favouritesFragment"
+        android:name="com.ort.tourismapp.fragments.FavouritesListFragment"
+        android:label="fragment_favourites"
+        tools:layout="@layout/fragment_favourites_list">
         <action
-            android:id="@+id/action_FavoritesFragment_to_activityDetailFragment"
+            android:id="@+id/action_FavouritesFragment_to_activityDetailFragment"
             app:destination="@id/activityDetailFragment" />
     </fragment>
     <fragment
@@ -74,6 +77,9 @@
         <argument
             android:name="activity"
             app:argType="com.ort.tourismapp.entities.Activity" />
+        <action
+            android:id="@+id/action_activityDetailFragment_to_guideContactInfoFragment"
+            app:destination="@id/guideContactInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/guideListFragment"
@@ -95,5 +101,23 @@
         <action
             android:id="@+id/action_guideDetailFragment_to_activityDetailFragment"
             app:destination="@id/activityDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/guideContactInfoFragment"
+        android:name="com.ort.tourismapp.fragments.GuideContactInfoFragment"
+        android:label="fragment_guide_contact_info"
+        tools:layout="@layout/fragment_guide_contact_info" >
+        <argument
+            android:name="guide"
+            app:argType="com.ort.tourismapp.entities.Guide" />
+    </fragment>
+    <fragment
+        android:id="@+id/avatarSelectionFragment"
+        android:name="com.ort.tourismapp.fragments.AvatarSelectionFragment"
+        android:label="fragment_avatar_selection"
+        tools:layout="@layout/fragment_avatar_selection" >
+        <action
+            android:id="@+id/action_avatarSelectionFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 </navigation>

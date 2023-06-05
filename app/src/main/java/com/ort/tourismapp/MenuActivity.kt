@@ -1,6 +1,7 @@
 package com.ort.tourismapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
@@ -33,7 +34,7 @@ class MenuActivity : AppCompatActivity() {
         // Check if user is signed in (non-null) and update UI accordingly.
         val currentUser = firebaseAuth.currentUser
         if (currentUser != null) {
-            //TODO error message
+            Log.d("Usuario no reconocido", "No se pudo cargar el usuario")
         }
     }
 }
