@@ -15,6 +15,7 @@ import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.database.FirebaseSingleton
 import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.ActivityRepository
+import com.ort.tourismapp.entities.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,6 +31,7 @@ class ActivitiesListFragment : Fragment() {
     lateinit var recyclerActivity: RecyclerView
     lateinit var searchView: SearchView
     lateinit var adapterActivity: ActivityAdapter
+    lateinit var userRepository: UserRepository
     lateinit var activityRepository: ActivityRepository
     var activityList: MutableList<Activity>  = mutableListOf()
 
@@ -40,6 +42,7 @@ class ActivitiesListFragment : Fragment() {
         v = inflater.inflate(R.layout.fragment_activities_list, container, false)
         recyclerActivity = v.findViewById(R.id.recActivity)
         activityRepository = ActivityRepository()
+        userRepository=UserRepository()
         return v
     }
     override fun onStart() {
@@ -48,7 +51,7 @@ class ActivitiesListFragment : Fragment() {
         scope.launch {
             activityList = activityRepository.getAllActivities()
             recyclerActivity.layoutManager = LinearLayoutManager(context)
-            adapterActivity = ActivityAdapter(activityList){ position ->
+            adapterActivity = ActivityAdapter(activityList,userRepository){ position ->
                 val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(activityList[position])
                 findNavController().navigate(action)
             }
