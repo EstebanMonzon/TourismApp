@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 class ActivityAdapter(
     var activityList : MutableList<Activity>,
     var userRepository: UserRepository,
-    var likedList : MutableList<String> = mutableListOf(),
+    var likedList : MutableList<Activity> = mutableListOf(),
     val userId: String = Firebase.auth.currentUser!!.uid,
     var onClick : (Int) -> Unit
     ) : RecyclerView.Adapter<ActivityAdapter.ActivityHolder>() {
@@ -49,10 +49,10 @@ class ActivityAdapter(
         fun getBtn() : Button {
             return v.findViewById(R.id.btnActivity)
         }
-        fun getCheckFavorito(list : MutableList<String>, activity : Activity) : CheckBox {
+        fun getCheckFavorito(list : MutableList<Activity>, activity : Activity) : CheckBox {
             var checkfav : CheckBox = v.findViewById(R.id.checkLike)
 
-            checkfav.isChecked = list.contains(activity.title)
+            checkfav.isChecked = list.contains(activity)
 
             return checkfav
 
@@ -82,9 +82,9 @@ class ActivityAdapter(
             .setOnCheckedChangeListener { _, isChecked ->
                 scope.launch {
                     if (isChecked) {
-                        userRepository.addFavouriteActivity(userId, activityList[position].title)
+                        userRepository.addFavouriteActivity(userId, activityList[position].uid)
                     } else if (!isChecked) {
-                        userRepository.deleteFavouriteActivity(userId, activityList[position].title)
+                        userRepository.deleteFavouriteActivity(userId, activityList[position].uid)
                     }
                 }
             }

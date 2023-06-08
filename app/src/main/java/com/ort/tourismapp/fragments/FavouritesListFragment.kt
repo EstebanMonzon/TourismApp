@@ -30,9 +30,9 @@ class FavouritesListFragment : Fragment() {
     lateinit var recyclerActivity: RecyclerView
     lateinit var adapterActivity: ActivityAdapter
     var activityRepository: ActivityRepository = ActivityRepository()
-    var favouritesList: MutableList<String>  = mutableListOf()
+
     var userRepository= UserRepository()
-    var allActList : MutableList<Activity> = mutableListOf()
+    var favActList : MutableList<Activity> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,13 +47,13 @@ class FavouritesListFragment : Fragment() {
         super.onStart()
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
-            allActList = activityRepository.getAllActivities()
-            favouritesList = userRepository.getFavouritesActivities(userRepository.getUserId())
+
+            favActList = userRepository.getFavouritesActivities(userRepository.getUserId())
 
             recyclerActivity.layoutManager = LinearLayoutManager(context)
 
-            adapterActivity = ActivityAdapter(getFavActivities(favouritesList),userRepository){ position ->
-                val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(allActList[position])
+            adapterActivity = ActivityAdapter(favActList,userRepository){ position ->
+                val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(favActList[position])
                 findNavController().navigate(action)
             }
             recyclerActivity.adapter = adapterActivity
@@ -74,14 +74,5 @@ class FavouritesListFragment : Fragment() {
         // TODO: Use the ViewModel
     }
  //No se si esta bien como lo hice, tampoco si este metodo deberia estar acá, lo cambio en todo caso pero es un avance
-    fun getFavActivities(favList : MutableList<String>):MutableList<Activity>{
-        var f : MutableList<Activity> = mutableListOf()
 
-        for(a in allActList){
-            if(favList.contains(a.title)){
-                f.add(a)
-            }
-        }
-        return f
-    }
 }
