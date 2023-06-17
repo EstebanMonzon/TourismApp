@@ -38,6 +38,7 @@ class GuideDetailFragment : Fragment() {
     lateinit var adapterActivity: ActivityAdapter
     lateinit var guideRepository: GuideRepository
     var activityGuideList: MutableList<Activity>  = mutableListOf()
+    lateinit var imageActivity: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,6 +51,7 @@ class GuideDetailFragment : Fragment() {
         recyclerActivityGuide = v.findViewById(R.id.recActivity_guide)
         imageGuide = v.findViewById(R.id.imageView_flag)
         guideRepository = GuideRepository()
+        imageActivity = v.findViewById(R.id.imageView_flag)
         return v
     }
 
@@ -58,7 +60,7 @@ class GuideDetailFragment : Fragment() {
         val guide = GuideDetailFragmentArgs.fromBundle(requireArguments()).guide
         textName.text = "${guide.name} ${guide.lastname}"
         textRate.text = guide.rate.toString()
-        textUbicacionGuia.text = "${guide.city}, ${guide.province}, ${guide.country}"
+        textUbicacionGuia.text = "${guide.city}"
 
         //TODO Resolver foto de guia
         /*Glide.with(this)

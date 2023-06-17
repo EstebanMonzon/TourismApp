@@ -40,8 +40,13 @@ class GuideAdapter(
         fun getBtn() : Button {
             return v.findViewById(R.id.btnGuide)
         }
+
         fun getImage(): ImageView{
             return v.findViewById(R.id.image_guide)
+        }
+
+        fun getImage(): ImageView {
+            return v.findViewById(R.id.image_activity)
         }
 
     }
