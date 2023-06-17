@@ -14,7 +14,8 @@ class UserRepository {
     val database = FirebaseSingleton.getInstance().getDatabase()
     private var usersCollection = database.collection("usuarios")
     private var favActivityList : MutableList<Activity> = mutableListOf()
-    private var activityRepository = ActivityRepository()
+    private var activityRepository: ActivityRepository = ActivityRepository()
+
 
     fun getUserId():String{
         return Firebase.auth.currentUser!!.uid
@@ -34,25 +35,17 @@ class UserRepository {
 
     //TODO hacer que traiga todas las actividades favoritas de un usuario
     //falta la logica para que a partir de activity iud traiga la actividad en si
-    suspend fun getFavouritesActivities(userid: String): MutableList<Activity>{
-        var favActivityListStrings : MutableList<String> = mutableListOf()
-        var favActivityList : MutableList<Activity> = mutableListOf()
+    suspend fun getFavouritesActivities(userid: String): MutableList<String>{
+        var favActivityList : MutableList<String> = mutableListOf()
         try{
 
-            favActivityListStrings = usersCollection
+            favActivityList = usersCollection
                 .document(userid).get().await().get("activitiesLikedList") as MutableList<String>
-
-            if(favActivityListStrings!=null){
-                for (fav in favActivityListStrings){
-                    favActivityList.add(activityRepository.getActivity(fav))
-                }
-            }
-
 
         } catch (e: Exception){
             Log.d("Actividades favoritas no cargadas: ", favActivityList.size.toString())
         }
-
+        Log.d("Actividadfav ", favActivityList.size.toString())
         return favActivityList
     }
 
@@ -116,7 +109,19 @@ class UserRepository {
         }
     }
 
+    suspend fun getFullFavouritesActivities(userId: String): MutableList<Activity> {
+
+        var favListFull: MutableList<Activity> = mutableListOf()
+        var favListStrings: MutableList<String> = this.getFavouritesActivities(userId)
 
 
 
+        for (fav in favListStrings){
+            favListFull.add(activityRepository.getActivity(fav))
+            Log.d("getFullFavouritesActivities", favListFull.get(0).title)
+        }
+        return favListFull
+
+
+    }
 }

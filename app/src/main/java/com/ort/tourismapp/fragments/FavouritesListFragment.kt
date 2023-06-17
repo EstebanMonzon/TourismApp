@@ -30,9 +30,9 @@ class FavouritesListFragment : Fragment() {
     lateinit var recyclerActivity: RecyclerView
     lateinit var adapterActivity: ActivityAdapter
     var activityRepository: ActivityRepository = ActivityRepository()
-
+    var favouritesList: MutableList<Activity>  = mutableListOf()
     var userRepository= UserRepository()
-    var favActList : MutableList<Activity> = mutableListOf()
+    var allActList : MutableList<Activity> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,12 +48,12 @@ class FavouritesListFragment : Fragment() {
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
 
-            favActList = userRepository.getFavouritesActivities(userRepository.getUserId())
+            favouritesList = userRepository.getFullFavouritesActivities(userRepository.getUserId())
 
             recyclerActivity.layoutManager = LinearLayoutManager(context)
 
-            adapterActivity = ActivityAdapter(favActList,userRepository){ position ->
-                val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(favActList[position])
+            adapterActivity = ActivityAdapter(favouritesList,userRepository){ position ->
+                val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(allActList[position])
                 findNavController().navigate(action)
             }
             recyclerActivity.adapter = adapterActivity
