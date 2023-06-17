@@ -33,6 +33,7 @@ class GuideDetailFragment : Fragment() {
     lateinit var textName: TextView
     lateinit var textRate: TextView
     lateinit var textUbicacionGuia: TextView
+    lateinit var imageGuide: ImageView
     lateinit var recyclerActivityGuide: RecyclerView
     lateinit var adapterActivity: ActivityAdapter
     lateinit var guideRepository: GuideRepository
@@ -48,6 +49,7 @@ class GuideDetailFragment : Fragment() {
         textRate = v.findViewById(R.id.txtRate)
         textUbicacionGuia = v.findViewById(R.id.txtUbicacionGuia)
         recyclerActivityGuide = v.findViewById(R.id.recActivity_guide)
+        imageGuide = v.findViewById(R.id.imageView_flag)
         guideRepository = GuideRepository()
         imageActivity = v.findViewById(R.id.imageView_flag)
         return v
@@ -59,6 +61,12 @@ class GuideDetailFragment : Fragment() {
         textName.text = "${guide.name} ${guide.lastname}"
         textRate.text = guide.rate.toString()
         textUbicacionGuia.text = "${guide.city}"
+
+        //TODO Resolver foto de guia
+        /*Glide.with(this)
+            .load(getImage(guide.guidePhoto))
+            .centerCrop()
+            .into(imageGuide)*/
 
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {

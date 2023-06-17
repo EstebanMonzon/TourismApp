@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
-import android.widget.SearchView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -45,7 +44,6 @@ class HomeFragment : Fragment() {
     lateinit var recyclerGuide: RecyclerView
     lateinit var adapterGuide: GuideAdapter
 
-    lateinit var searchView: SearchView
     lateinit var txtBienvenidaNombre: TextView
     lateinit var btnActividadesVerTodo: Button
     lateinit var btnGuidesVerTodo: Button
@@ -54,7 +52,7 @@ class HomeFragment : Fragment() {
 
     private val user = Firebase.auth.currentUser
     private val userId = user!!.uid
-    private lateinit var activityList : MutableList<Activity>
+    private lateinit var activityHomeList: MutableList<Activity>
     private lateinit var guideList : MutableList<Guide>
 
     override fun onCreateView(
@@ -62,7 +60,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_home, container, false)
-        searchView = v.findViewById(R.id.searchView_home)
         txtBienvenidaNombre = v.findViewById(R.id.txt_Bienvenida)
         recyclerActivity = v.findViewById(R.id.recActivity_home)
         recyclerGuide = v.findViewById(R.id.recGuide_home)
@@ -72,7 +69,7 @@ class HomeFragment : Fragment() {
         activityRepository = ActivityRepository()
         guideRepository = GuideRepository()
         userRepository = UserRepository()
-        activityList = mutableListOf()
+        activityHomeList = mutableListOf()
         guideList = mutableListOf()
         return v
     }
@@ -83,15 +80,15 @@ class HomeFragment : Fragment() {
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
             txtBienvenidaNombre.text = "Bienvenido\n${userRepository.getUserName(userId)}"
-            activityList = activityRepository.getHomeActivityList()
+            activityHomeList = activityRepository.getHomeActivityList()
             guideList = guideRepository.getHomeGuideList()
 
             recyclerActivity.layoutManager = LinearLayoutManager(context)
             recyclerGuide.layoutManager = LinearLayoutManager(context)
 
-            adapterActivity = ActivityAdapter(activityList){ position ->
+            adapterActivity = ActivityAdapter(activityHomeList){ position ->
                 val action = HomeFragmentDirections.actionHomeFragmentToActivityDetailFragment(
-                    activityList[position]
+                    activityHomeList[position]
                 )
                 findNavController().navigate(action)
             }
@@ -111,8 +108,6 @@ class HomeFragment : Fragment() {
                 .into(imgAvatar)
         }
 
-        //TODO generar funcion que busque por palabra clave en lista de actividades
-
         btnActividadesVerTodo.setOnClickListener(){
             val action = HomeFragmentDirections.actionHomeFragmentToActivitiesListFragment()
             findNavController().navigate(action)
@@ -124,7 +119,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun getImage(imageName: String?): Int {
+    private fun getImage(imageName: String?): Int {
         return resources.getIdentifier(imageName, "drawable", getActivity()?.getPackageName() ?: "TourismApp")
     }
 
@@ -133,12 +128,12 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         // TODO: Use the ViewModel
     }
+
     //TODO porque no se ajusta el scroll al segundo recyclerview?
     //TODO HACER METODO DE SALIR DE USUARIO (Ver documentacion de google)
     //TODO usar Storage y Glide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
-    //TODO hacer logica del searchBar
-    //TODO Conectar mapa para que muestre actividades en un mapa, falta logica y modificacion de entidades
 }
+
 
 
 

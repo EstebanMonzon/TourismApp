@@ -67,7 +67,7 @@ class GuideRepository () {
             if (data != null) {
                 uidsList = data as MutableList<String>
                 for(uid in uidsList){
-                    activitiesGuideList.add(activityRepository.getActivity(uid))
+                    activitiesGuideList.add(activityRepository.getActivityByUid(uid))
                 }
             }
         } catch (e: Exception){
@@ -76,11 +76,4 @@ class GuideRepository () {
 
         return activitiesGuideList
     }
-
-    /*fun addGuide(){
-        var guide = Guide("", "Maria", "Freire", "mf@g.com", "CABA", "Buenos Aires",
-            "Argentina", "URL Foto", 8, mutableListOf())
-
-        database.collection("guias").document().set(guide)
-    }*/
 }

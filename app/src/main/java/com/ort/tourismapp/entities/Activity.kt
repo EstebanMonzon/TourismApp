@@ -14,9 +14,11 @@ data class Activity (
     var description: String = "",
     var activityPhoto: String = "",
     var rate: Int = 0 ,
+    var lat: Double = 0.0,
+    var long: Double = 0.0,
     var tags: MutableList<String> = mutableListOf()
     ) : Parcelable {
-        constructor() : this("", "","","","","","","",0, mutableListOf())
+        constructor() : this("", "","","","","","","",0, 0.0, 0.0, mutableListOf())
         init {
             this.uid = uid
             this.title = title
@@ -27,6 +29,8 @@ data class Activity (
             this.description = description
             this.activityPhoto = activityPhoto
             this.rate = rate
+            this.lat = lat
+            this.long = long
             this.tags = tags
         }
     }
