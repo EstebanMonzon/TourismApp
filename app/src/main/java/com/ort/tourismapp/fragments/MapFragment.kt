@@ -56,11 +56,11 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
             activityList = activityRepository.getAllActivities()
-            for (actPosition in activityList){
-                val latLng = LatLng(actPosition.lat, actPosition.long)
+            for (activity in activityList){
+                val latLng = LatLng(activity.lat, activity.long)
                 mMap.addMarker(MarkerOptions()
                     .position(latLng)
-                    .title(actPosition.title)
+                    .title(activity.title)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
                 )
             }
@@ -74,12 +74,14 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(-34.61315,-58.37723))); //settea inicio en buenos aires
         //TODO deberia navegar a activity pero me tira un null
         mMap.setOnInfoWindowClickListener { marker ->
-            var activity = marker?.tag as Activity
-            val action = MapFragmentDirections.actionMapFragmentToActivityDetailFragment(activity)
-            findNavController().navigate(action)
+            val scope = CoroutineScope(Dispatchers.Main)
+            scope.launch {
+                var activity = activityRepository.getActivityByPosition(marker.position)
+                val action = MapFragmentDirections.actionMapFragmentToActivityDetailFragment(activity)
+                findNavController().navigate(action)
+            }
         }
     }
-
 
     override fun onResume() {
         super.onResume()

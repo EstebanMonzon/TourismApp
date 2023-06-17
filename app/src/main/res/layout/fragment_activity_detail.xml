@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -77,21 +75,7 @@
                     android:drawableStart="@drawable/baseline_location_on_20"
                     android:text="City"
                     android:textSize="16sp"
-                    tools:ignore="MissingConstraints" />
-
-                <Button
-                    android:id="@+id/btnVerEnMapa"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|left"
-                    android:background="@color/sin_color"
-                    android:drawableLeft="@drawable/mapa_ver_en_mapa_24"
-                    android:text="Ver en\nmapa"
-                    android:textAllCaps="false"
-                    android:textColor="#191C30"
-                    android:textSize="10sp"
-                    app:iconPadding="0dp" />
-
+                    tools:ignore="MissingConstraints"/>
             </LinearLayout>
 
             <ImageView

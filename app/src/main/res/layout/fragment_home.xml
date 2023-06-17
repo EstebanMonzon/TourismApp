@@ -56,38 +56,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <androidx.cardview.widget.CardView
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="15dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-                    <SearchView
-                    android:id="@+id/searchView_home"
-                    android:layout_width="250dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/white"
-                    android:iconifiedByDefault="false"
-                    android:queryHint="Buscar actividad"/>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recActivity_searchResult"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:background="@color/white" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/txtActivityTitle_home"

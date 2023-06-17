@@ -38,10 +38,6 @@ class ActivityAdapter(
         fun getBtn() : Button {
             return v.findViewById(R.id.btnActivity)
         }
-
-        fun getBtnFavorito() :Button {
-            return v.findViewById(R.id.btnFavorito)
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivityAdapter.ActivityHolder {
@@ -60,9 +56,5 @@ class ActivityAdapter(
         holder.getBtn().setOnClickListener{
             onClick(position)
         }
-        //TODO BOTON AGREGAR A FAVORITOS hacer que boton agregue actividad a lista de actividades favoritas y se vuelva naranja
-        /*holder.getBtnFavorito().setOnClickListener{
-            onClick(position)
-        }*/
     }
 }

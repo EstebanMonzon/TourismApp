@@ -1,6 +1,7 @@
 package com.ort.tourismapp.entities
 
 import android.util.Log
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.Query
 import com.ort.tourismapp.database.FirebaseSingleton
 import kotlinx.coroutines.tasks.await
@@ -39,7 +40,7 @@ class ActivityRepository() {
         return activityList
     }
 
-    suspend fun getActivity(uid: String): Activity {
+    suspend fun getActivityByUid(uid: String): Activity {
         var activity = Activity()
         try{
             val data = actividadesCollection.document(uid)
@@ -53,11 +54,22 @@ class ActivityRepository() {
         return activity
     }
 
-    /*fun addActivity(guide:Guide) {
-        var activity = Activity("Caminito", "CABA", "Buenos Aires", "Argentina", "guide" ,
-            "Hola soy la actividad Caminito", "URL Foto", 8)
-
-        database.collection("actividades").document().set(activity)
-    }*/
-
+    suspend fun getActivityByPosition(position: LatLng?): Activity {
+        var lat = position?.latitude
+        var long = position?.longitude
+        var activity = Activity()
+        try{
+            val data = actividadesCollection.whereEqualTo("lat", lat).whereEqualTo("long", long)
+                .limit(1)
+                .get()
+                .await()
+            if (!data.isEmpty) {
+                // Process the activity object or handle null case
+                activity = data.documents[0].toObject(Activity::class.java)!!
+            }
+        } catch (e: Exception){
+            Log.d("Actividad no cargada", "actividad no cargada")
+        }
+        return activity
+    }
 }

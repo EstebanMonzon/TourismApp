@@ -4,13 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.ListView
 import android.widget.ImageView
-import android.widget.SearchView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,7 +18,6 @@ import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.adapters.GuideAdapter
-import com.ort.tourismapp.adapters.SearchActivityAdapter
 import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.ActivityRepository
 import com.ort.tourismapp.entities.Guide
@@ -42,8 +37,6 @@ class HomeFragment : Fragment() {
 
     lateinit var recyclerActivity: RecyclerView
     lateinit var adapterActivity: ActivityAdapter
-    lateinit var recyclerActivityResult: RecyclerView
-    lateinit var adapterSearchActivity: SearchActivityAdapter
     lateinit var activityRepository: ActivityRepository
     lateinit var guideRepository: GuideRepository
     lateinit var userRepository: UserRepository
@@ -51,7 +44,6 @@ class HomeFragment : Fragment() {
     lateinit var recyclerGuide: RecyclerView
     lateinit var adapterGuide: GuideAdapter
 
-    lateinit var searchView: SearchView
     lateinit var txtBienvenidaNombre: TextView
     lateinit var btnActividadesVerTodo: Button
     lateinit var btnGuidesVerTodo: Button
@@ -68,10 +60,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         v = inflater.inflate(R.layout.fragment_home, container, false)
-        searchView = v.findViewById(R.id.searchView_home)
         txtBienvenidaNombre = v.findViewById(R.id.txt_Bienvenida)
         recyclerActivity = v.findViewById(R.id.recActivity_home)
-        recyclerActivityResult = v.findViewById(R.id.recActivity_searchResult)
         recyclerGuide = v.findViewById(R.id.recGuide_home)
         btnActividadesVerTodo = v.findViewById(R.id.btnActividadesVerTodo)
         btnGuidesVerTodo = v.findViewById(R.id.btnGuidesVerTodo)
@@ -94,7 +84,6 @@ class HomeFragment : Fragment() {
             guideList = guideRepository.getHomeGuideList()
 
             recyclerActivity.layoutManager = LinearLayoutManager(context)
-            recyclerActivityResult.layoutManager = LinearLayoutManager(context)
             recyclerGuide.layoutManager = LinearLayoutManager(context)
 
             adapterActivity = ActivityAdapter(activityHomeList){ position ->
@@ -119,8 +108,6 @@ class HomeFragment : Fragment() {
                 .into(imgAvatar)
         }
 
-        searchBarFunction()
-
         btnActividadesVerTodo.setOnClickListener(){
             val action = HomeFragmentDirections.actionHomeFragmentToActivitiesListFragment()
             findNavController().navigate(action)
@@ -132,7 +119,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun getImage(imageName: String?): Int {
+    private fun getImage(imageName: String?): Int {
         return resources.getIdentifier(imageName, "drawable", getActivity()?.getPackageName() ?: "TourismApp")
     }
 
@@ -142,60 +129,9 @@ class HomeFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    private fun searchBarFunction() {
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                search(query)
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                /*if (newText.isEmpty()) {
-                    //hacer que cuando no haya nada se borre lista en el recyclerviewu
-                    adapterSearchActivity.activitySearchList.clear()
-                    adapterSearchActivity.notifyDataSetChanged()
-                    recyclerActivityResult.adapter = null
-                } else {
-                    search(newText)
-                }*/
-                search(newText)
-                return true
-            }
-        })
-    }
-
-    //TODO por alguna razon los adapters estan interconectados
-    //TODO no me lleva a la activity seleccionada
-    private fun search(text: String) {
-        val scope = CoroutineScope(Dispatchers.Main)
-        scope.launch {
-            var activityList = activityRepository.getAllActivities()
-            var matchedActivities: MutableList<Activity> = mutableListOf()
-
-            for (activity in activityList){
-                if (activity.title.contains(text, true) ||
-                    activity.tags.toString().contains(text,true)) {
-                    matchedActivities.add(activity)
-                }
-            }
-            activityList.clear()
-
-            adapterSearchActivity = SearchActivityAdapter(matchedActivities){ position ->
-                val action = HomeFragmentDirections.actionHomeFragmentToActivityDetailFragment(
-                    matchedActivities[position]
-                )
-                findNavController().navigate(action)
-            }
-            recyclerActivityResult.adapter = adapterSearchActivity
-            adapterSearchActivity.filter(matchedActivities)
-        }
-
-    }
     //TODO porque no se ajusta el scroll al segundo recyclerview?
     //TODO HACER METODO DE SALIR DE USUARIO (Ver documentacion de google)
     //TODO usar Storage y Glide para guardar las fotos subidas de cada actividad que cree el guia en su app (PARA APP GUIA)
-    //TODO hacer logica del searchBar
-    //TODO Conectar mapa para que muestre actividades en un mapa, falta logica y modificacion de entidades
 }
 
 

@@ -19,10 +19,44 @@
         android:text="Guias"
         android:textSize="34sp"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <androidx.cardview.widget.CardView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <SearchView
+                    android:id="@+id/searchView_guide"
+                    android:layout_width="250dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Buscar guia"/>
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recGuide"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/errorBusqueda_guide"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
 </LinearLayout>
