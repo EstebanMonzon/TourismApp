@@ -43,7 +43,7 @@ class GuideContactInfoFragment : Fragment() {
 
         textName.text = guide.name
         textRate.text = guide.rate.toString()
-        textUbicacionGuia.text = "${guide.city}"
+        textUbicacionGuia.text = guide.city
         textEmail.text = guide.email
         textTelefono.text = guide.telefono
     }

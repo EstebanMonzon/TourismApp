@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ort.tourismapp.R
 import com.ort.tourismapp.entities.Guide
 
@@ -39,9 +40,15 @@ class GuideAdapter(
         fun getBtn() : Button {
             return v.findViewById(R.id.btnGuide)
         }
+
+        fun getImage(): ImageView{
+            return v.findViewById(R.id.image_guide)
+        }
+
         fun getImage(): ImageView {
             return v.findViewById(R.id.image_activity)
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GuideHolder {
@@ -60,5 +67,12 @@ class GuideAdapter(
         holder.getBtn().setOnClickListener{
             onClick(position)
         }
+        //TODO resolver como traer imagen de guia, capaz tener un campo para su imagen y otro para su avatar?
+        /*Glide.with(holder.getImage())
+            .load(getImageGlide(guideList[position].guidePhoto))
+            .centerCrop()
+            .into(holder.getImage())*/
     }
+
+
 }

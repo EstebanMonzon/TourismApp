@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ort.tourismapp.R
+import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.adapters.GuideAdapter
+import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.Guide
 import com.ort.tourismapp.entities.GuideRepository
 import kotlinx.coroutines.CoroutineScope
@@ -32,6 +35,8 @@ class GuideListFragment : Fragment() {
     lateinit var searchView: SearchView
     lateinit var adapterGuide: GuideAdapter
     lateinit var guideRepository: GuideRepository
+    lateinit var matchedGuides: MutableList<Guide>
+    lateinit var errorBusqueda: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +46,8 @@ class GuideListFragment : Fragment() {
         recyclerGuide = v.findViewById(R.id.recGuide)
         searchView = v.findViewById(R.id.searchView_guide)
         guideRepository = GuideRepository()
+        matchedGuides = mutableListOf()
+        errorBusqueda = v.findViewById(R.id.errorBusqueda_guide)
         return v
     }
 
@@ -57,6 +64,8 @@ class GuideListFragment : Fragment() {
             }
             recyclerGuide.adapter = adapterGuide
         }
+
+        performSearch()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -65,4 +74,43 @@ class GuideListFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
+    private fun performSearch() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                matchedGuides.clear()
+                search(newText)
+                return true
+            }
+        })
+    }
+
+    private fun search(text: String) {
+        for (guide in guideList){
+            if (guide.name.contains(text, true) ||
+                guide.lastname.contains(text,true)) {
+                matchedGuides.add(guide)
+            }
+        }
+        updateRecyclerView()
+        if (matchedGuides.isEmpty()) {
+            errorBusqueda.text = "No se encontraron resultados para tu búsqueda"
+        }
+        updateRecyclerView()
+    }
+
+    private fun updateRecyclerView() {
+        adapterGuide = GuideAdapter(matchedGuides){ position ->
+            val action = GuideListFragmentDirections.actionGuideListFragmentToGuideDetailFragment(
+                matchedGuides[position]
+            )
+            findNavController().navigate(action)
+        }
+        recyclerGuide.adapter = adapterGuide
+        adapterGuide.guideList = matchedGuides
+        adapterGuide.notifyDataSetChanged()
+    }
 }
