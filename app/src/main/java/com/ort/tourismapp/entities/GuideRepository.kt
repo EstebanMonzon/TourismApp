@@ -64,6 +64,7 @@ class GuideRepository () {
             var uidsList: MutableList<String>
             val data = database.collection("guias")
                 .document(guideId).get().await().get("activitiesOwnedList")
+
             if (data != null) {
                 uidsList = data as MutableList<String>
                 for(uid in uidsList){

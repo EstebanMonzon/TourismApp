@@ -18,6 +18,7 @@ import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.ActivityRepository
+import com.ort.tourismapp.entities.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,6 +34,7 @@ class ActivitiesListFragment : Fragment() {
     lateinit var recyclerActivity: RecyclerView
     lateinit var searchView: SearchView
     lateinit var adapterActivity: ActivityAdapter
+    lateinit var userRepository: UserRepository
     lateinit var activityRepository: ActivityRepository
     lateinit var activityList: MutableList<Activity>
     lateinit var matchedActivities: MutableList<Activity>
@@ -48,6 +50,7 @@ class ActivitiesListFragment : Fragment() {
         searchView = v.findViewById(R.id.searchView_activity)
         btnVerEnMapa = v.findViewById(R.id.btnVerEnMapa)
         activityRepository = ActivityRepository()
+        userRepository=UserRepository()
         activityList = mutableListOf()
         matchedActivities = mutableListOf()
         errorBusqueda = v.findViewById(R.id.errorBusqueda_activity)
@@ -59,8 +62,8 @@ class ActivitiesListFragment : Fragment() {
         scope.launch {
             activityList = activityRepository.getAllActivities()
             recyclerActivity.layoutManager = LinearLayoutManager(context)
+            adapterActivity = ActivityAdapter(activityList,userRepository){ position ->
 
-            adapterActivity = ActivityAdapter(activityList){ position ->
                 val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(activityList[position])
                 findNavController().navigate(action)
             }

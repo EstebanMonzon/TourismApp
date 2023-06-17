@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.ktx.Firebase
 import com.ort.tourismapp.database.FirebaseSingleton
@@ -13,6 +14,12 @@ class UserRepository {
     val database = FirebaseSingleton.getInstance().getDatabase()
     private var usersCollection = database.collection("usuarios")
     private var favActivityList : MutableList<Activity> = mutableListOf()
+    private var activityRepository: ActivityRepository = ActivityRepository()
+
+
+    fun getUserId():String{
+        return Firebase.auth.currentUser!!.uid
+    }
 
     suspend fun getUserName(userId: String): String {
         return usersCollection.document(userId).get().await().get("name").toString()
@@ -28,18 +35,17 @@ class UserRepository {
 
     //TODO hacer que traiga todas las actividades favoritas de un usuario
     //falta la logica para que a partir de activity iud traiga la actividad en si
-    suspend fun getFavouritesActivities(user: User): MutableList<Activity>{
+    suspend fun getFavouritesActivities(userid: String): MutableList<String>{
+        var favActivityList : MutableList<String> = mutableListOf()
         try{
-            val data = usersCollection.document(user.uid)
-                .collection("activitiesLikedList")
-                .orderBy("rate", Query.Direction.DESCENDING)
-                .get().await()
-            for (document in data) {
-                favActivityList.add(document.toObject(Activity::class.java))
-            }
+
+            favActivityList = usersCollection
+                .document(userid).get().await().get("activitiesLikedList") as MutableList<String>
+
         } catch (e: Exception){
             Log.d("Actividades favoritas no cargadas: ", favActivityList.size.toString())
         }
+        Log.d("Actividadfav ", favActivityList.size.toString())
         return favActivityList
     }
 
@@ -101,5 +107,21 @@ class UserRepository {
             activitiesLikedList.remove(activityId)
             userRef.update("activitiesLikedList", activitiesLikedList).await()
         }
+    }
+
+    suspend fun getFullFavouritesActivities(userId: String): MutableList<Activity> {
+
+        var favListFull: MutableList<Activity> = mutableListOf()
+        var favListStrings: MutableList<String> = this.getFavouritesActivities(userId)
+
+
+
+        for (fav in favListStrings){
+            favListFull.add(activityRepository.getActivity(fav))
+            Log.d("getFullFavouritesActivities", favListFull.get(0).title)
+        }
+        return favListFull
+
+
     }
 }

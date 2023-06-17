@@ -86,7 +86,7 @@ class HomeFragment : Fragment() {
             recyclerActivity.layoutManager = LinearLayoutManager(context)
             recyclerGuide.layoutManager = LinearLayoutManager(context)
 
-            adapterActivity = ActivityAdapter(activityHomeList){ position ->
+            adapterActivity = ActivityAdapter(activityList,userRepository){ position ->
                 val action = HomeFragmentDirections.actionHomeFragmentToActivityDetailFragment(
                     activityHomeList[position]
                 )

@@ -17,6 +17,7 @@ import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.adapters.GuideAdapter
 import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.GuideRepository
+import com.ort.tourismapp.entities.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,6 +40,7 @@ class GuideDetailFragment : Fragment() {
     lateinit var guideRepository: GuideRepository
     var activityGuideList: MutableList<Activity>  = mutableListOf()
     lateinit var imageActivity: ImageView
+    var userRepository= UserRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +74,7 @@ class GuideDetailFragment : Fragment() {
         scope.launch {
             activityGuideList = guideRepository.getAllActivitiesGuide(guide.uid)
             recyclerActivityGuide.layoutManager = LinearLayoutManager(context)
-            adapterActivity = ActivityAdapter(activityGuideList){ position ->
+            adapterActivity = ActivityAdapter(activityGuideList,userRepository){ position ->
                 val action = GuideDetailFragmentDirections.actionGuideDetailFragmentToActivityDetailFragment(activityGuideList[position])
                 findNavController().navigate(action)
             }

@@ -54,6 +54,21 @@ class ActivityRepository() {
         return activity
     }
 
+
+    suspend fun getFavouritesActivities(userid: String): MutableList<String>{
+        var favActivityList : MutableList<String> = mutableListOf()
+        try{
+
+            favActivityList = actividadesCollection
+                .document(userid).get().await().get("activitiesLikedList") as MutableList<String>
+
+        } catch (e: Exception){
+            Log.d("Actividades favoritas no cargadas: ", favActivityList.size.toString())
+        }
+        Log.d("Actividadfav ", favActivityList.size.toString())
+        return favActivityList
+    }
+
     suspend fun getActivityByPosition(position: LatLng?): Activity {
         var lat = position?.latitude
         var long = position?.longitude

@@ -13,6 +13,7 @@ import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.entities.Activity
 import com.ort.tourismapp.entities.ActivityRepository
+import com.ort.tourismapp.entities.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,23 +29,31 @@ class FavouritesListFragment : Fragment() {
 
     lateinit var recyclerActivity: RecyclerView
     lateinit var adapterActivity: ActivityAdapter
-    lateinit var activityRepository: ActivityRepository
+    var activityRepository: ActivityRepository = ActivityRepository()
     var favouritesList: MutableList<Activity>  = mutableListOf()
+    var userRepository= UserRepository()
+    var allActList : MutableList<Activity> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_favourites_list, container, false)
+        v=inflater.inflate(R.layout.fragment_favourites_list, container, false)
+        recyclerActivity = v.findViewById(R.id.recActivityFavoritas)
+
+        return v
     }
     override fun onStart() {
         super.onStart()
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {
-            favouritesList = activityRepository.getAllActivities()
+
+            favouritesList = userRepository.getFullFavouritesActivities(userRepository.getUserId())
+
             recyclerActivity.layoutManager = LinearLayoutManager(context)
-            adapterActivity = ActivityAdapter(favouritesList){ position ->
-                val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(favouritesList[position])
+
+            adapterActivity = ActivityAdapter(favouritesList,userRepository){ position ->
+                val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(allActList[position])
                 findNavController().navigate(action)
             }
             recyclerActivity.adapter = adapterActivity
@@ -64,4 +73,6 @@ class FavouritesListFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(FavouritesListViewModel::class.java)
         // TODO: Use the ViewModel
     }
+ //No se si esta bien como lo hice, tampoco si este metodo deberia estar acá, lo cambio en todo caso pero es un avance
+
 }
