@@ -67,8 +67,9 @@
                 android:text="Ubicacion"
                 android:textColor="@color/gris_secundario" />
 
+            <!-- Email -->
             <ImageView
-                android:id="@+id/imageView_flag"
+                android:id="@+id/image_guiaContacto"
                 android:layout_width="280dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
@@ -77,7 +78,7 @@
                 android:background="#009688"
                 app:srcCompat="@drawable/ic_launcher_background"
                 tools:ignore="VectorDrawableCompat" />
-            <!-- Email -->
+
             <TextView
                 android:id="@+id/textoEmailTitulo"
                 android:layout_width="match_parent"

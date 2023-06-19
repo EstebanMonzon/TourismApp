@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ort.tourismapp.R
 import com.ort.tourismapp.entities.Guide
+import com.google.firebase.storage.FirebaseStorage
 
 class GuideAdapter(
     var guideList : MutableList<Guide>,
@@ -34,19 +34,13 @@ class GuideAdapter(
             val txtRate : TextView = v.findViewById(R.id.textRate)
             txtRate.text = rate.toString()
         }
-        fun getCard() : CardView {
-            return v.findViewById(R.id.guideCard)
-        }
+
         fun getBtn() : Button {
             return v.findViewById(R.id.btnGuide)
         }
 
         fun getImage(): ImageView{
             return v.findViewById(R.id.image_guide)
-        }
-
-        fun getImage(): ImageView {
-            return v.findViewById(R.id.image_activity)
         }
 
     }
@@ -61,17 +55,17 @@ class GuideAdapter(
     }
 
     override fun onBindViewHolder(holder: GuideHolder, position: Int) {
-        holder.setName(guideList[position].name)
+        holder.setName("${guideList[position].name} ${guideList[position].lastname}")
         holder.setCity(guideList[position].city)
         holder.setRate(guideList[position].rate)
         holder.getBtn().setOnClickListener{
             onClick(position)
         }
-        //TODO resolver como traer imagen de guia, capaz tener un campo para su imagen y otro para su avatar?
-        /*Glide.with(holder.getImage())
-            .load(getImageGlide(guideList[position].guidePhoto))
+
+        Glide.with(holder.getImage())
+            .load(guideList[position].displayPhoto)
             .centerCrop()
-            .into(holder.getImage())*/
+            .into(holder.getImage())
     }
 
 

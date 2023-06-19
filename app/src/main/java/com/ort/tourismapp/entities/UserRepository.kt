@@ -33,8 +33,6 @@ class UserRepository {
         return usersCollection.document(userId).get().await().toObject(User::class.java)!!
     }
 
-    //TODO hacer que traiga todas las actividades favoritas de un usuario
-    //falta la logica para que a partir de activity iud traiga la actividad en si
     suspend fun getFavouritesActivities(userid: String): MutableList<String>{
         var favActivityList : MutableList<String> = mutableListOf()
         try{
@@ -90,7 +88,6 @@ class UserRepository {
             .addOnFailureListener { e -> Log.w(TAG, "Error writing document", e) }
     }
 
-    //TODO chequear si realmente funciona y guarda el uid de la activity en el usuario activo
     suspend fun addFavouriteActivity(userId: String, activityId: String){
         val userRef = usersCollection.document(userId)
         userRef.get().await().let { document ->
@@ -110,14 +107,11 @@ class UserRepository {
     }
 
     suspend fun getFullFavouritesActivities(userId: String): MutableList<Activity> {
-
         var favListFull: MutableList<Activity> = mutableListOf()
         var favListStrings: MutableList<String> = this.getFavouritesActivities(userId)
 
-
-
         for (fav in favListStrings){
-            favListFull.add(activityRepository.getActivity(fav))
+            favListFull.add(activityRepository.getActivityByUid(fav))
             Log.d("getFullFavouritesActivities", favListFull.get(0).title)
         }
         return favListFull
