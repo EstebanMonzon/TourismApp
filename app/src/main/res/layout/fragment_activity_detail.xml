@@ -41,17 +41,6 @@
                     android:text="Activity Title"
                     android:textSize="24sp" />
 
-                <ImageButton
-                    android:id="@+id/btnFavoritoFilled_activity_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center|left"
-                    android:scaleType="fitStart"
-                    android:layout_weight="2"
-                    android:background="@color/sin_color"
-
-                    android:src="@drawable/baseline_heart_filled_20" />
-
                 <TextView
                     android:id="@+id/textRate"
                     android:layout_width="wrap_content"

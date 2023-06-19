@@ -50,7 +50,7 @@ class ActivitiesListFragment : Fragment() {
         searchView = v.findViewById(R.id.searchView_activity)
         btnVerEnMapa = v.findViewById(R.id.btnVerEnMapa)
         activityRepository = ActivityRepository()
-        userRepository=UserRepository()
+        userRepository= UserRepository()
         activityList = mutableListOf()
         matchedActivities = mutableListOf()
         errorBusqueda = v.findViewById(R.id.errorBusqueda_activity)
@@ -113,7 +113,7 @@ class ActivitiesListFragment : Fragment() {
     }
 
     private fun updateRecyclerView() {
-        adapterActivity = ActivityAdapter(matchedActivities){ position ->
+        adapterActivity = ActivityAdapter(matchedActivities, userRepository){ position ->
             val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(
                 matchedActivities[position]
             )

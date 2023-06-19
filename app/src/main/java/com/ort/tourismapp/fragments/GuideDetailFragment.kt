@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ort.tourismapp.R
 import com.ort.tourismapp.adapters.ActivityAdapter
 import com.ort.tourismapp.adapters.GuideAdapter
@@ -39,7 +40,6 @@ class GuideDetailFragment : Fragment() {
     lateinit var adapterActivity: ActivityAdapter
     lateinit var guideRepository: GuideRepository
     var activityGuideList: MutableList<Activity>  = mutableListOf()
-    lateinit var imageActivity: ImageView
     var userRepository= UserRepository()
 
     override fun onCreateView(
@@ -51,9 +51,8 @@ class GuideDetailFragment : Fragment() {
         textRate = v.findViewById(R.id.txtRate)
         textUbicacionGuia = v.findViewById(R.id.txtUbicacionGuia)
         recyclerActivityGuide = v.findViewById(R.id.recActivity_guide)
-        imageGuide = v.findViewById(R.id.imageView_flag)
+        imageGuide = v.findViewById(R.id.image_guiaInfo)
         guideRepository = GuideRepository()
-        imageActivity = v.findViewById(R.id.imageView_flag)
         return v
     }
 
@@ -64,11 +63,10 @@ class GuideDetailFragment : Fragment() {
         textRate.text = guide.rate.toString()
         textUbicacionGuia.text = "${guide.city}"
 
-        //TODO Resolver foto de guia
-        /*Glide.with(this)
-            .load(getImage(guide.guidePhoto))
+        Glide.with(v)
+            .load(guide.displayPhoto)
             .centerCrop()
-            .into(imageGuide)*/
+            .into(imageGuide)
 
         val scope = CoroutineScope(Dispatchers.Main)
         scope.launch {

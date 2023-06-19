@@ -26,42 +26,38 @@ class ActivityAdapter(
     var onClick : (Int) -> Unit
     ) : RecyclerView.Adapter<ActivityAdapter.ActivityHolder>(){
 
-    class ActivityHolder (v : View) : RecyclerView.ViewHolder(v){
+    class ActivityHolder (v : View) : RecyclerView.ViewHolder(v) {
         private var v = v
+
         init {
             this.v = v
         }
 
-        fun setTitle(title : String){
-            val txtTitle : TextView = v.findViewById(R.id.txtTitle)
+        fun setTitle(title: String) {
+            val txtTitle: TextView = v.findViewById(R.id.txtTitle)
             txtTitle.text = title
         }
 
-        fun setCity(desc : String){
-            val txtCity : TextView = v.findViewById(R.id.txtCity)
+        fun setCity(desc: String) {
+            val txtCity: TextView = v.findViewById(R.id.txtCity)
             txtCity.text = desc
         }
 
-        fun setRate(rate : Int){
-            val txtRate : TextView = v.findViewById(R.id.txtRate)
+        fun setRate(rate: Int) {
+            val txtRate: TextView = v.findViewById(R.id.txtRate)
             txtRate.text = rate.toString()
         }
 
-        fun getBtn() : Button {
+        fun getBtn(): Button {
             return v.findViewById(R.id.btnActivity)
         }
 
-        fun getCheckFavorito(list : MutableList<String>, activity : Activity) : CheckBox {
-            var checkfav : CheckBox = v.findViewById(R.id.checkLike)
-
+        fun getCheckFavorito(list: MutableList<String>, activity: Activity): CheckBox {
+            var checkfav: CheckBox = v.findViewById(R.id.checkLike)
             checkfav.isChecked = list.contains(activity.uid)
-
             return checkfav
-
-        fun getBtnFavorito() :Button {
-            return v.findViewById(R.id.btnFavorito)           
         }
-        
+
         fun getImage(): ImageView {
             return v.findViewById(R.id.image_activity)
         }
