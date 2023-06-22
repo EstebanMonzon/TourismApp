@@ -12,6 +12,7 @@ class ActivityRepository() {
     private var activityList : MutableList<Activity> = mutableListOf()
 
     suspend fun getHomeActivityList(): MutableList<Activity> {
+        val activityList = mutableListOf<Activity>()
         try{
             val data = actividadesCollection
                 .orderBy("rate", Query.Direction.DESCENDING)
@@ -27,6 +28,7 @@ class ActivityRepository() {
     }
 
     suspend fun getAllActivities(): MutableList<Activity> {
+        val activityList = mutableListOf<Activity>()
         try{
             val data = actividadesCollection
                 .orderBy("rate", Query.Direction.DESCENDING)

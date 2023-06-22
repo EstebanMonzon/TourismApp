@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ort.tourismapp.R
 import com.ort.tourismapp.entities.Guide
-import com.google.firebase.storage.FirebaseStorage
+
 
 class GuideAdapter(
     var guideList : MutableList<Guide>,

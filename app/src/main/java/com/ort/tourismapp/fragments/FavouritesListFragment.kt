@@ -53,7 +53,7 @@ class FavouritesListFragment : Fragment() {
             recyclerActivity.layoutManager = LinearLayoutManager(context)
 
             adapterActivity = ActivityAdapter(favouritesList,userRepository){ position ->
-                val action = ActivitiesListFragmentDirections.actionActivitiesListFragmentToActivityDetailFragment(allActList[position])
+                val action = FavouritesListFragmentDirections.actionFavouritesFragmentToActivityDetailFragment(favouritesList[position])
                 findNavController().navigate(action)
             }
             recyclerActivity.adapter = adapterActivity
