@@ -28,6 +28,7 @@ class GuideRepository () {
     }
 
     suspend fun getAllGuides(): MutableList<Guide>{
+        val guideList = mutableListOf<Guide>()
         try{
             val data = database.collection("guias")
                 .orderBy("rate", Query.Direction.DESCENDING)
